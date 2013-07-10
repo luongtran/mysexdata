@@ -1,12 +1,16 @@
 Mysexdata::Application.routes.draw do
-  resources :photos
-
-  resources :lovers, only: [:create, :destroy]
+  
+  
   resources :sessions, only: [:new, :create, :destroy]
-  resources :friendships, only: [:index, :create, :destroy]
   resources :geosexes, only: [:index]
-  resources :messages, only: [:index, :create, :destroy]
+  
   resources :users do
+    resources :lovers, only: [:create, :destroy] do
+        resources :experiences, only: [:show, :show_all, :create, :update, :destroy]
+    end
+    resources :friendships, only: [:index, :create, :destroy]
+    resources :messages, only: [:index, :create, :destroy]
+    resources :photos, only: [:index, :create, :destroy]
     member do
       get :friends, :pendingfriends
     end
@@ -20,10 +24,11 @@ Mysexdata::Application.routes.draw do
   match '/users', to: 'users#create', via: 'post'
   match '/users', to: 'users#show', via: 'get'
   match '/users/:user_id', to: 'users#update', via: 'put'
-  match '/users/:user_id', to: 'users#destroy', via: 'delete'
-
+  match '/users/:id', to: 'users#destroy', via: 'delete'
 
   # Experiences
+  match '/users/:user_id/lovers/:lover_id/experiences', to: 'experiences#show_all', via: 'get'
+  match '/users/:user_id/lovers/:lover_id/experiences/:experience_id', to: 'experiences#show', via: 'get'
 
   # Lovers
   match '/users/:user_id/lovers', to: 'lovers#show_all', via:'get'
@@ -35,6 +40,8 @@ Mysexdata::Application.routes.draw do
   match '/users/:user_id/friendships', to: 'friendships#index', via: 'get'
   match '/users/:user_id/friendships', to: 'friendships#invite', via: 'post'
   match '/users/:user_id/friendships/:friendship_id', to: 'friendships#show', via: 'get'
+
+
 
   match '/omitfriendship', to: 'friendships#omit', via: 'post'
   match '/cancelfriendship', to: 'friendships#omit', via: 'post'

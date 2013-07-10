@@ -4,8 +4,6 @@ class UsersController < ApplicationController
   before_filter :signed_in_user, only: [:index, :show, :edit, :update, :destroy, :friends, :pendingfriends]
   before_filter :correct_user,   only: [:edit, :update, :pendingfriends]
   before_filter :admin_user,     only: :destroy
-  protect_from_forgery :except => :show  
-
   # GET /users
   # GET /users.json
   def index
