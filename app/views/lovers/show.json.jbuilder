@@ -1,0 +1,1 @@
+json.extract! @lover ,:user_id, :lover_id, :facebook_id, :name, :photo_url, :photo_id, :age, :sex_gender, :job, :height, :visibility, :pending, :experience_id, :created_at, :updated_at

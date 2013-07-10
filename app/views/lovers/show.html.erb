@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @lover.user_id %>
+</p>
+
+<p>
+  <strong>Lover:</strong>
+  <%= @lover.lover_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @lover.name %>
+</p>
+
+<p>
+  <strong>photo:</strong>
+  <%= @lover.photo_url %>
+</p>
+
+<p>
+  <strong>Age:</strong>
+  <%= @lover.age %>
+</p>
+
+<p>
+  <strong>Sex gender:</strong>
+  <%= @lover.sex_gender %>
+</p>
+
+<p>
+  <strong>Job:</strong>
+  <%= @lover.job %>
+</p>
+
+<p>
+  <strong>Height:</strong>
+  <%= @lover.height %>
+</p>
+
+<p>
+  <strong>Visibility:</strong>
+  <%= @lover.visibility %>
+</p>
+
+<p>
+  <strong>Experience:</strong>
+  <%= @lover.experience_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_lover_path(@lover) %> |
+<%= link_to 'Back', lovers_path %>

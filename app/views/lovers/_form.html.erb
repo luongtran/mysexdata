@@ -1,0 +1,57 @@
+<%= form_for(@lover) do |f| %>
+  <% if @lover.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@lover.errors.count, "error") %> prohibited this lover from being saved:</h2>
+
+      <ul>
+      <% @lover.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br />
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :lover_id %><br />
+    <%= f.number_field :lover_id %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :photo_url %><br />
+    <%= f.text_field :photo_url %>
+  </div>
+  <div class="field">
+    <%= f.label :age %><br />
+    <%= f.number_field :age %>
+  </div>
+  <div class="field">
+    <%= f.label :sex_gender %><br />
+    <%= f.number_field :sex_gender %>
+  </div>
+  <div class="field">
+    <%= f.label :job %><br />
+    <%= f.number_field :job %>
+  </div>
+  <div class="field">
+    <%= f.label :height %><br />
+    <%= f.number_field :height %>
+  </div>
+  <div class="field">
+    <%= f.label :visibility %><br />
+    <%= f.number_field :visibility %>
+  </div>
+  <div class="field">
+    <%= f.label :experience_id %><br />
+    <%= f.number_field :experience_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

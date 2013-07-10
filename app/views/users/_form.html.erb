@@ -1,0 +1,75 @@
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :facebook_id %><br />
+    <%= f.text_field :facebook_id %>
+  </div>
+  <div class="field">
+    <%= f.label :password %><br />
+    <%= f.text_field :password %>
+  </div>
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.text_field :password_confirmation %>
+  </div>
+  <div class="field">
+    <%= f.label :photo_num %><br />
+    <%= f.number_field :photo_num %>
+  </dic>
+  <div class="field">
+    <%= f.label :birthday %><br />
+    <%= f.text_field :birthday %>
+  </div>
+  <div class="field">
+    <%= f.label :startday %><br />
+    <%= f.text_field :startday %>
+  </div>
+  <div class="field">
+    <%= f.label :eye_color %><br />
+    <%= f.number_field :eye_color %>
+  </div>
+  <div class="field">
+    <%= f.label :hair_color %><br />
+    <%= f.number_field :hair_color %>
+  </div>
+  <div class="field">
+    <%= f.label :height %><br />
+    <%= f.number_field :height %>
+  </div>
+  <div class="field">
+    <%= f.label :hairdressing %><br />
+    <%= f.number_field :hairdressing %>
+  </div>
+  <div class="field">
+    <%= f.label :sex_interest %><br />
+    <%= f.number_field :sex_interest %>
+  </div>
+  <div class="field">
+    <%= f.label :sex_gender %><br />
+    <%= f.number_field :sex_gender %>
+  </div>
+
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
