@@ -5,7 +5,6 @@ gem 'rails', '4.0.0.beta1'
 gem 'pg', '0.14.1'
 gem 'bcrypt-ruby', '3.0.1'
 gem 'faker', '1.0.1'
-gem 'rails_12factor'
 
 group :development, :test do
   gem 'rspec-rails', '2.13.0'
@@ -20,6 +19,10 @@ group :test do
   gem 'rb-inotify', '0.9.0'
   gem 'libnotify', '0.8.0'
   gem 'factory_girl_rails', '4.2.0'
+end
+
+group :production do
+  gem 'rails_12factor'
 end
 
 group :assets do
