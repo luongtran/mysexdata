@@ -4,6 +4,8 @@ class UsersController < ApplicationController
   before_filter :signed_in_user, only: [:index, :show, :edit, :update, :destroy, :friends, :pendingfriends]
   before_filter :correct_user,   only: [:edit, :update, :pendingfriends]
   before_filter :admin_user,     only: :destroy
+  protect_from_forgery :except => :show  
+
   # GET /users
   # GET /users.json
   def index
@@ -69,7 +71,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    User.find(params[:id]).destroy
+    User.find(params[:user_id]).destroy
     respond_to do |format|
       format.html { redirect_to users_url }
       format.json { head :no_content }

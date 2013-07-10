@@ -24,7 +24,7 @@ Mysexdata::Application.routes.draw do
   match '/users', to: 'users#create', via: 'post'
   match '/users', to: 'users#show', via: 'get'
   match '/users/:user_id', to: 'users#update', via: 'put'
-  match '/users/:id', to: 'users#destroy', via: 'delete'
+  match '/users/:user_id', to: 'users#destroy', via: 'delete'
 
   # Experiences
   match '/users/:user_id/lovers/:lover_id/experiences', to: 'experiences#show_all', via: 'get'
