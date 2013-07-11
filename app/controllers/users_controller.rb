@@ -2,8 +2,8 @@ class UsersController < ApplicationController
   #skip_before_filter  :verify_authenticity_token
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   #before_filter :signed_in_user, only: [:index, :show, :edit, :update, :destroy, :friends, :pendingfriends]
-  before_filter :correct_user,   only: [:edit, :update, :pendingfriends]
-  before_filter :admin_user,     only: :destroy
+  #before_filter :correct_user,   only: [:edit, :update, :pendingfriends]
+  #before_filter :admin_user,     only: :destroy
   protect_from_forgery :except => :show  
 
   # GET /users
@@ -56,6 +56,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    @user = User.find(params[:id])
     respond_to do |format|
       if @user.update(user_params)
         sign_in @user
