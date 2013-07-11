@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  #Encrypt password in database  
+  has_secure_password
+
   before_save { self.email = email.downcase }
   before_save :create_remember_token
   before_create :create_geosex
@@ -12,8 +15,6 @@ class User < ActiveRecord::Base
   has_many :messages, foreign_key: "receiver_id", dependent: :destroy
 
   has_one :geosex, dependent: :destroy
-
-  has_secure_password
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
   VALID_DATE_REGEX = /\d{2}+\/\d{2}+\/\d{4}/
@@ -32,7 +33,7 @@ class User < ActiveRecord::Base
   validates :sex_interest, presence: true
   validates :sex_gender, presence: true
   validates :hairdressing, presence: true
-  validates :password_confirmation, presence:true
+  validates :password_confirmation, length: { maximum: 4 }
   validates :password, length: { maximum: 4 }
   validates :preferences, presence: true
 

@@ -1,6 +1,5 @@
 Mysexdata::Application.routes.draw do
   
-  
   resources :sessions, only: [:new, :create, :destroy]
   resources :geosexes, only: [:index]
   
@@ -24,7 +23,7 @@ Mysexdata::Application.routes.draw do
   match '/users', to: 'users#create', via: 'post'
   match '/users', to: 'users#show', via: 'get'
   match '/users/:user_id', to: 'users#update', via: 'put'
-  match '/users/:user_id', to: 'users#destroy', via: 'delete'
+  match '/users/:user_id', to: 'users#delete', via: 'post' # Must be post.
 
   # Experiences
   match '/users/:user_id/lovers/:lover_id/experiences', to: 'experiences#show_all', via: 'get'

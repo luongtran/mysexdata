@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  skip_before_filter  :verify_authenticity_token
+  #skip_before_filter  :verify_authenticity_token
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_filter :signed_in_user, only: [:index, :show, :edit, :update, :destroy, :friends, :pendingfriends]
+  #before_filter :signed_in_user, only: [:index, :show, :edit, :update, :destroy, :friends, :pendingfriends]
   before_filter :correct_user,   only: [:edit, :update, :pendingfriends]
   before_filter :admin_user,     only: :destroy
   protect_from_forgery :except => :show  
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
-    @friendship = current_user.friends?(@user)
+    @friendship = Friendship.find_by_user_id(params[:id])
     if current_user?(@user)
       @lovers = @user.lovers
     elsif @friendship
@@ -68,13 +68,18 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE /users/1
-  # DELETE /users/1.json
-  def destroy
+  # POST /users/1
+  # POST /users/1.json
+  # It must be a post method to get user_id params.
+  def delete
+    logger.debug "PARAMS"
+    logger.debug params
+    @user = User.find(params[:user_id])
+    logger.debug @users
     User.find(params[:user_id]).destroy
     respond_to do |format|
       format.html { redirect_to users_url }
-      format.json { head :no_content }
+      format.json { render :json => {:message=>'User removed correctly'} }
     end
   end
 
