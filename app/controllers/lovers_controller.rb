@@ -1,8 +1,8 @@
 class LoversController < ApplicationController
-  skip_before_filter  :verify_authenticity_token
+  #skip_before_filter  :verify_authenticity_token
   before_action :set_lover, only: [:update, :destroy]
-  before_action :signed_in_user, only: [:create, :update, :destroy]
-  before_action :correct_user,   only:  :destroy
+  #before_action :signed_in_user, only: [:create, :update, :destroy]
+  #before_action :correct_user,   only:  :destroy
 
   # GET users/:user_id/lovers
   # GET users/:user_id/lovers.json
@@ -75,10 +75,6 @@ class LoversController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def lover_params
       params.require(:lover).permit(:user_id,:lover_id, :facebook_id, :name, :photo_url, :age, :sex_gender, :job, :height, :visibility, :pending)
-    end
-
-    def experience_params
-      params.require(:lover).require(:experience).permit(:date,:location,:place,:detail_one,:detail_two,:detail_three,:hairdressing,:kiss,:oral_sex,:intercourse,:caresses,:anal_sex,:post_intercourse,:personal_score,:next_one,:msd_score,:bad_lover,:final_score)
     end
 
     def correct_user

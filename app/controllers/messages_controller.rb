@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
-  skip_before_filter  :verify_authenticity_token
-  before_filter :signed_in_user, only: [:index, :create, :destroy]
+  #skip_before_filter  :verify_authenticity_token
+  #before_filter :signed_in_user, only: [:index, :create, :destroy]
 
   def index
     @user = current_user

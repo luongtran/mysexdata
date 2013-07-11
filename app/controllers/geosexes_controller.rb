@@ -1,9 +1,12 @@
 class GeosexesController < ApplicationController
-  before_action :signed_in_user, only: [:index, ]
+  #before_action :signed_in_user, only: [:index, ]
 
   # GET /geosexes
   # GET /geosexes.json
   def index
+    @user = User.find(params[:user_id])
+    @geosexes = Geosex.where(user_id: params[:user_id])
+
     @users = User.joins(:geosex).where("geosexes.status" => 0)
     @friends = Array.new
     @normal = Array.new

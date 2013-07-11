@@ -20,26 +20,33 @@ Mysexdata::Application.routes.draw do
   match '/signout', to: 'sessions#destroy',     via: 'delete'
   
   # Users
-  match '/users', to: 'users#create', via: 'post'
-  match '/users', to: 'users#show', via: 'get'
-  match '/users/:user_id', to: 'users#update', via: 'put' # Default method
-  match '/users/:user_id', to: 'users#delete', via: 'post' # Must be post.
+  match '/users', to: 'users#create', via: 'post'                   # Create a user
+  match '/users', to: 'users#index', via: 'get'                     # Show all users
+  match '/users/:user_id', to: 'users#show', via: 'get'             # Show unique user
+  match '/users/:user_id', to: 'users#update', via: 'put'           # Update a user (Default method)
+  match '/users/:user_id', to: 'users#destroy', via: 'delete'          # Delete a user (Must be post method).
 
   # Experiences
   match '/users/:user_id/lovers/:lover_id/experiences', to: 'experiences#show_all', via: 'get'
   match '/users/:user_id/lovers/:lover_id/experiences/:experience_id', to: 'experiences#show', via: 'get'
+  match '/users/:user_id/lovers/:lover_id/experiences/:experience_id', to: 'experiences#update', via: 'put'
 
   # Lovers
   match '/users/:user_id/lovers', to: 'lovers#show_all', via:'get'
-  match '/users/:user_id/lovers', to: 'lovers#invite', via:'post'
+  match '/users/:user_id/lovers', to: 'lovers#invite', via:'post'       # Not working!
   match '/users/:user_id/lovers/:lover_id', to: 'lovers#show', via:'get'
 
+  # Friends lovers
+  match '/users/:user_id/friendships/:friendship_id/lovers', to: 'friendships#show_lovers', via: 'get'
+  match '/users/:user_id/friendships/:friendship_id/lovers/:lover_id', to: 'friendships#show_lover', via: 'get'
 
   # Friendships
   match '/users/:user_id/friendships', to: 'friendships#index', via: 'get'
   match '/users/:user_id/friendships', to: 'friendships#invite', via: 'post'
   match '/users/:user_id/friendships/:friendship_id', to: 'friendships#show', via: 'get'
 
+  # Geosex
+  match '/users/:user_id/geosex', to: 'geosexes#index', via:'get'
 
 
   match '/omitfriendship', to: 'friendships#omit', via: 'post'

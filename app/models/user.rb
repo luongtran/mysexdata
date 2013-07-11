@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_many :photos, dependent: :destroy
   has_many :lovers, dependent: :destroy
   has_many :friendships, foreign_key: "user_id", dependent: :destroy
-  has_many :friends, through: :friendships, source: :friend, conditions: ["friendships.accepted = ?", true], select: 'users.*, friendships.secret_lover_accepted as has_secret_acces'
+  has_many :friends, through: :friendships, source: :friend, conditions: ["friendships.accepted = ?", true], select: 'users.*, friendships.secret_lover_accepted as has_secret_access'
   has_many :pending_friends, through: :friendships, source: :friend, conditions: ["friendships.pending = ?", true]
   has_many :secret_petitions, through: :friendships, source: :friend, conditions: ["friendships.secret_lover_ask = ?", true]
   has_many :messages, foreign_key: "receiver_id", dependent: :destroy

@@ -1,6 +1,6 @@
 class FriendshipsController < ApplicationController
-   skip_before_filter  :verify_authenticity_token
-   before_filter :signed_in_user, only: [:index, :create, :pending, :accept, :omit, :secrets]
+   #skip_before_filter  :verify_authenticity_token
+   #before_filter :signed_in_user, only: [:index, :create, :pending, :accept, :omit, :secrets]
 
   # GET /users/:user_id/friendships
   # GET /users/:user_id/friendships.json 
@@ -22,7 +22,7 @@ class FriendshipsController < ApplicationController
     if !@friendships.nil?
       respond_to do |format|
         format.html { render 'show' }
-        format.json { render action:'show', location: @friendships }
+        format.json { render action:'show' }
       end
     else
       respond_to do |format|
@@ -160,6 +160,26 @@ class FriendshipsController < ApplicationController
         format.html { render action: 'new' }
         format.json { render json: false}
       end
+    end
+  end
+
+  def show_lovers
+    @user = User.find(params[:user_id])
+    @friendship = Friendship.find(params[:friendship_id])
+    @lovers = Lover.where(user_id: params[:friendship_id])
+    respond_to do |format|
+      format.html {render action: 'show_lovers'}
+      format.json {render action: 'show_lovers'}
+    end
+  end
+
+  def show_lover
+    @user = User.find(params[:user_id])
+    @friendship = Friendship.find(params[:friendship_id])
+    @lover = Lover.find_by_lover_id(params[:lover_id])
+    respond_to do |format|
+      format.html {render action: 'show_lover'}
+      format.json {render action: 'show_lover'}
     end
   end
 

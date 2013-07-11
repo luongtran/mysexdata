@@ -59,9 +59,8 @@ ActiveRecord::Schema.define(version: 20130708112212) do
 
   create_table "geosexes", force: true do |t|
     t.integer  "user_id"
-    t.integer  "acces",                              default: 0
+    t.integer  "access",                             default: 0
     t.integer  "status",                             default: 0
-    t.integer  "chat",                               default: 0
     t.decimal  "lat",        precision: 3, scale: 2
     t.decimal  "lng",        precision: 3, scale: 2
     t.datetime "created_at"
@@ -89,7 +88,7 @@ ActiveRecord::Schema.define(version: 20130708112212) do
     t.datetime "updated_at"
   end
 
-  add_index "lovers", ["lover_id"], name: "index_lovers_on_lover_id"
+  add_index "lovers", ["user_id", "lover_id"], name: "index_lovers_on_user_id_and_lover_id"
 
   create_table "messages", force: true do |t|
     t.integer  "receiver_id"

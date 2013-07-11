@@ -56,7 +56,6 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    @user = User.find(params[:id])
     respond_to do |format|
       if @user.update(user_params)
         sign_in @user
@@ -72,12 +71,8 @@ class UsersController < ApplicationController
   # POST /users/1
   # POST /users/1.json
   # It must be a post method to get user_id params.
-  def delete
-    logger.debug "PARAMS"
-    logger.debug params
-    @user = User.find(params[:user_id])
-    logger.debug @users
-    User.find(params[:user_id]).destroy
+  def destroy
+    @user.destroy
     respond_to do |format|
       format.html { redirect_to users_url }
       format.json { render :json => {:message=>'User removed correctly'} }
@@ -97,7 +92,7 @@ class UsersController < ApplicationController
     end
 
     def geo_params
-      params.require(:geosex).permit(:access, :state, :chat, :lat, :lng)
+      params.require(:geosex).permit(:access, :state, :lat, :lng)
     end
 
 
