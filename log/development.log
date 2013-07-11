@@ -40415,3 +40415,393 @@ Processing by SessionsController#new as HTML
   Rendered sessions/new.html.erb within layouts/application (1.4ms)
   [1m[36mUser Load (0.5ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" IS NULL LIMIT 1[0m
 Completed 200 OK in 48ms (Views: 47.5ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/users/1" for 127.0.0.1 at 2013-07-11 09:59:48 +0200
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+DEPRECATION WARNING: The following options in your User.has_many :friends declaration are deprecated: :select,:conditions. Please use a scope block instead. For example, the following:
+
+    has_many :spam_comments, conditions: { spam: true }, class_name: 'Comment'
+
+should be rewritten as the following:
+
+    has_many :spam_comments, -> { where spam: true }, class_name: 'Comment'
+. (called from <class:User> at /Users/javiermolinasanchez/Desktop/Ingravity Media/MSD/MSD-rails/app/models/user.rb:12)
+DEPRECATION WARNING: The following options in your User.has_many :pending_friends declaration are deprecated: :conditions. Please use a scope block instead. For example, the following:
+
+    has_many :spam_comments, conditions: { spam: true }, class_name: 'Comment'
+
+should be rewritten as the following:
+
+    has_many :spam_comments, -> { where spam: true }, class_name: 'Comment'
+. (called from <class:User> at /Users/javiermolinasanchez/Desktop/Ingravity Media/MSD/MSD-rails/app/models/user.rb:13)
+DEPRECATION WARNING: The following options in your User.has_many :secret_petitions declaration are deprecated: :conditions. Please use a scope block instead. For example, the following:
+
+    has_many :spam_comments, conditions: { spam: true }, class_name: 'Comment'
+
+should be rewritten as the following:
+
+    has_many :spam_comments, -> { where spam: true }, class_name: 'Comment'
+. (called from <class:User> at /Users/javiermolinasanchez/Desktop/Ingravity Media/MSD/MSD-rails/app/models/user.rb:14)
+  [1m[36mUser Load (1.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", "1"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", "1"]]
+  [1m[36mFriendship Load (0.7ms)[0m  [1mSELECT "friendships".* FROM "friendships" WHERE "friendships"."user_id" = 1 LIMIT 1[0m
+  [1m[35mUser Load (0.7ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" IS NULL LIMIT 1
+  [1m[36m (0.5ms)[0m  [1mSELECT COUNT(*) FROM "lovers" WHERE "lovers"."user_id" = $1 AND "lovers"."visibility" = 0[0m  [["user_id", 1]]
+  [1m[35mLover Load (0.9ms)[0m  SELECT "lovers".* FROM "lovers" WHERE "lovers"."user_id" = $1 AND "lovers"."visibility" = 0 ORDER BY name DESC  [["user_id", 1]]
+  [1m[36mExperience Load (1.4ms)[0m  [1mSELECT "experiences".* FROM "experiences" WHERE "experiences"."lover_id" = $1 ORDER BY "experiences"."id" ASC LIMIT 1[0m  [["lover_id", 33]]
+  [1m[35mExperience Load (0.5ms)[0m  SELECT "experiences".* FROM "experiences" WHERE "experiences"."lover_id" = $1 ORDER BY "experiences"."id" ASC LIMIT 1  [["lover_id", 34]]
+  [1m[36mExperience Load (0.3ms)[0m  [1mSELECT "experiences".* FROM "experiences" WHERE "experiences"."lover_id" = $1 ORDER BY "experiences"."id" ASC LIMIT 1[0m  [["lover_id", 35]]
+  [1m[35mExperience Load (0.3ms)[0m  SELECT "experiences".* FROM "experiences" WHERE "experiences"."lover_id" = $1 ORDER BY "experiences"."id" ASC LIMIT 1  [["lover_id", 36]]
+  [1m[36mExperience Load (0.4ms)[0m  [1mSELECT "experiences".* FROM "experiences" WHERE "experiences"."lover_id" = $1 ORDER BY "experiences"."id" ASC LIMIT 1[0m  [["lover_id", 37]]
+  [1m[35mExperience Load (0.4ms)[0m  SELECT "experiences".* FROM "experiences" WHERE "experiences"."lover_id" = $1 ORDER BY "experiences"."id" ASC LIMIT 1  [["lover_id", 38]]
+  [1m[36mExperience Load (0.5ms)[0m  [1mSELECT "experiences".* FROM "experiences" WHERE "experiences"."lover_id" = $1 ORDER BY "experiences"."id" ASC LIMIT 1[0m  [["lover_id", 39]]
+  [1m[35mExperience Load (0.2ms)[0m  SELECT "experiences".* FROM "experiences" WHERE "experiences"."lover_id" = $1 ORDER BY "experiences"."id" ASC LIMIT 1  [["lover_id", 40]]
+  Rendered lovers/_lover.html.erb (101.7ms)
+  Rendered users/show.html.erb within layouts/application (156.3ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" IS NULL LIMIT 1[0m
+Completed 200 OK in 435ms (Views: 248.8ms | ActiveRecord: 15.4ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-07-11 09:59:48 +0200
+
+
+Started GET "/assets/experiences.css?body=1" for 127.0.0.1 at 2013-07-11 09:59:48 +0200
+
+
+Started GET "/assets/geosexes.css?body=1" for 127.0.0.1 at 2013-07-11 09:59:48 +0200
+
+
+Started GET "/assets/messages.css?body=1" for 127.0.0.1 at 2013-07-11 09:59:48 +0200
+
+
+Started GET "/assets/friendships.css?body=1" for 127.0.0.1 at 2013-07-11 09:59:48 +0200
+
+
+Started GET "/assets/lovers.css?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/photos.css?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/experiences.js?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/friendships.js?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/geosexes.js?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/lovers.js?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/messages.js?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/photos.js?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-07-11 09:59:49 +0200
+
+
+Started GET "/users/1/edit" for 127.0.0.1 at 2013-07-11 09:59:50 +0200
+Processing by UsersController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mUser Load (0.6ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", "1"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", "1"]]
+  Rendered users/_form.html.erb (145.7ms)
+  Rendered users/edit.html.erb within layouts/application (147.6ms)
+  [1m[35mUser Load (0.5ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" IS NULL LIMIT 1
+Completed 200 OK in 228ms (Views: 224.3ms | ActiveRecord: 1.2ms)
+
+
+Started PUT "/users/1.json" for 127.0.0.1 at 2013-07-11 10:00:00 +0200
+Processing by UsersController#update as JSON
+  Parameters: {"name"=>"Pepito", "id"=>"1", "user"=>{"name"=>"Pepito"}}
+Can't verify CSRF token authenticity
+  [1m[36mUser Load (0.7ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", "1"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", "1"]]
+Unpermitted parameters: id, format, user
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (65.5ms)[0m  SELECT 1 AS one FROM "users" WHERE (LOWER("users"."email") = LOWER('example@railstutorial.org') AND "users"."id" != 1) LIMIT 1
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE (LOWER("users"."facebook_id") = LOWER('0') AND "users"."id" != 1) LIMIT 1[0m
+  [1m[35mSQL (1.1ms)[0m  UPDATE "users" SET "name" = $1, "remember_token" = $2, "updated_at" = $3 WHERE "users"."id" = 1  [["name", "Pepito"], ["remember_token", "bO3Z-yi3eZb-wEzRrgh2pw"], ["updated_at", Thu, 11 Jul 2013 08:00:00 UTC +00:00]]
+  [1m[36m (47.7ms)[0m  [1mCOMMIT[0m
+  Rendered users/show.json.jbuilder (0.8ms)
+Completed 201 Created in 344ms (Views: 16.1ms | ActiveRecord: 115.6ms)
+
+
+Started PUT "/users/2.json" for 127.0.0.1 at 2013-07-11 10:01:03 +0200
+DEPRECATION WARNING: The following options in your User.has_many :friends declaration are deprecated: :select,:conditions. Please use a scope block instead. For example, the following:
+
+    has_many :spam_comments, conditions: { spam: true }, class_name: 'Comment'
+
+should be rewritten as the following:
+
+    has_many :spam_comments, -> { where spam: true }, class_name: 'Comment'
+. (called from <class:User> at /Users/javiermolinasanchez/Desktop/Ingravity Media/MSD/MSD-rails/app/models/user.rb:12)
+DEPRECATION WARNING: The following options in your User.has_many :pending_friends declaration are deprecated: :conditions. Please use a scope block instead. For example, the following:
+
+    has_many :spam_comments, conditions: { spam: true }, class_name: 'Comment'
+
+should be rewritten as the following:
+
+    has_many :spam_comments, -> { where spam: true }, class_name: 'Comment'
+. (called from <class:User> at /Users/javiermolinasanchez/Desktop/Ingravity Media/MSD/MSD-rails/app/models/user.rb:13)
+DEPRECATION WARNING: The following options in your User.has_many :secret_petitions declaration are deprecated: :conditions. Please use a scope block instead. For example, the following:
+
+    has_many :spam_comments, conditions: { spam: true }, class_name: 'Comment'
+
+should be rewritten as the following:
+
+    has_many :spam_comments, -> { where spam: true }, class_name: 'Comment'
+. (called from <class:User> at /Users/javiermolinasanchez/Desktop/Ingravity Media/MSD/MSD-rails/app/models/user.rb:14)
+Processing by UsersController#update as JSON
+  Parameters: {"name"=>"Pepito", "id"=>"2", "user"=>{"name"=>"Pepito"}}
+Can't verify CSRF token authenticity
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", "2"]]
+Completed 404 Not Found in 2ms
+
+ActiveRecord::RecordNotFound (Couldn't find User with id=2):
+  app/controllers/users_controller.rb:91:in `set_user'
+
+
+  Rendered /Users/javiermolinasanchez/.rvm/gems/ruby-2.0.0-p247/gems/actionpack-4.0.0.beta1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.5ms)
+  Rendered /Users/javiermolinasanchez/.rvm/gems/ruby-2.0.0-p247/gems/actionpack-4.0.0.beta1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.9ms)
+  Rendered /Users/javiermolinasanchez/.rvm/gems/ruby-2.0.0-p247/gems/actionpack-4.0.0.beta1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.7ms)
+  Rendered /Users/javiermolinasanchez/.rvm/gems/ruby-2.0.0-p247/gems/actionpack-4.0.0.beta1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (15.6ms)
+
+
+Started PUT "/users/15.json" for 127.0.0.1 at 2013-07-11 10:01:14 +0200
+Processing by UsersController#update as JSON
+  Parameters: {"name"=>"Pepito", "id"=>"15", "user"=>{"name"=>"Pepito"}}
+Can't verify CSRF token authenticity
+  [1m[36mUser Load (1.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", "15"]]
+Completed 404 Not Found in 62ms
+
+ActiveRecord::RecordNotFound (Couldn't find User without an ID):
+  app/controllers/users_controller.rb:59:in `update'
+
+
+  Rendered /Users/javiermolinasanchez/.rvm/gems/ruby-2.0.0-p247/gems/actionpack-4.0.0.beta1/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.8ms)
+  Rendered /Users/javiermolinasanchez/.rvm/gems/ruby-2.0.0-p247/gems/actionpack-4.0.0.beta1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.2ms)
+  Rendered /Users/javiermolinasanchez/.rvm/gems/ruby-2.0.0-p247/gems/actionpack-4.0.0.beta1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.9ms)
+  Rendered /Users/javiermolinasanchez/.rvm/gems/ruby-2.0.0-p247/gems/actionpack-4.0.0.beta1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (15.0ms)
+
+
+Started PUT "/users/15.json" for 127.0.0.1 at 2013-07-11 10:01:43 +0200
+DEPRECATION WARNING: The following options in your User.has_many :friends declaration are deprecated: :select,:conditions. Please use a scope block instead. For example, the following:
+
+    has_many :spam_comments, conditions: { spam: true }, class_name: 'Comment'
+
+should be rewritten as the following:
+
+    has_many :spam_comments, -> { where spam: true }, class_name: 'Comment'
+. (called from <class:User> at /Users/javiermolinasanchez/Desktop/Ingravity Media/MSD/MSD-rails/app/models/user.rb:12)
+DEPRECATION WARNING: The following options in your User.has_many :pending_friends declaration are deprecated: :conditions. Please use a scope block instead. For example, the following:
+
+    has_many :spam_comments, conditions: { spam: true }, class_name: 'Comment'
+
+should be rewritten as the following:
+
+    has_many :spam_comments, -> { where spam: true }, class_name: 'Comment'
+. (called from <class:User> at /Users/javiermolinasanchez/Desktop/Ingravity Media/MSD/MSD-rails/app/models/user.rb:13)
+DEPRECATION WARNING: The following options in your User.has_many :secret_petitions declaration are deprecated: :conditions. Please use a scope block instead. For example, the following:
+
+    has_many :spam_comments, conditions: { spam: true }, class_name: 'Comment'
+
+should be rewritten as the following:
+
+    has_many :spam_comments, -> { where spam: true }, class_name: 'Comment'
+. (called from <class:User> at /Users/javiermolinasanchez/Desktop/Ingravity Media/MSD/MSD-rails/app/models/user.rb:14)
+Processing by UsersController#update as JSON
+  Parameters: {"name"=>"Pepito", "id"=>"15", "user"=>{"name"=>"Pepito"}}
+Can't verify CSRF token authenticity
+  [1m[35mUser Load (0.6ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", "15"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", "15"]]
+Unpermitted parameters: id, format, user
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE (LOWER("users"."email") = LOWER('example-14@railstutorial.org') AND "users"."id" != 15) LIMIT 1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT 1 AS one FROM "users" WHERE (LOWER("users"."facebook_id") = LOWER('e67yw8i3b6yvqtd') AND "users"."id" != 15) LIMIT 1
+  [1m[36mSQL (0.7ms)[0m  [1mUPDATE "users" SET "name" = $1, "remember_token" = $2, "updated_at" = $3 WHERE "users"."id" = 15[0m  [["name", "Pepito"], ["remember_token", "FZSQ_HrqMJ0kZFhZI-bxBw"], ["updated_at", Thu, 11 Jul 2013 08:01:43 UTC +00:00]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  Rendered users/show.json.jbuilder (0.7ms)
+Completed 201 Created in 96ms (Views: 3.4ms | ActiveRecord: 4.9ms)
+
+
+Started PUT "/users/15.json" for 127.0.0.1 at 2013-07-11 10:02:58 +0200
+DEPRECATION WARNING: The following options in your User.has_many :friends declaration are deprecated: :select,:conditions. Please use a scope block instead. For example, the following:
+
+    has_many :spam_comments, conditions: { spam: true }, class_name: 'Comment'
+
+should be rewritten as the following:
+
+    has_many :spam_comments, -> { where spam: true }, class_name: 'Comment'
+. (called from <class:User> at /Users/javiermolinasanchez/Desktop/Ingravity Media/MSD/MSD-rails/app/models/user.rb:12)
+DEPRECATION WARNING: The following options in your User.has_many :pending_friends declaration are deprecated: :conditions. Please use a scope block instead. For example, the following:
+
+    has_many :spam_comments, conditions: { spam: true }, class_name: 'Comment'
+
+should be rewritten as the following:
+
+    has_many :spam_comments, -> { where spam: true }, class_name: 'Comment'
+. (called from <class:User> at /Users/javiermolinasanchez/Desktop/Ingravity Media/MSD/MSD-rails/app/models/user.rb:13)
+DEPRECATION WARNING: The following options in your User.has_many :secret_petitions declaration are deprecated: :conditions. Please use a scope block instead. For example, the following:
+
+    has_many :spam_comments, conditions: { spam: true }, class_name: 'Comment'
+
+should be rewritten as the following:
+
+    has_many :spam_comments, -> { where spam: true }, class_name: 'Comment'
+. (called from <class:User> at /Users/javiermolinasanchez/Desktop/Ingravity Media/MSD/MSD-rails/app/models/user.rb:14)
+Processing by UsersController#update as JSON
+  Parameters: {"name"=>"Pepito", "id"=>"15", "user"=>{"name"=>"Pepito"}}
+Can't verify CSRF token authenticity
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", "15"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", "15"]]
+Unpermitted parameters: id, format, user
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT 1 AS one FROM "users" WHERE (LOWER("users"."email") = LOWER('example-14@railstutorial.org') AND "users"."id" != 15) LIMIT 1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE (LOWER("users"."facebook_id") = LOWER('e67yw8i3b6yvqtd') AND "users"."id" != 15) LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  UPDATE "users" SET "remember_token" = $1, "updated_at" = $2 WHERE "users"."id" = 15  [["remember_token", "BBSha8ejPyx0CR6N_liGrA"], ["updated_at", Thu, 11 Jul 2013 08:02:58 UTC +00:00]]
+  [1m[36m (2.7ms)[0m  [1mCOMMIT[0m
+  Rendered users/show.json.jbuilder (0.4ms)
+Completed 201 Created in 90ms (Views: 2.9ms | ActiveRecord: 6.4ms)
+
+
+Started PUT "/users/15.json" for 127.0.0.1 at 2013-07-11 10:03:02 +0200
+Processing by UsersController#update as JSON
+  Parameters: {"name"=>"Pepito", "id"=>"15", "user"=>{"name"=>"Pepito"}}
+Can't verify CSRF token authenticity
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", "15"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", "15"]]
+Unpermitted parameters: id, format, user
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE (LOWER("users"."email") = LOWER('example-14@railstutorial.org') AND "users"."id" != 15) LIMIT 1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT 1 AS one FROM "users" WHERE (LOWER("users"."facebook_id") = LOWER('e67yw8i3b6yvqtd') AND "users"."id" != 15) LIMIT 1
+  [1m[36mSQL (0.7ms)[0m  [1mUPDATE "users" SET "remember_token" = $1, "updated_at" = $2 WHERE "users"."id" = 15[0m  [["remember_token", "G9WzQO2u5CPIDs6I4GmJ2w"], ["updated_at", Thu, 11 Jul 2013 08:03:02 UTC +00:00]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  Rendered users/show.json.jbuilder (0.5ms)
+Completed 201 Created in 15ms (Views: 2.6ms | ActiveRecord: 3.1ms)
+
+
+Started PUT "/users/15.json" for 127.0.0.1 at 2013-07-11 10:03:03 +0200
+Processing by UsersController#update as JSON
+  Parameters: {"name"=>"Pepito", "id"=>"15", "user"=>{"name"=>"Pepito"}}
+Can't verify CSRF token authenticity
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", "15"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", "15"]]
+Unpermitted parameters: id, format, user
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT 1 AS one FROM "users" WHERE (LOWER("users"."email") = LOWER('example-14@railstutorial.org') AND "users"."id" != 15) LIMIT 1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE (LOWER("users"."facebook_id") = LOWER('e67yw8i3b6yvqtd') AND "users"."id" != 15) LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  UPDATE "users" SET "remember_token" = $1, "updated_at" = $2 WHERE "users"."id" = 15  [["remember_token", "FV345l1XDfn0bfRbclD2CQ"], ["updated_at", Thu, 11 Jul 2013 08:03:03 UTC +00:00]]
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  Rendered users/show.json.jbuilder (0.7ms)
+Completed 201 Created in 12ms (Views: 3.2ms | ActiveRecord: 2.4ms)
+
+
+Started PUT "/users/15.json" for 127.0.0.1 at 2013-07-11 10:03:03 +0200
+Processing by UsersController#update as JSON
+  Parameters: {"name"=>"Pepito", "id"=>"15", "user"=>{"name"=>"Pepito"}}
+Can't verify CSRF token authenticity
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", "15"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", "15"]]
+Unpermitted parameters: id, format, user
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE (LOWER("users"."email") = LOWER('example-14@railstutorial.org') AND "users"."id" != 15) LIMIT 1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT 1 AS one FROM "users" WHERE (LOWER("users"."facebook_id") = LOWER('e67yw8i3b6yvqtd') AND "users"."id" != 15) LIMIT 1
+  [1m[36mSQL (0.6ms)[0m  [1mUPDATE "users" SET "remember_token" = $1, "updated_at" = $2 WHERE "users"."id" = 15[0m  [["remember_token", "cPNzf4hU9iQOWEdaGitcEw"], ["updated_at", Thu, 11 Jul 2013 08:03:03 UTC +00:00]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  Rendered users/show.json.jbuilder (0.6ms)
+Completed 201 Created in 10ms (Views: 3.0ms | ActiveRecord: 2.1ms)
+
+
+Started PUT "/users/15.json" for 127.0.0.1 at 2013-07-11 10:03:03 +0200
+Processing by UsersController#update as JSON
+  Parameters: {"name"=>"Pepito", "id"=>"15", "user"=>{"name"=>"Pepito"}}
+Can't verify CSRF token authenticity
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", "15"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", "15"]]
+Unpermitted parameters: id, format, user
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT 1 AS one FROM "users" WHERE (LOWER("users"."email") = LOWER('example-14@railstutorial.org') AND "users"."id" != 15) LIMIT 1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE (LOWER("users"."facebook_id") = LOWER('e67yw8i3b6yvqtd') AND "users"."id" != 15) LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  UPDATE "users" SET "remember_token" = $1, "updated_at" = $2 WHERE "users"."id" = 15  [["remember_token", "ACakp4VWuRL0dCK6OJP9rw"], ["updated_at", Thu, 11 Jul 2013 08:03:03 UTC +00:00]]
+  [1m[36m (26.2ms)[0m  [1mCOMMIT[0m
+  Rendered users/show.json.jbuilder (0.7ms)
+Completed 201 Created in 40ms (Views: 3.6ms | ActiveRecord: 28.6ms)
+
+
+Started PUT "/users/15.json" for 127.0.0.1 at 2013-07-11 10:03:03 +0200
+Processing by UsersController#update as JSON
+  Parameters: {"name"=>"Pepito", "id"=>"15", "user"=>{"name"=>"Pepito"}}
+Can't verify CSRF token authenticity
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", "15"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", "15"]]
+Unpermitted parameters: id, format, user
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE (LOWER("users"."email") = LOWER('example-14@railstutorial.org') AND "users"."id" != 15) LIMIT 1[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT 1 AS one FROM "users" WHERE (LOWER("users"."facebook_id") = LOWER('e67yw8i3b6yvqtd') AND "users"."id" != 15) LIMIT 1
+  [1m[36mSQL (0.7ms)[0m  [1mUPDATE "users" SET "remember_token" = $1, "updated_at" = $2 WHERE "users"."id" = 15[0m  [["remember_token", "yJU8nTayDdQ1z_qUcsXYLA"], ["updated_at", Thu, 11 Jul 2013 08:03:03 UTC +00:00]]
+  [1m[35m (0.6ms)[0m  COMMIT
+  Rendered users/show.json.jbuilder (0.7ms)
+Completed 201 Created in 14ms (Views: 3.5ms | ActiveRecord: 3.3ms)
+
+
+Started PUT "/users/15.json" for 127.0.0.1 at 2013-07-11 10:03:03 +0200
+Processing by UsersController#update as JSON
+  Parameters: {"name"=>"Pepito", "id"=>"15", "user"=>{"name"=>"Pepito"}}
+Can't verify CSRF token authenticity
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", "15"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", "15"]]
+Unpermitted parameters: id, format, user
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.6ms)[0m  SELECT 1 AS one FROM "users" WHERE (LOWER("users"."email") = LOWER('example-14@railstutorial.org') AND "users"."id" != 15) LIMIT 1
+  [1m[36mUser Exists (0.6ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE (LOWER("users"."facebook_id") = LOWER('e67yw8i3b6yvqtd') AND "users"."id" != 15) LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  UPDATE "users" SET "remember_token" = $1, "updated_at" = $2 WHERE "users"."id" = 15  [["remember_token", "VyEz_nx1dPzbuEh5Yq2glw"], ["updated_at", Thu, 11 Jul 2013 08:03:03 UTC +00:00]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  Rendered users/show.json.jbuilder (0.6ms)
+Completed 201 Created in 13ms (Views: 3.1ms | ActiveRecord: 2.7ms)
+
+
+Started PUT "/users/15.json" for 127.0.0.1 at 2013-07-11 10:03:04 +0200
+Processing by UsersController#update as JSON
+  Parameters: {"name"=>"Pepito", "id"=>"15", "user"=>{"name"=>"Pepito"}}
+Can't verify CSRF token authenticity
+  [1m[35mUser Load (0.7ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", "15"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", "15"]]
+Unpermitted parameters: id, format, user
+  [1m[35m (0.4ms)[0m  BEGIN
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE (LOWER("users"."email") = LOWER('example-14@railstutorial.org') AND "users"."id" != 15) LIMIT 1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT 1 AS one FROM "users" WHERE (LOWER("users"."facebook_id") = LOWER('e67yw8i3b6yvqtd') AND "users"."id" != 15) LIMIT 1
+  [1m[36mSQL (0.8ms)[0m  [1mUPDATE "users" SET "remember_token" = $1, "updated_at" = $2 WHERE "users"."id" = 15[0m  [["remember_token", "_W4JXkDSUSPiEICxSdTE0A"], ["updated_at", Thu, 11 Jul 2013 08:03:04 UTC +00:00]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  Rendered users/show.json.jbuilder (0.8ms)
+Completed 201 Created in 15ms (Views: 3.8ms | ActiveRecord: 3.2ms)

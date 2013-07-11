@@ -22,7 +22,7 @@ Mysexdata::Application.routes.draw do
   # Users
   match '/users', to: 'users#create', via: 'post'
   match '/users', to: 'users#show', via: 'get'
-  match '/users/:user_id', to: 'users#update', via: 'put'
+  match '/users/:user_id', to: 'users#update', via: 'put' # Default method
   match '/users/:user_id', to: 'users#delete', via: 'post' # Must be post.
 
   # Experiences

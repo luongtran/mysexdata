@@ -1,5 +1,12 @@
-tmp/*
-temp/*
+#rails specific
+*.sqlite3
+config/database.yml
 log/*
-.log
-.DS_Store
+tmp/*
+
+## generic files to ignore
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
