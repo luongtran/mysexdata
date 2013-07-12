@@ -16,9 +16,8 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     logger.debug params
-    @friendship = Friendship.find_by_user_id(params[:id])
-    @public_lovers = Lover.where(visibility: 0, user_id: params[:id])
-    @secret_lovers = Lover.where(visibility: 1, user_id: params[:id])
+    @public_lovers = @user.lovers.where(visibility: 0)
+    @secret_lovers = @user.lovers.where(visibility: 1)
   end
 
 
@@ -41,6 +40,11 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    #Check that user can't modify user_ids
+    if !params[:user_id].nil?
+      return render :json => {:error => 'Id is not possible to be modified'}
+    end
+    
     respond_to do |format|
       if @user.update(user_params)
         sign_in @user
@@ -69,6 +73,11 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+      
+      # Not working!
+      if @user.nil?
+        render :json => {:error=> 'User with user_id #{params[:id] doesn\'t exist}'}
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

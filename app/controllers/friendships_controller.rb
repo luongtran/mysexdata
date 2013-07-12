@@ -1,5 +1,8 @@
 class FriendshipsController < ApplicationController
-   #skip_before_filter  :verify_authenticity_token
+  #skip_before_filter  :verify_authenticity_token
+  before_action :set_user, only: [:show_all, :show, :update, :destroy]
+  before_action :set_friendship, only: [:show_all, :show, :update, :destroy]
+
    #before_filter :signed_in_user, only: [:index, :create, :pending, :accept, :omit, :secrets]
 
   # GET /users/:user_id/friendships
@@ -16,7 +19,9 @@ class FriendshipsController < ApplicationController
   # GET /users/:user_id/friendships/:friendship_id
   # GET /users/:user_id/friendships/:friendship_id.json
   def show    
-    @friendships = Friendship.find_by(friend_id: params[:friendship_id], user_id: params[:user_id])        
+    @friendships = Friendship.find_by(friend_id: params[:friend_id], user_id: params[:user_id])
+    @public_lovers = friend.lovers.where(visibility: 1)
+    @secret_lovers = friend.lovers.where(visibility: 0)
 
     # If this user doesn't have any friends with this friendship_id, then we throw an errror.
     if !@friendships.nil?
@@ -184,6 +189,13 @@ class FriendshipsController < ApplicationController
   end
 
   private
+    def set_user
+      @user = User.find(params[:user_id])
+    end
+
+    def set_friend
+      @friend = User.find(params[:friend_id])
+    end
 
     def friendships_params
       params.require("friendships").permit(:friend_id)

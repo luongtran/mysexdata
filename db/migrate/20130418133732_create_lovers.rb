@@ -1,8 +1,6 @@
 class CreateLovers < ActiveRecord::Migration
   def change
-    create_table :lovers do |t|
-      t.integer :user_id
-      t.integer :lover_id
+    create_table :lovers, :primary_key => :lover_id do |t|
       t.string :facebook_id
       t.string :name
       t.string :photo_url
@@ -16,6 +14,10 @@ class CreateLovers < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :lovers, [:user_id, :lover_id]
+
+    create_table :lovers_users, :id => false do |t|
+      t.belongs_to :user
+      t.belongs_to :lover
+    end
   end
 end

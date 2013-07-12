@@ -2,16 +2,23 @@ class User < ActiveRecord::Base
   #Encrypt password in database  
   has_secure_password
 
+  self.primary_key = "user_id"
+
   before_save { self.email = email.downcase }
   before_save :create_remember_token
   before_create :create_geosex
 
   has_many :photos, dependent: :destroy
-  has_many :lovers, dependent: :destroy
-  has_many :friendships, foreign_key: "user_id", dependent: :destroy
-  has_many :friends, through: :friendships, source: :friend, conditions: ["friendships.accepted = ?", true], select: 'users.*, friendships.secret_lover_accepted as has_secret_access'
-  has_many :pending_friends, through: :friendships, source: :friend, conditions: ["friendships.pending = ?", true]
-  has_many :secret_petitions, through: :friendships, source: :friend, conditions: ["friendships.secret_lover_ask = ?", true]
+  has_and_belongs_to_many :lovers
+  has_many :friendships
+  has_many :user_photos
+  has_many :photos, through: :user_photos
+  has_many :messages, through: :user_messages
+
+  #has_many :friendships, foreign_key: "user_id", dependent: :destroy
+  #has_many :friends, through: :friendships, source: :friend, conditions: ["friendships.accepted = ?", true], select: 'users.*, friendships.secret_lover_accepted as has_secret_access'
+  #has_many :pending_friends, through: :friendships, source: :friend, conditions: ["friendships.pending = ?", true]
+  #has_many :secret_petitions, through: :friendships, source: :friend, conditions: ["friendships.secret_lover_ask = ?", true]
   has_many :messages, foreign_key: "receiver_id", dependent: :destroy
 
   has_one :geosex, dependent: :destroy

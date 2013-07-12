@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130712090136) do
+ActiveRecord::Schema.define(version: 20130708112212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20130712090136) do
 
   add_index "experiences", ["lover_id"], name: "index_experiences_on_lover_id"
 
-  create_table "friendships", force: true do |t|
+  create_table "friendships", id: false, force: true do |t|
     t.integer  "user_id"
     t.integer  "friend_id"
     t.boolean  "accepted",              default: false
@@ -52,10 +52,6 @@ ActiveRecord::Schema.define(version: 20130712090136) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "friendships", ["friend_id"], name: "index_friendships_on_friend_id"
-  add_index "friendships", ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true
-  add_index "friendships", ["user_id"], name: "index_friendships_on_user_id"
 
   create_table "geosexes", force: true do |t|
     t.integer  "user_id"
@@ -70,9 +66,7 @@ ActiveRecord::Schema.define(version: 20130712090136) do
   add_index "geosexes", ["status"], name: "index_geosexes_on_status"
   add_index "geosexes", ["user_id"], name: "index_geosexes_on_user_id"
 
-  create_table "lovers", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "lover_id"
+  create_table "lovers", primary_key: "lover_id", force: true do |t|
     t.string   "facebook_id"
     t.string   "name"
     t.string   "photo_url"
@@ -87,7 +81,10 @@ ActiveRecord::Schema.define(version: 20130712090136) do
     t.datetime "updated_at"
   end
 
-  add_index "lovers", ["user_id", "lover_id"], name: "index_lovers_on_user_id_and_lover_id"
+  create_table "lovers_users", id: false, force: true do |t|
+    t.integer "user_id"
+    t.integer "lover_id"
+  end
 
   create_table "messages", force: true do |t|
     t.integer  "receiver_id"
@@ -97,25 +94,18 @@ ActiveRecord::Schema.define(version: 20130712090136) do
     t.datetime "updated_at"
   end
 
-  create_table "photos", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "photo_id"
+  create_table "photos", primary_key: "photo_id", force: true do |t|
     t.string   "photo_url"
-    t.boolean  "profile_photo"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "photos", ["user_id", "photo_id"], name: "index_photos_on_user_id_and_photo_id"
-
-  create_table "user_photos", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "photo_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "user_photos", id: false, force: true do |t|
+    t.integer "user_id"
+    t.integer "photo_id"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", primary_key: "user_id", force: true do |t|
     t.string   "name"
     t.string   "email"
     t.string   "facebook_id"

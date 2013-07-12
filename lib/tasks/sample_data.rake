@@ -9,6 +9,12 @@ namespace :db do
     send_messages
     make_photos
   end
+  task remigrate: :environment do
+      Rake::Task['db:drop'].invoke
+      Rake::Task['db:create'].invoke
+      Rake::Task['db:migrate'].invoke
+      Rake::Task['db:populate'].invoke
+  end
 end
 
 def make_users
@@ -73,12 +79,16 @@ end
 
 def make_lovers
   users = User.all(limit:6)
+  lovers = Array.new
   5.times do |n|
     name = Faker::Name.name
     name2 = Faker::Name.name
-    users.each { |user| user.lovers.create!(name: name, visibility: 1, lover_id: n+1, facebook_id: Faker::Lorem.characters(15))}
-    users.each { |user| user.lovers.create!(name: name2, visibility: 0, lover_id: n+2, facebook_id: Faker::Lorem.characters(15))}
+    public_lover = Lover.create!(name: name, visibility: 1, facebook_id: Faker::Lorem.characters(15))
+    secret_lover = Lover.create!(name: name2, visibility: 0, facebook_id: Faker::Lorem.characters(15))
+    lovers.push(public_lover) 
+    lovers.push(secret_lover) 
   end
+  users.each { |user| user.lovers = lovers}
 end
 
 def make_friendships
@@ -99,9 +109,11 @@ end
 
 def make_photos
   users = User.all(limit:6)
+  photos = Array.new
   5.times do |n|
-    photo_id = n +1
     url="http://myurl#{n+1}"
-    users.each { |user| user.photos.create!(photo_id: photo_id, photo_url: url, profile_photo: false)}
+    photo = Photo.create!(photo_url: url)
+    photos.push(photo)
   end
+  users.each { |user| user.photos = photos}
 end

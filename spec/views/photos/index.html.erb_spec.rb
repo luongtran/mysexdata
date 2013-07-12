@@ -6,14 +6,12 @@ describe "photos/index" do
       stub_model(Photo,
         :user_id => 1,
         :photo_id => 2,
-        :photo_url => "Photo Url",
-        :profile_photo => false
-      ),
+        :photo_url => "Photo Url"
+              ),
       stub_model(Photo,
         :user_id => 1,
         :photo_id => 2,
-        :photo_url => "Photo Url",
-        :profile_photo => false
+        :photo_url => "Photo Url"
       )
     ])
   end

@@ -5,9 +5,8 @@ describe "photos/show" do
     @photo = assign(:photo, stub_model(Photo,
       :user_id => 1,
       :photo_id => 2,
-      :photo_url => "Photo Url",
-      :profile_photo => false
-    ))
+      :photo_url => "Photo Url"
+          ))
   end
 
   it "renders attributes in <p>" do

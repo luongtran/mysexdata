@@ -5,9 +5,8 @@ describe "photos/new" do
     assign(:photo, stub_model(Photo,
       :user_id => 1,
       :photo_id => 1,
-      :photo_url => "MyString",
-      :profile_photo => false
-    ).as_new_record)
+      :photo_url => "MyString"
+          ).as_new_record)
   end
 
   it "renders new photo form" do
@@ -18,7 +17,6 @@ describe "photos/new" do
       assert_select "input#photo_user_id[name=?]", "photo[user_id]"
       assert_select "input#photo_photo_id[name=?]", "photo[photo_id]"
       assert_select "input#photo_photo_url[name=?]", "photo[photo_url]"
-      assert_select "input#photo_profile_photo[name=?]", "photo[profile_photo]"
     end
   end
 end

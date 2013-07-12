@@ -8,8 +8,8 @@ class LoversController < ApplicationController
   # GET users/:user_id/lovers
   # GET users/:user_id/lovers.json
   def show_all  
-    @public_lovers = Lover.where(visibility: 0, user_id: @user.id)
-    @secret_lovers = Lover.where(visibility: 1, user_id: @user.id)
+    @public_lovers = @user.lovers.where(visibility: 0)
+    @secret_lovers = @user.lovers.where(visibility: 1)
     respond_to  do |format|
       format.html { render 'index' }
       format.json { render action: 'show_all'}
@@ -69,21 +69,21 @@ class LoversController < ApplicationController
   end
 
   private
-     def set_user
+
+    # Defines the user that correspondes to the given urser_id
+    def set_user
       @user = User.find(params[:user_id])
     end
+
     #Use callbacks to share common setup or constraints between actions.
     def set_lover
-      logger.debug params
-      @lover = Lover.find_by(lover_id: params[:lover_id], user_id: params[:user_id])
-      logger.debug "lover"
-      logger.debug @lover
+      @lover = Lover.find(params[:lover_id])
     end
 
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def lover_params
-      params.require(:lover).permit(:user_id,:lover_id, :facebook_id, :name, :photo_url, :age, :sex_gender, :job, :height, :visibility, :pending)
+      params.require(:lover).permit(:lover_id, :facebook_id, :name, :photo_url, :age, :sex_gender, :job, :height, :visibility, :pending)
     end
 
     def correct_user

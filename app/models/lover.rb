@@ -1,6 +1,10 @@
 class Lover < ActiveRecord::Base
-  belongs_to :user
+  
+  has_and_belongs_to_many :lovers
+
   before_create :create_experience
+
+  self.primary_key = "lover_id"
 
   has_one :experience, dependent: :destroy
 
@@ -9,7 +13,6 @@ class Lover < ActiveRecord::Base
   scope :visible, -> { where(visibility: 0)}
   scope :secret, -> { where(visibility: 1)}
 
-  validates :user_id, presence: true
   validates :name, presence: true, length: { maximum: 70 }
   validates :facebook_id, presence: true
 

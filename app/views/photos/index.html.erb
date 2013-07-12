@@ -16,10 +16,8 @@
   <tbody>
     <% @photos.each do |photo| %>
     <tr>
-      <td><%= photo.user_id %></td>
       <td><%= photo.photo_id %></td>
       <td><%= photo.photo_url %></td>
-      <td><%= photo.profile_photo %></td>
       <td><%= link_to 'Show', photo %></td>
       <td><%= link_to 'Edit', edit_photo_path(photo) %></td>
       <td><%= link_to 'Destroy', photo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
