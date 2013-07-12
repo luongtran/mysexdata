@@ -5,24 +5,28 @@ class LoversController < ApplicationController
   #before_action :signed_in_user, only: [:create, :update, :destroy]
   #before_action :correct_user,   only:  :destroy
 
+  respond_to :json
+
   # GET users/:user_id/lovers
   # GET users/:user_id/lovers.json
   def show_all  
     @public_lovers = @user.lovers.where(visibility: 0)
     @secret_lovers = @user.lovers.where(visibility: 1)
-    respond_to  do |format|
-      format.html { render 'index' }
-      format.json { render action: 'show_all'}
-    end  
+    return render action: 'show_all'
+    # respond_to  do |format|
+    #   format.html { render 'index' }
+    #   format.json { render action: 'show_all'}
+    # end  
   end
 
   # GET users/:user_id/lovers/:lover_id
   # GET users/:user_id/lovers/:lover_id.json
   def show
-    respond_to  do |format|
-      format.html { redirect_to lovers_url }
-      format.json { render action: 'show'}
-    end  
+    return render action: 'show'
+    # respond_to  do |format|
+    #   format.html { redirect_to lovers_url }
+    #   format.json { }
+    # end  
   end
 
   # POST /lovers

@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20130708112212) do
     t.datetime "updated_at"
   end
 
-  add_index "experiences", ["lover_id"], name: "index_experiences_on_lover_id"
+  add_index "experiences", ["lover_id"], name: "index_experiences_on_lover_id", using: :btree
 
   create_table "friendships", id: false, force: true do |t|
     t.integer  "user_id"
@@ -63,8 +63,8 @@ ActiveRecord::Schema.define(version: 20130708112212) do
     t.datetime "updated_at"
   end
 
-  add_index "geosexes", ["status"], name: "index_geosexes_on_status"
-  add_index "geosexes", ["user_id"], name: "index_geosexes_on_user_id"
+  add_index "geosexes", ["status"], name: "index_geosexes_on_status", using: :btree
+  add_index "geosexes", ["user_id"], name: "index_geosexes_on_user_id", using: :btree
 
   create_table "lovers", primary_key: "lover_id", force: true do |t|
     t.string   "facebook_id"
