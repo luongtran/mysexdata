@@ -18,7 +18,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should create user" do
     assert_difference('User.count') do
-      post :create, user: { birthday: @user.birthday, email: @user.email, eye_color: @user.eye_color, facebook_id: @user.facebook_id, photo_id: @user.photo_id, hair_color: @user.hair_color, height: @user.height, integer: @user.integer, name: @user.name, password: @user.password, sex_gender: @user.sex_gender, sex_geo_id: @user.sex_geo_id, sex_interest: @user.sex_interest, startday: @user.startday }
+      post :create, user: { age: @user.age, email: @user.email, eye_color: @user.eye_color, facebook_id: @user.facebook_id, photo_id: @user.photo_id, hair_color: @user.hair_color, height: @user.height, integer: @user.integer, name: @user.name, password: @user.password, sex_gender: @user.sex_gender, sex_geo_id: @user.sex_geo_id, sex_interest: @user.sex_interest, startday: @user.startday }
     end
 
     assert_redirected_to user_path(assigns(:user))
@@ -35,7 +35,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should update user" do
-    patch :update, id: @user, user: { birthday: @user.birthday, email: @user.email, eye_color: @user.eye_color, facebook_id: @user.facebook_id, photo_id: @user.photo_id, hair_color: @user.hair_color, height: @user.height, integer: @user.integer, name: @user.name, password: @user.password, sex_gender: @user.sex_gender, sex_geo_id: @user.sex_geo_id, sex_interest: @user.sex_interest, startday: @user.startday }
+    patch :update, id: @user, user: { age: @user.age, email: @user.email, eye_color: @user.eye_color, facebook_id: @user.facebook_id, photo_id: @user.photo_id, hair_color: @user.hair_color, height: @user.height, integer: @user.integer, name: @user.name, password: @user.password, sex_gender: @user.sex_gender, sex_geo_id: @user.sex_geo_id, sex_interest: @user.sex_interest, startday: @user.startday }
     assert_redirected_to user_path(assigns(:user))
   end
 

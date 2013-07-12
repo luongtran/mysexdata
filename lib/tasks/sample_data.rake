@@ -12,17 +12,18 @@ namespace :db do
 end
 
 def make_users
-  birthday = Date.new(1111,11,11)
+  age = 20
   startday = Date.new(1111,11,11)
   admin = User.create!(name: "Example User",
                email: "example@railstutorial.org",
                password: "1234",
                password_confirmation: "1234",
                facebook_id: "0",
+               status: 0,
                main_photo_url: "http://url.jpg",
                photo_num: 0,
                job: 0,
-               birthday: birthday,
+               age: age,
                startday: startday,
                eye_color: 0,
                hair_color: 0,
@@ -40,7 +41,7 @@ def make_users
     facebook_id = Faker::Lorem.characters(15)
     main_photo_url ="http://url.jpg"
     photo_num = 0
-    birthday = Date.new(1111,11,11)
+    age = 30
     startday = Date.new(1111,11,11)
     job = 0
     eye_color = 0
@@ -54,9 +55,10 @@ def make_users
                  password: password,
                  password_confirmation: password,
                  facebook_id: facebook_id,
+                 status: 0,
                  main_photo_url: main_photo_url,
                  photo_num: photo_num,
-                 birthday: birthday,
+                 age: age,
                  startday: startday,
                  job: job,
                  eye_color: eye_color,
@@ -73,7 +75,9 @@ def make_lovers
   users = User.all(limit:6)
   5.times do |n|
     name = Faker::Name.name
+    name2 = Faker::Name.name
     users.each { |user| user.lovers.create!(name: name, visibility: 1, lover_id: n+1, facebook_id: Faker::Lorem.characters(15))}
+    users.each { |user| user.lovers.create!(name: name2, visibility: 0, lover_id: n+2, facebook_id: Faker::Lorem.characters(15))}
   end
 end
 

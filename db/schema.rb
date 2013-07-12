@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130708112212) do
+ActiveRecord::Schema.define(version: 20130712090136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,7 +76,6 @@ ActiveRecord::Schema.define(version: 20130708112212) do
     t.string   "facebook_id"
     t.string   "name"
     t.string   "photo_url"
-    t.integer  "photo_id"
     t.integer  "age"
     t.integer  "sex_gender"
     t.integer  "job"
@@ -109,6 +108,13 @@ ActiveRecord::Schema.define(version: 20130708112212) do
 
   add_index "photos", ["user_id", "photo_id"], name: "index_photos_on_user_id_and_photo_id"
 
+  create_table "user_photos", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "photo_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "name"
     t.string   "email"
@@ -116,10 +122,12 @@ ActiveRecord::Schema.define(version: 20130708112212) do
     t.string   "remember_token"
     t.string   "password_digest"
     t.string   "password"
+    t.integer  "status"
     t.string   "main_photo_url"
     t.integer  "photo_num"
+    t.integer  "lovers_num",      default: 0
     t.integer  "job"
-    t.datetime "birthday"
+    t.integer  "age"
     t.datetime "startday"
     t.integer  "eye_color"
     t.integer  "hair_color"
@@ -132,9 +140,5 @@ ActiveRecord::Schema.define(version: 20130708112212) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["facebook_id"], name: "index_users_on_facebook_id", unique: true
-  add_index "users", ["remember_token"], name: "index_users_on_remember_token"
 
 end

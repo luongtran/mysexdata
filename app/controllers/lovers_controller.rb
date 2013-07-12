@@ -1,22 +1,24 @@
 class LoversController < ApplicationController
   #skip_before_filter  :verify_authenticity_token
-  before_action :set_lover, only: [:update, :destroy]
+  before_action :set_user, only: [:show_all, :show, :update, :destroy]
+  before_action :set_lover, only: [:show, :update, :destroy]
   #before_action :signed_in_user, only: [:create, :update, :destroy]
   #before_action :correct_user,   only:  :destroy
 
   # GET users/:user_id/lovers
   # GET users/:user_id/lovers.json
-  def show_all
-    @user = User.find(params[:user_id])
-    @lovers = Lover.find_all_by_user_id(params[:user_id])
+  def show_all  
+    @public_lovers = Lover.where(visibility: 0, user_id: @user.id)
+    @secret_lovers = Lover.where(visibility: 1, user_id: @user.id)
     respond_to  do |format|
       format.html { render 'index' }
       format.json { render action: 'show_all'}
     end  
   end
 
-  def show 
-    @lover = Lover.find_by(lover_id: params[:lover_id], user_id: params[:user_id])
+  # GET users/:user_id/lovers/:lover_id
+  # GET users/:user_id/lovers/:lover_id.json
+  def show
     respond_to  do |format|
       format.html { redirect_to lovers_url }
       format.json { render action: 'show'}
@@ -67,10 +69,17 @@ class LoversController < ApplicationController
   end
 
   private
+     def set_user
+      @user = User.find(params[:user_id])
+    end
     #Use callbacks to share common setup or constraints between actions.
     def set_lover
-      @lover = Lover.find(params[:id])
+      logger.debug params
+      @lover = Lover.find_by(lover_id: params[:lover_id], user_id: params[:user_id])
+      logger.debug "lover"
+      logger.debug @lover
     end
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def lover_params

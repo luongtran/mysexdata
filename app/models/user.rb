@@ -22,9 +22,10 @@ class User < ActiveRecord::Base
   validates :name, presence: true
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false}
   validates :facebook_id, presence: true, uniqueness: { case_sensitive: false}
+  validates :status, presence: true
   validates :main_photo_url, presence: true
   validates :photo_num, presence: true
-  validates :birthday, presence: true
+  validates :age, presence: true
   validates :startday, presence: true
   validates :eye_color, presence: true
   validates :hair_color, presence: true

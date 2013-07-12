@@ -4,7 +4,6 @@ one:
   user_id: 1
   lover_id: 1
   name: MyString
-  photo_id: 1
   age: 1
   sex_gender: 1
   job: 1
@@ -16,7 +15,6 @@ two:
   user_id: 1
   lover_id: 1
   name: MyString
-  photo_id: 1
   age: 1
   sex_gender: 1
   job: 1

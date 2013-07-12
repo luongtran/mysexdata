@@ -3,7 +3,7 @@
 one:
   name: MyString
   email: MyString
-  birthday: MyString
+  age: 30
   startday: MyString
   eye_color: 1
   hair_color: 1
@@ -19,7 +19,7 @@ one:
 two:
   name: MyString
   email: MyString
-  birthday: MyString
+  age: 30
   startday: MyString
   eye_color: 1
   hair_color: 1

@@ -6,7 +6,6 @@ class CreateLovers < ActiveRecord::Migration
       t.string :facebook_id
       t.string :name
       t.string :photo_url
-      t.integer :photo_id
       t.integer :age
       t.integer :sex_gender
       t.integer :job

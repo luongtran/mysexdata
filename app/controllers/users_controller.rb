@@ -15,27 +15,12 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = User.find(params[:id])
+    logger.debug params
     @friendship = Friendship.find_by_user_id(params[:id])
-    if current_user?(@user)
-      @lovers = @user.lovers
-    elsif @friendship
-      if @friendship.secret_lover_accepted
-        @lovers_secret = @user.lovers.secret
-      end
-      @lovers = @user.lovers.visible
-    end
+    @public_lovers = Lover.where(visibility: 0, user_id: params[:id])
+    @secret_lovers = Lover.where(visibility: 1, user_id: params[:id])
   end
 
-  # GET /users/new
-  def new
-    @user = User.new
-  end
-
-  # GET /users/1/edit
-  def edit
-    @user = User.find(params[:id])
-  end
 
   # POST /users
   # POST /users.json
@@ -88,7 +73,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.permit(:name, :email,  :facebook_id, :password, :password_confirmation,  :birthday, :startday, :eye_color, :hair_color, :height,:main_photo_url, :photo_num, :sex_interest, :sex_gender, {preferences: []}, :hairdressing, :job)
+      params.permit(:name, :email, :facebook_id, :status, :password, :password_confirmation,  :age, :startday, :eye_color, :hair_color, :height,:main_photo_url, :photo_num, :sex_interest, :sex_gender, {preferences: []}, :hairdressing, :job)
     end
 
     def geo_params

@@ -7,10 +7,12 @@ class CreateUsers < ActiveRecord::Migration
       t.string :remember_token
       t.string :password_digest
       t.string :password
+      t.integer :status
       t.string :main_photo_url
       t.integer :photo_num
+      t.integer :lovers_num, default: 0
       t.integer :job
-      t.datetime :birthday
+      t.integer :age
       t.datetime :startday
       t.integer :eye_color
       t.integer :hair_color
@@ -24,9 +26,5 @@ class CreateUsers < ActiveRecord::Migration
       t.timestamps
 
     end
-
-    add_index :users, :email, unique: true
-    add_index :users, :facebook_id, unique: true
-    add_index :users, :remember_token
   end
 end

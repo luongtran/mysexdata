@@ -20,11 +20,11 @@ Mysexdata::Application.routes.draw do
   match '/signout', to: 'sessions#destroy',     via: 'delete'
   
   # Users
-  match '/users', to: 'users#create', via: 'post'                   # Create a user
-  match '/users', to: 'users#index', via: 'get'                     # Show all users
-  match '/users/:user_id', to: 'users#show', via: 'get'             # Show unique user
-  match '/users/:user_id', to: 'users#update', via: 'put'           # Update a user (Default method)
-  match '/users/:user_id', to: 'users#destroy', via: 'delete'          # Delete a user (Must be post method).
+  match '/users', to: 'users#create', via: 'post'                     # Create a user
+  match '/users', to: 'users#index', via: 'get'                       # Show all users
+  match '/users/:user_id', to: 'users#show', via: 'get'               # Show unique user
+  match '/users/:user_id', to: 'users#update', via: 'put'             # Update a user (Default method)
+  match '/users/:user_id', to: 'users#destroy', via: 'delete'         # Delete a user (Must be post method).
 
   # Experiences
   match '/users/:user_id/lovers/:lover_id/experiences', to: 'experiences#show_all', via: 'get'
