@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20130708112212) do
     t.boolean  "pending",               default: false
     t.boolean  "secret_lover_ask",      default: false
     t.boolean  "secret_lover_accepted", default: false
+    t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

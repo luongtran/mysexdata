@@ -1,15 +1,26 @@
+#######################################################################
+## Controller that manages all REST methods related with User Friends ##
+#######################################################################
 class FriendshipsController < ApplicationController
+  
+  # Token authentication
   #skip_before_filter  :verify_authenticity_token
-  before_action :set_user, only: [:show_all, :show, :update, :destroy]
+
+  # Set user and friends before the given methods.
+  before_action :set_user, only: [:index, :show_all, :show, :update, :destroy]
   before_action :set_friendship, only: [:show_all, :show, :update, :destroy]
 
-   #before_filter :signed_in_user, only: [:index, :create, :pending, :accept, :omit, :secrets]
+  # Verifying user before the given methods with some filters.
+  #before_filter :signed_in_user, only: [:index, :create, :pending, :accept, :omit, :secrets]
+
+  # User must not authenticate in the next methods
+  protect_from_forgery :except => [:create]
+
 
   # GET /users/:user_id/friendships
   # GET /users/:user_id/friendships.json 
   def index   
-    @user = User.find(params[:user_id])
-    @friendships = Friendship.find_all_by_user_id(params[:user_id])
+    @friendships = @user.friendships
     respond_to do |format|
       format.html { render 'index' }
       format.json { render action:'index', location: @friends }
@@ -38,21 +49,47 @@ class FriendshipsController < ApplicationController
     end
   end
 
+
   def create
-    @user = current_user
-    @user2 = User.find(params[:friendships][:friend_id])
-    @friendship1 = @user.friendships.build(friend_id: @user2.id)
-    @friendship2 = @user2.friendships.build(friend_id: @user.id, pending: true)
-    respond_to do |format|
-      if @friendship1.save and @friendship2.save
-        format.html { redirect_to @friendship1, notice: 'User was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @friendship1 }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @friendship1.errors.full_messages, status: :unprocessable_entity }
-      end
+    invitation_sent = false
+    @user_sender= User.find(params[:user_id])
+    friendships = JSON.parse(params[:friendships].to_json)
+    friendships.each do |friendship|
+    logger.debug "PARAMS : #{friendship}"
+
+      if friendship.has_key?("user_id")
+        logger.debug "USER INVITATION"
+        logger.debug friendship["user_id"]
+        @user_sender.friendships.create(friend_id: friendship["user_id"], pending: true)
+        invitation_sent = true; 
+      elsif friendship.has_key?("email")
+        logger.debug "EMAIL INVITATION"
+        logger.debug friendship["email"]
+        @user_sender.friendships.create(friend_id: -1, email: friendship["email"], pending: true)
+        invitation_sent = true;      
+      end 
     end
-  else
+      if invitation_sent
+        return render :json => {"Message" => "Invitations sent"}
+      end
+
+      return render :json => {"Message" => "Not enought data to send an invitation"}  
+    #@invited_users  = 
+
+    #@user = current_user
+    #@user2 = User.find(params[:friendships][:friend_id])
+    #@friendship1 = @user.friendships.build(friend_id: @user2.id)
+  #   @friendship2 = @user2.friendships.build(friend_id: @user.id, pending: true)
+  #   respond_to do |format|
+  #     if @friendship1.save and @friendship2.save
+  #       format.html { redirect_to @friendship1, notice: 'User was successfully created.' }
+  #       format.json { render action: 'show', status: :created, location: @friendship1 }
+  #     else
+  #       format.html { render action: 'new' }
+  #       format.json { render json: @friendship1.errors.full_messages, status: :unprocessable_entity }
+  #     end
+  #   end
+  # else
 
   end
 
@@ -64,15 +101,7 @@ class FriendshipsController < ApplicationController
   # Also, we will set the pending flag to all requested friends to true. When, friends accept the 
   # invitation, then accepted flag of the given user will set to true.
   def invite
-    logger.debug "PARAMETERS"
-    logger.debug params
-    @invitation_sender_user= User.find(params[:user_id])
-
-    JSON.parse(params[:friendships]).each do |friendship|
-      Rails.logger.info friendship['friendship_id']
-    end  
-    #@invited_users  = 
-
+    
   end
 
   def accept
@@ -189,16 +218,19 @@ class FriendshipsController < ApplicationController
   end
 
   private
+
+    # Set current user.
     def set_user
       @user = User.find(params[:user_id])
     end
 
+    # Set current friend.
     def set_friend
       @friend = User.find(params[:friend_id])
     end
 
     def friendships_params
-      params.require("friendships").permit(:friend_id)
+      params.require("friendships").permit(:friend_id, :email, :user_id)
     end
 
     def reverse_friendships_params

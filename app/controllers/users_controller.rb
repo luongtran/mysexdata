@@ -1,9 +1,20 @@
+#################################################################
+## Controller that manages all REST methods related with Users ##
+#################################################################
 class UsersController < ApplicationController
+
+  # Token authentication
   #skip_before_filter  :verify_authenticity_token
+  
+  # Set user before the given methods.
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+
+  # Verifying user before the given methods with some filters.
   #before_filter :signed_in_user, only: [:index, :show, :edit, :update, :destroy, :friends, :pendingfriends]
   #before_filter :correct_user,   only: [:edit, :update, :pendingfriends]
   #before_filter :admin_user,     only: :destroy
+
+  # Methods that don't need authentication
   protect_from_forgery :except => :show  
 
   # GET /users
@@ -36,11 +47,10 @@ class UsersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /users/1
-  # PATCH/PUT /users/1
-  # PATCH/PUT /users/1.json
+  # PUT /users/1
+  # PUT /users/1.json
   def update
-    #Check that user can't modify user_ids
+    #Checking that user_id can't be modified
     if !params[:user_id].nil?
       return render :json => {:error => 'Id is not possible to be modified'}
     end
@@ -57,9 +67,8 @@ class UsersController < ApplicationController
     end
   end
 
-  # POST /users/1
-  # POST /users/1.json
-  # It must be a post method to get user_id params.
+  # DELETE /users/1
+  # DELETE /users/1.json
   def destroy
     @user.destroy
     respond_to do |format|
@@ -70,14 +79,14 @@ class UsersController < ApplicationController
 
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    # Define current user.
     def set_user
       @user = User.find(params[:id])
       
       # Not working!
-      if @user.nil?
-        render :json => {:error=> 'User with user_id #{params[:id] doesn\'t exist}'}
-      end
+      #if @user.nil?
+      #  render :json => {:error=> 'User with user_id #{params[:id] doesn\'t exist}'}
+      #end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -89,14 +98,7 @@ class UsersController < ApplicationController
       params.require(:geosex).permit(:access, :state, :lat, :lng)
     end
 
-
-
-    def correct_user
-      @user = User.find(params[:id])
-      redirect_to(root_path) unless current_user?(@user)
-    end
-
     def admin_user
-      redirect_to(root_path) unless current_user.admin?
+      redirect_to(root_path) unless @user.admin?
     end
 end

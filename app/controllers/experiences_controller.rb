@@ -1,7 +1,10 @@
 ########################################################################################
-## Controller that manage all REST methods related with User experiences with a lover.##
+## Controller that manages all REST methods related with User experiences with a lover ##
 ########################################################################################
 class ExperiencesController < ApplicationController
+
+  # Token authentication
+  #skip_before_filter  :verify_authenticity_token
 
   # Set user, lover and experience before the given methods.
   before_action :set_user, only: [:show_all, :show, :update, :destroy]

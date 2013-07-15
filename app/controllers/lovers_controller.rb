@@ -1,9 +1,20 @@
+#######################################################################
+## Controller that manages all REST methods related with User Lovers ##
+#######################################################################
 class LoversController < ApplicationController
+
+  # Token authentication
   #skip_before_filter  :verify_authenticity_token
+  
+  # Set user and over before the given methods.
   before_action :set_user, only: [:show_all, :show, :create, :update]
   before_action :set_lover, only: [:show, :update]
+
+  # Verifying user before the given methods.
   #before_action :signed_in_user, only: [:create, :update, :destroy]
   #before_action :correct_user,   only:  :destroy
+
+  # Methods that don't need authentication
   protect_from_forgery :except => :create  
 
   # Only responds in json format.
@@ -11,7 +22,7 @@ class LoversController < ApplicationController
 
   # GET users/:user_id/lovers
   # GET users/:user_id/lovers.json
-  def show_all  
+  def show_all
     @public_lovers = @user.lovers.where(visibility: 0)
     @secret_lovers = @user.lovers.where(visibility: 1)
     return render action: 'show_all'
@@ -86,18 +97,8 @@ class LoversController < ApplicationController
 
       # Not implemented yet
       #logger.debug "Paramlovers : #{params[:lovers]}"
-      #params[:lovers].each do |lover|
+      #params.require(:lovers).each do |lover|
       #  lover.permit(:facebook_id, :name, :photo_url, :age, :sex_gender, :job, :height, :visibility, :pending)
       #end
     end 
-
-    def correct_user
-      @lover = current_user.lovers.find_by(id: params[:id])
-      if @lover.nil?
-        respond_to do |format|
-          format.html { redirect_to users_url }
-          format.json { head :no_content }
-        end
-      end
-    end
 end

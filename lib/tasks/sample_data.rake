@@ -84,8 +84,10 @@ def make_lovers
   5.times do |n|
     name = Faker::Name.name
     name2 = Faker::Name.name
-    public_lover = Lover.create!(name: name, visibility: 1, facebook_id: Faker::Lorem.characters(15))
-    secret_lover = Lover.create!(name: name2, visibility: 0, facebook_id: Faker::Lorem.characters(15))
+    url = "http://#{name}.jpg"
+    url2 = "http://#{name2}.jpg"
+    public_lover = Lover.create!(name: name, visibility: 1, facebook_id: Faker::Lorem.characters(15), photo_url: url)
+    secret_lover = Lover.create!(name: name2, visibility: 0, facebook_id: Faker::Lorem.characters(15), photo_url: url2)
     lovers.push(public_lover) 
     lovers.push(secret_lover) 
   end

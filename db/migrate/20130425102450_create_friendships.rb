@@ -7,6 +7,7 @@ class CreateFriendships < ActiveRecord::Migration
       t.boolean :pending, default: false
       t.boolean :secret_lover_ask, default: false
       t.boolean :secret_lover_accepted, default: false
+      t.string :email
 
       t.timestamps
     end

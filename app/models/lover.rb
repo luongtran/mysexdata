@@ -13,6 +13,7 @@ class Lover < ActiveRecord::Base
   scope :secret, -> { where(visibility: 1)}
 
   validates :name, presence: true, length: { maximum: 70 }
+  validates :photo_url, presence: true
   validates :facebook_id, presence: true, uniqueness: { case_sensitive: false}
 
 end

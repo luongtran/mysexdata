@@ -1,4 +1,5 @@
-json.(@friendships, :user_id, :friend_id, :accepted, :pending, :secret_lover_ask, :secret_lover_accepted)
+json.(@user, :user_id)
+json.(@friendships, :friend_id, :accepted, :pending, :secret_lover_ask, :secret_lover_accepted)
 if @frienships.secret_lover_accepted
 json.user_id @friendships.user_id
 json.(@friend, :name, :lovers_num, :sex_interest, :age, :startday, :eye_color, :hair_color, :height, :hairdressing, :preferences)
