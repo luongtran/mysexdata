@@ -1,12 +1,11 @@
 class Lover < ActiveRecord::Base
   
-  has_and_belongs_to_many :lovers
-
-  before_create :create_experience
+  has_and_belongs_to_many :users
 
   self.primary_key = "lover_id"
 
-  has_one :experience, dependent: :destroy
+  has_many :lover_experiences
+  has_many :experiences, through: :lover_experiences, dependent: :destroy
 
   default_scope -> { order('name DESC')}
 
@@ -14,9 +13,6 @@ class Lover < ActiveRecord::Base
   scope :secret, -> { where(visibility: 1)}
 
   validates :name, presence: true, length: { maximum: 70 }
-  validates :facebook_id, presence: true
+  validates :facebook_id, presence: true, uniqueness: { case_sensitive: false}
 
-  def create_experience
-    self.build_experience
-  end
 end

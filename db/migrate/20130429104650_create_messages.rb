@@ -1,6 +1,6 @@
 class CreateMessages < ActiveRecord::Migration
   def change
-    create_table :messages do |t|
+    create_table :messages, :primary_key => :message_id do |t|
       t.integer :receiver_id
       t.integer :sender_id
       t.string :content

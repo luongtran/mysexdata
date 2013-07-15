@@ -5,6 +5,7 @@ namespace :db do
   task populate: :environment do
     make_users
     make_lovers
+    make_experiences
     make_friendships
     send_messages
     make_photos
@@ -78,7 +79,7 @@ def make_users
 end
 
 def make_lovers
-  users = User.all(limit:6)
+  users = User.all(limit:5)
   lovers = Array.new
   5.times do |n|
     name = Faker::Name.name
@@ -89,6 +90,18 @@ def make_lovers
     lovers.push(secret_lover) 
   end
   users.each { |user| user.lovers = lovers}
+end
+
+def make_experiences
+  lovers = Lover.all(limit:6)
+  experiences = Array.new
+  5.times do |n|
+    experience = Experience.create!(date: "11/11/1111", location: rand(0...3), final_score: rand(0...10))
+    experiences.push(experience)
+  end
+  lovers.each {|lover| lover.experiences = experiences}
+
+
 end
 
 def make_friendships

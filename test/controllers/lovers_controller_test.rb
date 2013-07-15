@@ -35,7 +35,7 @@ class LoversControllerTest < ActionController::TestCase
   end
 
   test "should update lover" do
-    patch :update, id: @lover, lover: { age: @lover.age, experience_id: @lover.experience_id, photo_id: @lover.photo_id, height: @lover.height, job: @lover.job, lover_id: @lover.lover_id, name: @lover.name, sex_gender: @lover.sex_gender, user_id: @lover.user_id, visibility: @lover.visibility }
+    patch :update, id: @lover, lover: { age: @lover.age, photo_id: @lover.photo_id, height: @lover.height, job: @lover.job, lover_id: @lover.lover_id, name: @lover.name, sex_gender: @lover.sex_gender, user_id: @lover.user_id, visibility: @lover.visibility }
     assert_redirected_to lover_path(assigns(:lover))
   end
 

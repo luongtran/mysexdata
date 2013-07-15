@@ -4,14 +4,12 @@ class CreateLovers < ActiveRecord::Migration
       t.string :facebook_id
       t.string :name
       t.string :photo_url
-      t.integer :age
-      t.integer :sex_gender
-      t.integer :job
-      t.integer :height
+      t.integer :age, default: -1
+      t.integer :sex_gender, default:-1
+      t.integer :job, default: -1
+      t.integer :height, default: -1
       t.integer :visibility, default:0
       t.boolean :pending, default:false
-      t.integer :experience_id
-
       t.timestamps
     end
 

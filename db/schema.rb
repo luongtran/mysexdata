@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20130708112212) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "experiences", force: true do |t|
+  create_table "experiences", primary_key: "experience_id", force: true do |t|
     t.integer  "lover_id"
     t.datetime "date"
     t.string   "location"
@@ -39,8 +39,6 @@ ActiveRecord::Schema.define(version: 20130708112212) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "experiences", ["lover_id"], name: "index_experiences_on_lover_id", using: :btree
 
   create_table "friendships", id: false, force: true do |t|
     t.integer  "user_id"
@@ -66,17 +64,21 @@ ActiveRecord::Schema.define(version: 20130708112212) do
   add_index "geosexes", ["status"], name: "index_geosexes_on_status", using: :btree
   add_index "geosexes", ["user_id"], name: "index_geosexes_on_user_id", using: :btree
 
+  create_table "lover_experiences", force: true do |t|
+    t.integer "lover_id"
+    t.integer "experience_id"
+  end
+
   create_table "lovers", primary_key: "lover_id", force: true do |t|
     t.string   "facebook_id"
     t.string   "name"
     t.string   "photo_url"
-    t.integer  "age"
-    t.integer  "sex_gender"
-    t.integer  "job"
-    t.integer  "height"
-    t.integer  "visibility",    default: 0
-    t.boolean  "pending",       default: false
-    t.integer  "experience_id"
+    t.integer  "age",         default: -1
+    t.integer  "sex_gender",  default: -1
+    t.integer  "job",         default: -1
+    t.integer  "height",      default: -1
+    t.integer  "visibility",  default: 0
+    t.boolean  "pending",     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -86,7 +88,7 @@ ActiveRecord::Schema.define(version: 20130708112212) do
     t.integer "lover_id"
   end
 
-  create_table "messages", force: true do |t|
+  create_table "messages", primary_key: "message_id", force: true do |t|
     t.integer  "receiver_id"
     t.integer  "sender_id"
     t.string   "content"

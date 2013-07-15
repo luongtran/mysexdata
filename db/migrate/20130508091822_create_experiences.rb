@@ -1,6 +1,6 @@
 class CreateExperiences < ActiveRecord::Migration
   def change
-    create_table :experiences do |t|
+    create_table :experiences, :primary_key => :experience_id do |t|
       t.integer :lover_id
       t.datetime :date
       t.string :location
@@ -23,6 +23,10 @@ class CreateExperiences < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :experiences, :lover_id
+
+    create_table :lover_experiences do |t|
+      t.belongs_to :lover
+      t.belongs_to :experience
+    end
   end
 end

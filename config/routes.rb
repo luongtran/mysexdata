@@ -30,11 +30,15 @@ Mysexdata::Application.routes.draw do
   match '/users/:user_id/lovers/:lover_id/experiences', to: 'experiences#show_all', via: 'get'
   match '/users/:user_id/lovers/:lover_id/experiences/:experience_id', to: 'experiences#show', via: 'get'
   match '/users/:user_id/lovers/:lover_id/experiences/:experience_id', to: 'experiences#update', via: 'put'
+  match '/users/:user_id/lovers/:lover_id/experiences/:experience_id', to: 'experiences#destroy', via: 'delete'
+
 
   # Lovers
   match '/users/:user_id/lovers', to: 'lovers#show_all', via:'get'
-  match '/users/:user_id/lovers', to: 'lovers#invite', via:'post'       # Not working!
+  match '/users/:user_id/lovers', to: 'lovers#create', via:'post'
   match '/users/:user_id/lovers/:lover_id', to: 'lovers#show', via:'get'
+  match '/users/:user_id/lovers/:lover_id', to: 'lovers#update', via:'put'
+  match '/users/:user_id/lovers/:lover_id', to: 'lovers#destroy', via:'delete'
 
   # Friends lovers
   match '/users/:user_id/friendships/:friendship_id/lovers', to: 'friendships#show_lovers', via: 'get'
