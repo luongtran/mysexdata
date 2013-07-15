@@ -49,6 +49,12 @@ Mysexdata::Application.routes.draw do
   match '/users/:user_id/friendships', to: 'friendships#invite', via: 'post'
   match '/users/:user_id/friendships/:friendship_id', to: 'friendships#show', via: 'get'
 
+  # Pending Friends
+  match '/users/:user_id/pending_friends', to: 'friendships#pending', via: 'get'
+
+  # Secret Friends
+  match '/users/:user_id/secret_friends', to: 'friendships#secret', via: 'get'
+
   # Geosex
   match '/users/:user_id/geosex', to: 'geosexes#index', via:'get'
 

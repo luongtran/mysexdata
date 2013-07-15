@@ -7,7 +7,7 @@ class FriendshipsController < ApplicationController
   #skip_before_filter  :verify_authenticity_token
 
   # Set user and friends before the given methods.
-  before_action :set_user, only: [:index, :show_all, :show, :update, :destroy]
+  before_action :set_user, only: [:index, :show_all, :show, :update, :destroy, :pending]
   before_action :set_friendship, only: [:show_all, :show, :update, :destroy]
 
   # Verifying user before the given methods with some filters.
@@ -127,10 +127,10 @@ class FriendshipsController < ApplicationController
   end
 
   def pending
-    @friends = current_user.pending_friends
+    @friends = @user.pending_friends
     respond_to do |format|
       format.html { render 'index' }
-      format.json { render action:'index', location: @friends }
+      format.json { render action:'index' }
     end
   end
 
