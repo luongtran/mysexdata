@@ -1,2 +1,2 @@
 json.extract! @message, :receiver_id, :sender_id, :content, :created_at
-json.extract! @user, :id, :name
+json.extract! @user, :user_id, :name

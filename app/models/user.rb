@@ -46,21 +46,21 @@ class User < ActiveRecord::Base
   validates :preferences, presence: true
 
   def friends?(other_user)
-    friendships.accepted_scope.find_by(friend_id: other_user.id )
+    friendships.accepted_scope.find_by(friend_id: other_user.user_id )
 
   end
 
   def make_friend!(other_user)
-    friendships.create!(friend_id: other_user.id)
+    friendships.create!(friend_id: other_user.user_id)
   end
 
   def receive_message!(other_user,content)
-    messages.create!(sender_id: other_user.id, content: content)
+    messages.create!(sender_id: other_user.user_id, content: content)
   end
 
   def unmake_friend!(other_user)
-    friendships.find_by(friend_id: other_user.id).destroy
-    friendships.find_by(user_id: other_user.id).destroy
+    friendships.find_by(friend_id: other_user.user_id).destroy
+    friendships.find_by(user_id: other_user.user_id).destroy
   end
 
   def remember_me!

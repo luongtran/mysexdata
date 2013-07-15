@@ -13,7 +13,7 @@ class MessagesController < ApplicationController
 
   def create
     @user = User.find(params[:message][:receiver_id])
-    @message = @user.messages.build(sender_id: current_user.id, content: params[:message][:content])
+    @message = @user.messages.build(sender_id: current_user.user_id, content: params[:message][:content])
 
     respond_to do |format|
       if @message.save

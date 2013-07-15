@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       sign_in user
       respond_to do |format|
         format.html { redirect_back_or user }
-        format.json { render :json => {:user_id => user.id, :request_method => cookies[:request_method], :_mysexdata_session => cookies[:_mysexdata_session], :remember_token => user.remember_token } }      
+        format.json { render :json => {:user_id => user.user_id, :request_method => cookies[:request_method], :_mysexdata_session => cookies[:_mysexdata_session], :remember_token => user.remember_token } }      
       end
 
     else

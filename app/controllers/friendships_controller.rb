@@ -79,7 +79,7 @@ class FriendshipsController < ApplicationController
     #@user = current_user
     #@user2 = User.find(params[:friendships][:friend_id])
     #@friendship1 = @user.friendships.build(friend_id: @user2.id)
-  #   @friendship2 = @user2.friendships.build(friend_id: @user.id, pending: true)
+  #   @friendship2 = @user2.friendships.build(friend_id: @user.user_id, pending: true)
   #   respond_to do |format|
   #     if @friendship1.save and @friendship2.save
   #       format.html { redirect_to @friendship1, notice: 'User was successfully created.' }
@@ -107,7 +107,7 @@ class FriendshipsController < ApplicationController
   def accept
     @user = User.find(params[:friendships][:friend_id])
     @friendship = current_user.friendships.where(friend_id: params[:friendships][:friend_id]).first
-    @reverse_friendship = @user.friendships.where(friend_id: current_user.id).first
+    @reverse_friendship = @user.friendships.where(friend_id: current_user.user_id).first
     if @friendship.pending
       respond_to do |format|
         if @friendship.update_columns(friendships_pending_params) and @reverse_friendship.update_columns(reverse_friendships_pending_params)
@@ -155,7 +155,7 @@ class FriendshipsController < ApplicationController
 
   def create_secret
     @user2 = User.find(params[:friendships][:friend_id])
-    @friendship = @user2.friendships.where(friend_id: current_user.id).first
+    @friendship = @user2.friendships.where(friend_id: current_user.user_id).first
     respond_to do |format|
       if @friendship.update_columns(friendships_secret_params)
         format.html { render 'show' }
@@ -170,7 +170,7 @@ class FriendshipsController < ApplicationController
   def accept_secret
     @user2 = User.find(params[:friendships][:friend_id])
     @friendship = current_user.friendships.where(friend_id: params[:friendships][:friend_id]).first
-    @friendship2 = @user2.friendships.where(friend_id: current_user.id).first
+    @friendship2 = @user2.friendships.where(friend_id: current_user.user_id).first
 
     respond_to do |format|
       if @friendship.update_columns(friendships_reset_secret_params) and @friendship2.update_columns(friendships_accept_secret_params)
@@ -236,7 +236,7 @@ class FriendshipsController < ApplicationController
     def reverse_friendships_params
       @temp_id = params[:friend][:friend_id]
       params[:friendships].delete :friend_id
-      params[:friendships].merge(friend_id: current_user.id)
+      params[:friendships].merge(friend_id: current_user.user_id)
       params.require("friendships").permit(:friend_id)
     end
 
@@ -245,19 +245,19 @@ class FriendshipsController < ApplicationController
     end
 
     def reverse_friendships_pending_params
-      params[:friendships][:friend_id] = current_user.id
+      params[:friendships][:friend_id] = current_user.user_id
       params[:friendships].delete :pending
       params[:friendships].merge(pending: true)
       params.require("friendships").permit(:friend_id, :accepted, :pending)
     end
 
     def friendships_secret_params
-      params[:friendships][:friend_id] = current_user.id
+      params[:friendships][:friend_id] = current_user.user_id
       params.require("friendships").permit(:friend_id,:secret_lover_ask)
     end
 
     def friendships_accept_secret_params
-      params[:friendships][:friend_id] = current_user.id
+      params[:friendships][:friend_id] = current_user.user_id
       params.require("friendships").permit(:friend_id,:secret_lover_accepted)
     end
 
