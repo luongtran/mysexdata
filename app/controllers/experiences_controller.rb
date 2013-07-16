@@ -10,9 +10,9 @@ class ExperiencesController < ApplicationController
   before_action :set_user, only: [:show_all, :show, :update, :destroy]
   before_action :set_lover, only: [:show_all, :show, :update, :destroy]
   before_action :set_experience, only: [:show, :update, :destroy]
-  
-  # User must not authenticate in the next methods
-  protect_from_forgery :except => [:update]
+
+  before_action :authenticate
+
 
   # Only responds in json format.
   respond_to :json

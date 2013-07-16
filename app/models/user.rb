@@ -14,11 +14,12 @@ class User < ActiveRecord::Base
   has_many :user_photos
   has_many :photos, through: :user_photos
   has_many :messages, through: :user_messages
+  has_many :external_invitations,foreign_key: "sender_id", dependent: :destroy
 
   has_many :friendships, foreign_key: "user_id", dependent: :destroy
-  has_many :friends, through: :friendships, source: :friend, conditions: ["friendships.accepted = ?", true]
-  has_many :pending_friends, through: :friendships, source: :friend, conditions: ["friendships.pending = ?", true]
-  #has_many :secret_petitions, through: :friendships, source: :friend, conditions: ["friendships.secret_lover_ask = ?", true]
+  has_many :friends, through: :friendships, source: :friend, conditions: ["friendships.accepted = ?", true], select: 'users.user_id as friend_id'
+  has_many :pending_friends, through: :friendships, source: :friend, conditions: ["friendships.pending = ?", true], select: 'users.user_id as friend_id'
+  has_many :secret_petitions, through: :friendships, source: :friend, conditions: ["friendships.secret_lover_ask = ?", true]
   has_many :messages, foreign_key: "receiver_id", dependent: :destroy
 
   has_one :geosex, dependent: :destroy

@@ -7,8 +7,10 @@ class FriendshipsController < ApplicationController
   #skip_before_filter  :verify_authenticity_token
 
   # Set user and friends before the given methods.
-  before_action :set_user, only: [:index, :show_all, :show, :update, :destroy, :pending]
+  before_action :set_user, only: [:index, :show_all, :show, :accept, :update, :destroy, :pending]
   before_action :set_friendship, only: [:show_all, :show, :update, :destroy]
+
+  before_action :authenticate
 
   # Verifying user before the given methods with some filters.
   #before_filter :signed_in_user, only: [:index, :create, :pending, :accept, :omit, :secrets]
@@ -20,7 +22,7 @@ class FriendshipsController < ApplicationController
   # GET /users/:user_id/friendships
   # GET /users/:user_id/friendships.json 
   def index   
-    @friendships = @user.friendships
+    @friendships = @user.friends
     respond_to do |format|
       format.html { render 'index' }
       format.json { render action:'index', location: @friends }
@@ -50,90 +52,106 @@ class FriendshipsController < ApplicationController
   end
 
 
-  def create
-    invitation_sent = false
-    @user_sender= User.find(params[:user_id])
-    friendships = JSON.parse(params[:friendships].to_json)
-    friendships.each do |friendship|
-    logger.debug "PARAMS : #{friendship}"
-
-      if friendship.has_key?("user_id")
-        logger.debug "USER INVITATION"
-        logger.debug friendship["user_id"]
-        @user_sender.friendships.create(friend_id: friendship["user_id"], pending: true)
-        invitation_sent = true; 
-      elsif friendship.has_key?("email")
-        logger.debug "EMAIL INVITATION"
-        logger.debug friendship["email"]
-        @user_sender.friendships.create(friend_id: -1, email: friendship["email"], pending: true)
-        invitation_sent = true;      
-      end 
-    end
-      if invitation_sent
-        return render :json => {"Message" => "Invitations sent"}
-      end
-
-      return render :json => {"Message" => "Not enought data to send an invitation"}  
-    #@invited_users  = 
-
-    #@user = current_user
-    #@user2 = User.find(params[:friendships][:friend_id])
-    #@friendship1 = @user.friendships.build(friend_id: @user2.id)
-  #   @friendship2 = @user2.friendships.build(friend_id: @user.user_id, pending: true)
-  #   respond_to do |format|
-  #     if @friendship1.save and @friendship2.save
-  #       format.html { redirect_to @friendship1, notice: 'User was successfully created.' }
-  #       format.json { render action: 'show', status: :created, location: @friendship1 }
-  #     else
-  #       format.html { render action: 'new' }
-  #       format.json { render json: @friendship1.errors.full_messages, status: :unprocessable_entity }
-  #     end
-  #   end
-  # else
-
-  end
-
-  # POST /users/:user_id/friendships
   # POST /users/:user_id/friendships.json
+  # POST /users/:user_id/friendships
+  def create
 
-  # We receive a JSON with all users that the given user wants to invite to be his/her friends.
-  # This method creates two friends in friendships table, with the accepted column to false. 
-  # Also, we will set the pending flag to all requested friends to true. When, friends accept the 
-  # invitation, then accepted flag of the given user will set to true.
-  def invite
-    
+    #Flag that indicates if any invitations can be sent
+    invitation_sent = false
+
+    # Sender user
+    @user_sender= User.find(params[:user_id])
+
+    # Parsing JSON and iterating through each friend.
+    friendships = JSON.parse(params[:friendships].to_json)
+    friendships.each do |friendship|      
+
+      # Checking if friend is an existing user or not.
+      if friendship.has_key?("user_id")
+        logger.debug "USER INVITATION to user_id: #{friendship['user_id']}"
+
+        # Create a friendship between the user that sends the invitation and receiver with accepted = false (default).
+        @user_sender.friendships.create(friend_id: friendship["user_id"])
+
+        # Creating the reverse relationship with pending = true.
+        @user_receiver = User.find(friendship["user_id"])        
+        @user_receiver.friendships.create(friend_id: @user_sender.user_id, pending: true)
+
+        # Set flag to true because the invitation is sent.
+        invitation_sent = true; 
+
+      #If friend is not register in app, then we will be send and invitation through email.
+      elsif friendship.has_key?("email")
+        logger.debug "EMAIL INVITATION to email: #{friendship['email']}"
+
+        # Creating an invitation.
+        @user_sender.external_invitations.create(receiver: friendship["email"], date: Time.now)
+
+        # Set flag to true because the invitation is sent.
+        invitation_sent = true;
+      else
+        invitation_sent = false;    
+      end
+    end
+    #
+    if invitation_sent
+      return render :json => {"Message" => "Invitations sent"}
+    end
+
+    return render :json => {"Message" => "Some invitations cannot be processed"}  
+
   end
 
+  # PUT /users/:user_id/friendships.json
+  # Accepts the given user as your friend.
   def accept
-    @user = User.find(params[:friendships][:friend_id])
-    @friendship = current_user.friendships.where(friend_id: params[:friendships][:friend_id]).first
-    @reverse_friendship = @user.friendships.where(friend_id: current_user.user_id).first
+    logger.debug "Incoming params #{params}"
+
+    # Friend to accept
+    @friend_user = User.find(params[:friendships][:friend_id])
+
+    # Get frienship to check if is pending or not.
+    @friendship = @user.friendships.where(friend_id: params[:friendships][:friend_id]).first
+
+    # Get reverse relationship to update.
+    @reverse_friendship = @friend_user.friendships.where(friend_id: @user.user_id).first
+
+    logger.debug " Friend_user : #{@friend_user.user_id}, User: #{@user.user_id}, Reverse friendship: #{@reverse_friendship.pending}, Friendship: #{@friendship.pending}"
     if @friendship.pending
       respond_to do |format|
-        if @friendship.update_columns(friendships_pending_params) and @reverse_friendship.update_columns(reverse_friendships_pending_params)
+        logger.debug "PARAMS"
+        logger.debug friendships_pending_params.class
+        logger.debug @friendship.class
+
+        # If friendship was pending, then we update pending and accept columns.
+        if @friendship.update_attributes(accepted: true,pending: false) and @reverse_friendship.update_attributes(accepted: true,pending: false)
           format.html { render 'show' }
           format.json { render json: true}
         else
           format.html { render action: 'new' }
-          format.json { render json: false}
+          format.json { render :json => {"error" => "Is not possible to update friendship table"}}
         end
       end
     else
       respond_to do |format|
         format.html { render action: 'new' }
-        format.json { render json: false}
+        format.json { render :json => {"error" => "He/She friend is not a pending friend"}}
       end
     end
   end
 
+  # GET /users/:user_id/pending_friends.json
+  # Show all pending friends.
   def pending
-    @friends = @user.pending_friends
+    @friendships = @user.pending_friends
+    logger.debug @friendships
     respond_to do |format|
-      format.html { render 'index' }
-      format.json { render action:'index' }
+      #format.html { render 'index' }
+      format.json { render action: 'show_pending' }
     end
   end
 
+  # 
   def omit
     current_user.friendships.where(friend_id: params[:friendships][:friend_id]).first.destroy
     User.find(params[:friendships][:friend_id]).destroy
@@ -145,8 +163,9 @@ class FriendshipsController < ApplicationController
 
   end
 
+  # GET /users/:user_id/secret
   def secrets
-    @friends = current_user.secret_petitions
+    @friends = @user.secret_petitions
     respond_to do |format|
       format.html { render 'index' }
       format.json { render action:'index', location: @friends }
@@ -245,7 +264,7 @@ class FriendshipsController < ApplicationController
     end
 
     def reverse_friendships_pending_params
-      params[:friendships][:friend_id] = current_user.user_id
+      params[:friendships][:friend_id] = @user.user_id
       params[:friendships].delete :pending
       params[:friendships].merge(pending: true)
       params.require("friendships").permit(:friend_id, :accepted, :pending)

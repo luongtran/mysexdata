@@ -46,14 +46,15 @@ Mysexdata::Application.routes.draw do
 
   # Friendships
   match '/users/:user_id/friendships', to: 'friendships#index', via: 'get'
-  match '/users/:user_id/friendships', to: 'friendships#invite', via: 'post'
+  match '/users/:user_id/friendships', to: 'friendships#create', via: 'post'
+  match '/users/:user_id/friendships', to: 'friendships#accept', via: 'put'
   match '/users/:user_id/friendships/:friendship_id', to: 'friendships#show', via: 'get'
 
   # Pending Friends
   match '/users/:user_id/pending_friends', to: 'friendships#pending', via: 'get'
 
   # Secret Friends
-  match '/users/:user_id/secret_friends', to: 'friendships#secret', via: 'get'
+  match '/users/:user_id/secret_friends', to: 'friendships#secrets', via: 'get'
 
   # Geosex
   match '/users/:user_id/geosex', to: 'geosexes#index', via:'get'
@@ -62,7 +63,7 @@ Mysexdata::Application.routes.draw do
   match '/omitfriendship', to: 'friendships#omit', via: 'post'
   match '/cancelfriendship', to: 'friendships#omit', via: 'post'
   match '/acceptfriendship', to: 'friendships#accept', via: 'put'
-  match '/pendingfriendships', to: 'friendships#pending', via: 'get'
+  #match '/pendingfriendships', to: 'friendships#pending', via: 'get'
   match '/pendingsecrets', to: 'friendships#secrets', via: 'get'
   match '/pendingsecrets', to: 'friendships#create_secret', via: 'post'
   match '/omitsecrets', to: 'friendships#omit_secret', via: 'put'
