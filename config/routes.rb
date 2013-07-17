@@ -64,14 +64,9 @@ Mysexdata::Application.routes.draw do
   match '/users/:user_id/geosex', to: 'geosexes#index', via:'get'
 
 
-  match '/omitfriendship', to: 'friendships#omit', via: 'post'
-  match '/cancelfriendship', to: 'friendships#omit', via: 'post'
-  match '/acceptfriendship', to: 'friendships#accept', via: 'put'
-  #match '/pendingfriendships', to: 'friendships#pending', via: 'get'
+
+  match '/pendingfriendships', to: 'friendships#pending', via: 'get'
   match '/pendingsecrets', to: 'friendships#secrets', via: 'get'
-  match '/pendingsecrets', to: 'friendships#create_secret', via: 'post'
-  match '/omitsecrets', to: 'friendships#omit_secret', via: 'put'
-  match '/acceptsecret', to: 'friendships#accept_secret', via: 'put'
 
   # Messages
   match '/clearmessages', to: 'messages#clear', via: 'post'
