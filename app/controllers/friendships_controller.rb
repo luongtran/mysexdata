@@ -4,13 +4,9 @@
 class FriendshipsController < ApplicationController
   
   # Token authentication
-  #skip_before_filter  :verify_authenticity_token
-
-  # Set user and friends before the given methods.
-  before_action :set_user, only: [:index, :show_all, :show, :accept, :update, :destroy, :pending]
+  before_action :set_user, :authenticate
+  
   before_action :set_friendship, only: [:show_all, :show, :update, :destroy]
-
-  before_action :authenticate
 
   # Verifying user before the given methods with some filters.
   #before_filter :signed_in_user, only: [:index, :create, :pending, :accept, :omit, :secrets]

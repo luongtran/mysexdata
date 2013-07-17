@@ -4,15 +4,10 @@
 class LoversController < ApplicationController
 
   # Token authentication
-  #skip_before_filter  :verify_authenticity_token
-    
+  before_action :set_user, :authenticate
   
-
-  # Set user and over before the given methods.
-  before_action :set_user, only: [:show_all, :show, :create, :update]
   before_action :set_lover, only: [:show, :update]
 
-  before_action :authenticate
 
   # Verifying user before the given methods.
   #before_action :signed_in_user, only: [:create, :update, :destroy]

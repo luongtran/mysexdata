@@ -4,12 +4,7 @@
 class UsersController < ApplicationController
 
   # Token authentication
-  #skip_before_filter  :verify_authenticity_token
-
-  # Set user before the given methods.
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
-  
-  before_action :authenticate, except: [ :index ]
+  before_action :set_user, :authenticate
 
   
   

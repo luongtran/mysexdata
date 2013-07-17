@@ -4,14 +4,11 @@
 class ExperiencesController < ApplicationController
 
   # Token authentication
-  #skip_before_filter  :verify_authenticity_token
-
-  # Set user, lover and experience before the given methods.
-  before_action :set_user, only: [:show_all, :show, :update, :destroy]
+  before_action :set_user, :authenticate
+  
   before_action :set_lover, only: [:show_all, :show, :update, :destroy]
   before_action :set_experience, only: [:show, :update, :destroy]
 
-  before_action :authenticate
 
 
   # Only responds in json format.

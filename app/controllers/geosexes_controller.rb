@@ -1,10 +1,10 @@
 class GeosexesController < ApplicationController
   #before_action :signed_in_user, only: [:index, ]
+  before_action :set_user, :authenticate
 
   # GET /geosexes
   # GET /geosexes.json
   def index
-    @user = User.find(params[:user_id])
     @geosexes = Geosex.where(user_id: params[:user_id])
 
     @users = User.joins(:geosex).where("geosexes.status" => 0)
@@ -21,5 +21,10 @@ class GeosexesController < ApplicationController
     end
   end
 
+  private
+  # Defines the user that correspondes to the given urser_id
+    def set_user
+      @user = User.find(params[:user_id])
+    end
 
 end
