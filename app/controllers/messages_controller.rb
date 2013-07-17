@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :authenticate, :set_user
+  before_action :set_user, :authenticate
 
 
   def index

@@ -4,7 +4,8 @@
 class UsersController < ApplicationController
 
   # Token authentication
-  before_action :set_user, :authenticate
+  before_action :set_user, except: [ :index ]
+  before_action :authenticate, except: [ :index ]
 
   
   
