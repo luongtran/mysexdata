@@ -67,7 +67,7 @@ Mysexdata::Application.routes.draw do
   match '/omitfriendship', to: 'friendships#omit', via: 'post'
   match '/cancelfriendship', to: 'friendships#omit', via: 'post'
   match '/acceptfriendship', to: 'friendships#accept', via: 'put'
-  #match '/pendingfriendships', to: 'friendships#pending', via: 'get'
+  match '/pendingfriendships', to: 'friendships#pending', via: 'get'
   match '/pendingsecrets', to: 'friendships#secrets', via: 'get'
   match '/pendingsecrets', to: 'friendships#create_secret', via: 'post'
   match '/omitsecrets', to: 'friendships#omit_secret', via: 'put'
