@@ -5,12 +5,11 @@ class User < ActiveRecord::Base
   self.primary_key = "user_id"
 
   before_save { self.email = email.downcase }
-  before_save :create_remember_token
+  before_create :create_remember_token
   before_create :create_geosex
 
   has_many :photos, dependent: :destroy
   has_and_belongs_to_many :lovers
-  #has_many :friendships
   has_many :user_photos
   has_many :photos, through: :user_photos
   has_many :messages, through: :user_messages

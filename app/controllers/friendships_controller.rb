@@ -63,14 +63,14 @@ class FriendshipsController < ApplicationController
     friendships.each do |friendship|      
 
       # Checking if friend is an existing user or not.
-      if friendship.has_key?("user_id")
-        logger.debug "USER INVITATION to user_id: #{friendship['user_id']}"
+      if friendship.has_key?("friend_id")
+        logger.debug "USER INVITATION to user_id: #{friendship['friend_id']}"
 
         # Create a friendship between the user that sends the invitation and receiver with accepted = false (default).
-        @user_sender.friendships.create(friend_id: friendship["user_id"])
+        @user_sender.friendships.create(friend_id: friendship["friend_id"])
 
         # Creating the reverse relationship with pending = true.
-        @user_receiver = User.find(friendship["user_id"])        
+        @user_receiver = User.find(friendship["friend_id"])        
         @user_receiver.friendships.create(friend_id: @user_sender.user_id, pending: true)
 
         # Set flag to true because the invitation is sent.
@@ -122,7 +122,7 @@ class FriendshipsController < ApplicationController
         # If friendship was pending, then we update pending and accept columns.
         if @friendship.update_attributes(accepted: true,pending: false) and @reverse_friendship.update_attributes(accepted: true,pending: false)
           format.html { render 'show' }
-          format.json { render json: true}
+          format.json { render :json => {"message" => "Invitation accepted"}}
         else
           format.html { render action: 'new' }
           format.json { render :json => {"error" => "Is not possible to update friendship table"}}
@@ -147,11 +147,12 @@ class FriendshipsController < ApplicationController
     end
   end
 
-  # 
+  # DELETE /users/:user_id/frienships.json
+  # Omit friendship.
   def omit
-    current_user.friendships.where(friend_id: params[:friendships][:friend_id]).first.destroy
-    User.find(params[:friendships][:friend_id]).destroy
-
+    @user2 = User.find(params[:friendships][:friend_id])
+    @user.friendships.where(friend_id: params[:friendships][:friend_id]).first.destroy
+    @user2.friendships.where(friend_id: @user.user_id).first.destroy
     respond_to do |format|
       format.html { redirect_to users_url }
       format.json { render json: true}
@@ -170,30 +171,34 @@ class FriendshipsController < ApplicationController
 
   def create_secret
     @user2 = User.find(params[:friendships][:friend_id])
-    @friendship = @user2.friendships.where(friend_id: current_user.user_id).first
+    @friendship = @user2.friendships.where(friend_id: @user.user_id).first
     respond_to do |format|
-      if @friendship.update_columns(friendships_secret_params)
-        format.html { render 'show' }
-        format.json { render json: true}
-      else
-        format.html { render action: 'new' }
-        format.json { render json: false}
+      # Checking that friendship exists to send a request.
+      if !@friendship.nil?
+        if @friendship.update_attributes(secret_lover_ask: true)
+          format.html { render 'show' }
+          format.json { render :json => {"message"=>"Sending invitation to see his/her friend lovers"}}
+        end
       end
+      format.html { render action: 'new' }
+      format.json { render :json => {"error"=>"Impossible to send invitation to see his/her friend lovers"}}
     end
   end
 
   def accept_secret
     @user2 = User.find(params[:friendships][:friend_id])
-    @friendship = current_user.friendships.where(friend_id: params[:friendships][:friend_id]).first
-    @friendship2 = @user2.friendships.where(friend_id: current_user.user_id).first
+    @friendship2 = @user2.friendships.where(friend_id: @user.user_id).first
+
+    @friendship = @user.friendships.where(friend_id: params[:friendships][:friend_id]).first
+    
 
     respond_to do |format|
-      if @friendship.update_columns(friendships_reset_secret_params) and @friendship2.update_columns(friendships_accept_secret_params)
+      if @friendship.update_attributes(secret_lover_ask: false) and @friendship2.update_attributes(secret_lover_accepted: true)
         format.html { render 'show' }
-        format.json { render json: true}
+        format.json { render :json => {"message"=>"Now your friend #{@user2.name} can see your secret lovers"}}
       else
         format.html { render action: 'new' }
-        format.json { render json: false}
+        format.json { render :json => {"message"=>"Now your friend #{@user2.name} can not see your secret lovers"}}
       end
     end
 
@@ -267,7 +272,7 @@ class FriendshipsController < ApplicationController
     end
 
     def friendships_secret_params
-      params[:friendships][:friend_id] = current_user.user_id
+      params[:friendships][:friend_id] = @user.user_id
       params.require("friendships").permit(:friend_id,:secret_lover_ask)
     end
 

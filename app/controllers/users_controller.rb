@@ -4,10 +4,10 @@
 class UsersController < ApplicationController
 
   # Token authentication
-  before_action :set_user, except: [ :index ]
-  before_action :authenticate, except: [ :index ]
+  before_action :set_user, except: [ :index, :create ]
+  before_action :authenticate, except: [ :index, :create ]
 
-  
+  protect_from_forgery :except => [:index,:create]
   
 
   # Verifying user before the given methods with some filters.
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     respond_to do |format|
-      if @user.save
+      if @user.save 
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render action: 'show', status: :created, location: @user }
       else
@@ -58,9 +58,8 @@ class UsersController < ApplicationController
     
     respond_to do |format|
       if @user.update(user_params)
-        sign_in @user
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { render action: 'show', status: :created, location: @user }
+        format.json { render action: 'show'}
       else
         format.html { render action: 'edit' }
         format.json { head :no_content  }

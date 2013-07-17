@@ -6,15 +6,12 @@ class LoversController < ApplicationController
   # Token authentication
   before_action :set_user, :authenticate
   
-  before_action :set_lover, only: [:show, :update]
+  before_action :set_lover, only: [:show, :update, :destroy]
 
 
   # Verifying user before the given methods.
   #before_action :signed_in_user, only: [:create, :update, :destroy]
   #before_action :correct_user,   only:  :destroy
-
-  # Methods that don't need authentication
-  protect_from_forgery :except => :create  
 
   # Only responds in json format.
   respond_to :json

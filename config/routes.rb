@@ -47,7 +47,11 @@ Mysexdata::Application.routes.draw do
   # Friendships
   match '/users/:user_id/friendships', to: 'friendships#index', via: 'get'
   match '/users/:user_id/friendships', to: 'friendships#create', via: 'post'
-  match '/users/:user_id/friendships', to: 'friendships#accept', via: 'put'
+  match '/users/:user_id/friendships_secret', to: 'friendships#create_secret', via: 'post'
+  match '/users/:user_id/friendships/accept', to: 'friendships#accept', via: 'put'
+  match '/users/:user_id/friendships/omit', to: 'friendships#omit', via: 'post'
+  match '/users/:user_id/friendships_secret/accept', to: 'friendships#accept_secret', via: 'put'
+  match '/users/:user_id/friendships_secret/omit', to: 'friendships#omit', via: 'post'
   match '/users/:user_id/friendships/:friendship_id', to: 'friendships#show', via: 'get'
 
   # Pending Friends
