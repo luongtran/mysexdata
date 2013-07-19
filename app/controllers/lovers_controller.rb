@@ -19,8 +19,8 @@ class LoversController < ApplicationController
   # GET users/:user_id/lovers
   # GET users/:user_id/lovers.json
   def show_all
-    @public_lovers = @user.lovers.where(visibility: 0)
-    @secret_lovers = @user.lovers.where(visibility: 1)
+    @public_lovers = @user.public_lovers
+    @secret_lovers = @user.secret_lovers
     return render action: 'show_all'
   end
 
@@ -33,20 +33,24 @@ class LoversController < ApplicationController
   # POST /lovers
   # POST /lovers.json
   def create 
-    @lover = @user.lovers.create(lover_params)
-    if @lover.save
-      #if @lover.experience.update_columns(experience_params)
-        respond_to do |format|
-          #format.html { redirect_to @user, notice: 'Lover was successfully created.' }
-          format.json { render action: 'show', status: :created}
-        end
+    lovers = JSON.parse(params[:lovers].to_json)
+    errors = []
+    messages = []
+    lovers.each do |lov|
+      logger.debug "LOVERS"
+      logger.debug lov
+      if @user.lovers.exists?(facebook_id: lov["facebook_id"], name: lov["name"])
+        errors << "Lover with facebook_id: #{lov["facebook_id"]} and name: #{lov["name"]} already exists"
       else
-        respond_to do |format|
-          #format.html { render action: 'new' }
-          format.json { render json: @lover.errors.full_messages, status: :unprocessable_entity }
-        end
-      #end
+        @lover = @user.lovers.create(lov)
+        messages << "Lover with facebook_id: #{lov["facebook_id"]} and name:#{lov["name"]} added successfully"
+      end
+
     end
+    if !errors.empty?
+      return render json: {errors: errors, message: messages}
+    end
+    render json: {message: messages}
   end
 
   # PATCH/PUT /lovers/1
@@ -66,7 +70,6 @@ class LoversController < ApplicationController
   # DELETE /lovers/1
   # DELETE /lovers/1.json
   def destroy
-    @lover = Lover.find(params[:id])
     @lover.destroy
     respond_to do |format|
       format.html { redirect_to users_url }
@@ -78,18 +81,27 @@ class LoversController < ApplicationController
 
     # Defines the user that correspondes to the given urser_id
     def set_user
-      @user = User.find(params[:user_id])
+     begin
+        @user = User.find(params[:user_id])
+      rescue
+        return render json: {errors: "This user doesn't exist"}, status: 422
+      end
     end
 
     #Use callbacks to share common setup or constraints between actions.
     def set_lover
-      @lover = Lover.find(params[:lover_id])
+      begin
+        @lover = Lover.find(params[:lover_id])
+      rescue
+        return render json: {errors: "This lover doesn't exist"}, status: 422   
+      end
+      
     end
 
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def lover_params
-      params.permit(:name, :facebook_id, :photo_url, :age, :sex_gender, :job, :height, :visibility, :pending)
+      params.require[:lovers].permit(:name, :facebook_id, :photo_url, :age, :sex_gender, :job, :height, :visibility, :pending)
 
       # Not implemented yet
       #logger.debug "Paramlovers : #{params[:lovers]}"

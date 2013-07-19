@@ -8,19 +8,34 @@ class User < ActiveRecord::Base
   before_create :create_remember_token
   before_create :create_geosex
 
-  has_many :photos, dependent: :destroy
-  has_and_belongs_to_many :lovers
-  has_many :user_photos
-  has_many :photos, through: :user_photos
-  has_many :messages, through: :user_messages
-  has_many :external_invitations,foreign_key: "sender_id", dependent: :destroy
+  
 
+  # Lovers
+  has_many :user_lovers, foreign_key: "user_id", dependent: :destroy
+  has_many :secret_lovers, through: :user_lovers, source: :lover, conditions: ["user_lovers.visibility = ?", 0]
+  has_many :public_lovers, through: :user_lovers, source: :lover, conditions: ["user_lovers.visibility = ?", 1]
+  has_many :non_pending_lovers, through: :user_lovers, source: :lover, conditions: ["user_lovers.pending = ?", false]
+  has_many :pending_lovers, through: :user_lovers, source: :lover, conditions: ["user_lovers.pending = ?", true]
+  has_many :lovers, through: :user_lovers
+
+  # Photos
+  has_many :user_photos
+  has_many :photos, through: :user_photos, dependent: :destroy
+
+  # Messages
+  has_many :messages, foreign_key: "receiver_id", dependent: :destroy
+  
+
+  # Friendships
   has_many :friendships, foreign_key: "user_id", dependent: :destroy
   has_many :friends, through: :friendships, source: :friend, conditions: ["friendships.accepted = ?", true], select: 'users.user_id as friend_id'
   has_many :pending_friends, through: :friendships, source: :friend, conditions: ["friendships.pending = ?", true], select: 'users.user_id as friend_id'
-  has_many :secret_petitions, through: :friendships, source: :friend, conditions: ["friendships.secret_lover_ask = ?", true]
-  has_many :messages, foreign_key: "receiver_id", dependent: :destroy
+  has_many :secret_petitions, through: :friendships, source: :friend, conditions: ["friendships.secret_lover_ask = ? AND friendships.accepted = ?", true, true], select: 'users.user_id as friend_id'
+  
+  # Requests
+  has_many :external_invitations,foreign_key: "sender_id", dependent: :destroy
 
+  # Geosex
   has_one :geosex, dependent: :destroy
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
@@ -74,9 +89,9 @@ class User < ActiveRecord::Base
       self.remember_token = SecureRandom.urlsafe_base64
     end
 
-    def create_geosex
-      self.build_geosex
-    end
+    #def create_geosex
+    #  self.build_geosex
+    #end
 
 
 

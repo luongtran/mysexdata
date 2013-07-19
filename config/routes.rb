@@ -1,27 +1,26 @@
 Mysexdata::Application.routes.draw do
   
   resources :sessions, only: [:new, :create, :destroy]
-  resources :geosexes, only: [:index]
+  #resources :geosexes, only: [:index]
   
-  resources :users do
-    resources :lovers, only: [:create, :destroy] do
-        resources :experiences, only: [:show, :show_all, :create, :update, :destroy]
-    end
-    resources :friendships, only: [:index, :create, :destroy]
-    resources :messages, only: [:index, :create, :destroy]
-    resources :photos, only: [:index, :create, :destroy]
-    member do
-      get :friends, :pendingfriends
-    end
-  end
+  #resources :users do
+  #  resources :lovers, only: [:create, :destroy] do
+  #      resources :experiences, only: [:show_all, :create, :update, :destroy]
+  #  end
+  #  resources :friendships, only: [:index, :create, :destroy]
+  #  resources :messages, only: [:index, :create, :destroy]
+  #  resources :photos, only: [:index, :create, :destroy]
+  #  member do
+  #    get :friends, :pendingfriends
+  #  end
+  #end
 
   # Login / logout
   match '/signin',  to: 'sessions#new',         via: 'get'
-  match '/signout', to: 'sessions#destroy',     via: 'delete'
   
   # Users
-  match '/users', to: 'users#create', via: 'post'                     # Create a user
-  match '/users', to: 'users#index', via: 'get'                       # Show all users
+  match '/users', to: 'users#create', via: 'post'                # Create a user
+  match '/users', to: 'users#index', via: 'get'                  # Show all users
   match '/users/:user_id', to: 'users#show', via: 'get'               # Show unique user
   match '/users/:user_id', to: 'users#update', via: 'put'             # Update a user (Default method)
   match '/users/:user_id', to: 'users#destroy', via: 'delete'         # Delete a user (Must be post method).
@@ -40,10 +39,6 @@ Mysexdata::Application.routes.draw do
   match '/users/:user_id/lovers/:lover_id', to: 'lovers#update', via:'put'
   match '/users/:user_id/lovers/:lover_id', to: 'lovers#destroy', via:'delete'
 
-  # Friends lovers
-  match '/users/:user_id/friendships/:friendship_id/lovers', to: 'friendships#show_lovers', via: 'get'
-  match '/users/:user_id/friendships/:friendship_id/lovers/:lover_id', to: 'friendships#show_lover', via: 'get'
-
   # Friendships
   match '/users/:user_id/friendships', to: 'friendships#index', via: 'get'
   match '/users/:user_id/friendships', to: 'friendships#create', via: 'post'
@@ -51,29 +46,33 @@ Mysexdata::Application.routes.draw do
   match '/users/:user_id/friendships/accept', to: 'friendships#accept', via: 'put'
   match '/users/:user_id/friendships/omit', to: 'friendships#omit', via: 'post'
   match '/users/:user_id/friendships_secret/accept', to: 'friendships#accept_secret', via: 'put'
-  match '/users/:user_id/friendships_secret/omit', to: 'friendships#omit', via: 'post'
-  match '/users/:user_id/friendships/:friendship_id', to: 'friendships#show', via: 'get'
+  match '/users/:user_id/friendships_secret/omit', to: 'friendships#omit_secret', via: 'post'
+  match '/users/:user_id/friendships/:friend_id', to: 'friendships#show', via: 'get'
+  match '/users/:user_id/friendships_pending', to: 'friendships#pending', via: 'get'
+  match '/users/:user_id/friendships_secret_pending', to: 'friendships#secrets', via: 'get'
+  match '/users/:user_id/friendships/:friend_id/lovers', to: 'friendships#lovers', via: 'get'
+  match '/users/:user_id/friendships/:friend_id/lovers/:lover_id', to: 'friendships#lover', via: 'get'
+  match '/users/:user_id/friendships/:friend_id/lovers/:lover_id/experiences/:experience_id', to: 'friendships#lover_experience', via: 'get'
 
-  # Pending Friends
-  match '/users/:user_id/pending_friends', to: 'friendships#pending', via: 'get'
-
-  # Secret Friends
-  match '/users/:user_id/secret_friends', to: 'friendships#secrets', via: 'get'
+  
 
   # Geosex
   match '/users/:user_id/geosex', to: 'geosexes#index', via:'get'
-
-
-
-  match '/pendingfriendships', to: 'friendships#pending', via: 'get'
-  match '/pendingsecrets', to: 'friendships#secrets', via: 'get'
+  match '/users/:user_id/geosex', to: 'geosexes#create', via:'post'
+  match '/users/:user_id/geosex', to: 'geosexes#locate', via:'put'
+  match '/users/:user_id/closest_users', to: 'geosexes#search_closest_users', via:'get'
 
   # Messages
-  match '/clearmessages', to: 'messages#clear', via: 'post'
+  match '/users/:user_id/messages', to: 'messages#index', via: 'get'
+  match '/users/:user_id/messages', to: 'messages#create', via: 'post'
+  match '/users/:user_id/messages', to: 'messages#clear', via: 'delete'
   
  
   # Photos
- 
+  match '/users/:user_id/photos', to: 'photos#index', via: 'get'
+  match '/users/:user_id/photos', to: 'photos#create', via: 'post'
+  match '/users/:user_id/photos/:photo_id', to: 'photos#destroy', via: 'delete'
+
 
 
 

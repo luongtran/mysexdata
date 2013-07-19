@@ -9,6 +9,7 @@ namespace :db do
     make_friendships
     send_messages
     make_photos
+    make_geosexes
   end
   task remigrate: :environment do
       Rake::Task['db:drop'].invoke
@@ -80,25 +81,27 @@ end
 
 def make_lovers
   users = User.all(limit:5)
-  lovers = Array.new
+  public_lovers = Array.new
+  secret_lovers = Array.new
   5.times do |n|
     name = Faker::Name.name
     name2 = Faker::Name.name
     url = "http://#{name}.jpg"
     url2 = "http://#{name2}.jpg"
-    public_lover = Lover.create!(name: name, visibility: 1, facebook_id: Faker::Lorem.characters(15), photo_url: url)
-    secret_lover = Lover.create!(name: name2, visibility: 0, facebook_id: Faker::Lorem.characters(15), photo_url: url2)
-    lovers.push(public_lover) 
-    lovers.push(secret_lover) 
+    public_lover = Lover.create!(name: name,facebook_id: Faker::Lorem.characters(15), photo_url: url)
+    secret_lover = Lover.create!(name: name2,facebook_id: Faker::Lorem.characters(15), photo_url: url2)
+    public_lovers.push(public_lover) 
+    secret_lovers.push(secret_lover) 
   end
-  users.each { |user| user.lovers = lovers}
+  users.each { |user| public_lovers.each { |lover| user.user_lovers.create(:lover => lover, visibility: 1)}}
+  users.each { |user| secret_lovers.each { |lover| user.user_lovers.create(:lover => lover, visibility: 0)}}
 end
 
 def make_experiences
   lovers = Lover.all(limit:6)
   experiences = Array.new
   5.times do |n|
-    experience = Experience.create!(date: "11/11/1111", location: rand(0...3), final_score: rand(0...10))
+    experience = Experience.create!(date: "11/11/1111", location: rand(0...3), personal_score: rand(0...10), msd_score: rand(0...10), final_score: rand(0...10))
     experiences.push(experience)
   end
   lovers.each {|lover| lover.experiences = experiences}
@@ -131,4 +134,17 @@ def make_photos
     photos.push(photo)
   end
   users.each { |user| user.photos = photos}
+end
+
+def make_geosexes
+  users = User.all(limit:6)
+  n = 0
+  lat = 41.10
+  lng = 2.01
+  users.each do |user| 
+    lat = lat + 0.1
+    lng = lng + 0.1
+    geouser = user.create_geosex(lat: lat, lng: lng)
+    geouser.save
+  end
 end

@@ -1,0 +1,1 @@
+json.(@experience, :experience_id, :final_score)

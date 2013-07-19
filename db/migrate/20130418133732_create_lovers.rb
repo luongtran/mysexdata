@@ -8,14 +8,16 @@ class CreateLovers < ActiveRecord::Migration
       t.integer :sex_gender, default:-1
       t.integer :job, default: -1
       t.integer :height, default: -1
-      t.integer :visibility, default:0
-      t.boolean :pending, default:false
       t.timestamps
     end
 
-    create_table :lovers_users, :id => false do |t|
-      t.belongs_to :user
-      t.belongs_to :lover
+    create_table :user_lovers do |t|
+      t.integer :user_id
+      t.integer :lover_id
+      t.integer :visibility, default:0
+      t.boolean :pending, default:false
     end
+    add_index :user_lovers, [:user_id, :lover_id], :unique => true
+
   end
 end

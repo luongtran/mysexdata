@@ -1,12 +1,12 @@
-#######################################################################
+########################################################################
 ## Controller that manages all REST methods related with User Friends ##
-#######################################################################
+########################################################################
 class FriendshipsController < ApplicationController
   
   # Token authentication
   before_action :set_user, :authenticate
   
-  before_action :set_friendship, only: [:show_all, :show, :update, :destroy]
+  before_action :set_friend, only: [:show, :update, :destroy, :lovers, :lover]
 
   # Verifying user before the given methods with some filters.
   #before_filter :signed_in_user, only: [:index, :create, :pending, :accept, :omit, :secrets]
@@ -25,12 +25,16 @@ class FriendshipsController < ApplicationController
     end
   end
 
-  # GET /users/:user_id/friendships/:friendship_id
-  # GET /users/:user_id/friendships/:friendship_id.json
+  # GET /users/:user_id/friendships/:friend_id
+  # GET /users/:user_id/friendships/:friend_id.json
   def show    
     @friendships = Friendship.find_by(friend_id: params[:friend_id], user_id: params[:user_id])
-    @public_lovers = friend.lovers.where(visibility: 1)
-    @secret_lovers = friend.lovers.where(visibility: 0)
+    @public_lovers = @friend.public_lovers
+    @secret_lovers = []
+    if secret_friendship
+      @secret_lovers = @friend.secret_lovers
+    end
+    @messages = @friend.messages
 
     # If this user doesn't have any friends with this friendship_id, then we throw an errror.
     if !@friendships.nil?
@@ -40,7 +44,7 @@ class FriendshipsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { render 'show' }
+        #format.html { render 'show' }
         format.json { render :json => {:Error => "This friendship doesn't belong to the given user"}, status: :unprocessable_entity }
       end
 
@@ -49,7 +53,6 @@ class FriendshipsController < ApplicationController
 
 
   # POST /users/:user_id/friendships.json
-  # POST /users/:user_id/friendships
   def create
 
     #Flag that indicates if any invitations can be sent
@@ -160,31 +163,36 @@ class FriendshipsController < ApplicationController
 
   end
 
-  # GET /users/:user_id/secret
+  # GET /users/:user_id/friendships_secret.json
   def secrets
-    @friends = @user.secret_petitions
+    @friendships = @user.secret_petitions
     respond_to do |format|
-      format.html { render 'index' }
-      format.json { render action:'index', location: @friends }
+      #format.html { render 'index' }
+      format.json { render action:'show_pending' }
     end
   end
 
+  # POST /users/:user_id/friendships_secret.json
   def create_secret
     @user2 = User.find(params[:friendships][:friend_id])
     @friendship = @user2.friendships.where(friend_id: @user.user_id).first
     respond_to do |format|
       # Checking that friendship exists to send a request.
-      if !@friendship.nil?
+      if !@friendship.nil? and @friendship.accepted?
         if @friendship.update_attributes(secret_lover_ask: true)
           format.html { render 'show' }
           format.json { render :json => {"message"=>"Sending invitation to see his/her friend lovers"}}
+        else
+          format.html { render action: 'new' }
+          format.json { render :json => {"error"=>"Impossible to send invitation to see his/her friend lovers"}}
         end
       end
       format.html { render action: 'new' }
-      format.json { render :json => {"error"=>"Impossible to send invitation to see his/her friend lovers"}}
+      format.json { render :json => {"error"=>"Impossible to send invitation to non-accepted friend"}}
     end
   end
 
+  # PUT /users/:user_id/friendships_secret/accept.json
   def accept_secret
     @user2 = User.find(params[:friendships][:friend_id])
     @friendship2 = @user2.friendships.where(friend_id: @user.user_id).first
@@ -204,10 +212,13 @@ class FriendshipsController < ApplicationController
 
   end
 
+  # PUT /users/:user_id/friendships_secret/omit.json
   def omit_secret
-    @friendship = current_user.friendships.where(friend_id: params[:friendships][:friend_id]).first
+    @user2 = User.find(params[:friendships][:friend_id])
+    @friendship = @user2.friendships.where(friend_id: @user.user_id).first
+
     respond_to do |format|
-      if @friendship.update_columns(friendships_reset_secret_params)
+      if @friendship.update_attributes(secret_lover_accepted: false)
         format.html { render 'show' }
         format.json { render json: true}
       else
@@ -216,37 +227,72 @@ class FriendshipsController < ApplicationController
       end
     end
   end
+  
+  # GET /users/:user_id/friendships/:friend_id/lovers.json
+  def lovers  
+    @public_lovers = @friend.public_lovers
+    @friendship = Friendship.where(user_id: @user.user_id, friend_id: params[:friend_id]).first
+    @secret_lovers = []
+    if secret_friendship
+      @secret_lovers = @friend.secret_lovers
+    end
 
-  def show_lovers
-    @user = User.find(params[:user_id])
-    @friendship = Friendship.find(params[:friendship_id])
-    @lovers = Lover.where(user_id: params[:friendship_id])
     respond_to do |format|
       format.html {render action: 'show_lovers'}
       format.json {render action: 'show_lovers'}
     end
   end
 
-  def show_lover
-    @user = User.find(params[:user_id])
-    @friendship = Friendship.find(params[:friendship_id])
+  # GET /users/:user_id/friendships/:friend_id/lovers/:lover_id.json
+  def lover
     @lover = Lover.find_by_lover_id(params[:lover_id])
+    @lover_rel = @user.user_lovers.where(lover_id: params[:lover_id]).first
+
+    # Check if it is a secret lover and user doesn't have friend permission to see his/her secret lovers.
+    return render :json => {"error"=>"Is not possible to show a secret lover without friend permissions"} if !secret_friendship and @lover_rel.visibility==0
+
+    @experiences = @lover.experiences
     respond_to do |format|
       format.html {render action: 'show_lover'}
       format.json {render action: 'show_lover'}
     end
   end
 
+  # GET /users/:user_id/friendships/:friend_id/lovers/:lover_id/experiences/:experience_id.json
+  def lover_experience
+    logger.debug "VAMO A VE"
+    logger.debug params
+    @lover_rel  = @user.user_lovers.where(lover_id: params[:lover_id]).first
+    logger.debug @lover_rel
+    @experience = Experience.find(params[:experience_id]) unless @lover_rel.visibility == 0 and !secret_friendship
+    logger.debug @experiences
+    render action: 'show_lover_experience'
+  end
+
   private
 
     # Set current user.
     def set_user
-      @user = User.find(params[:user_id])
+      begin
+        @user = User.find(params[:user_id])
+      rescue
+        return render json: {errors: "This user doesn't exist"}, status: 422   
+      end
     end
 
     # Set current friend.
     def set_friend
-      @friend = User.find(params[:friend_id])
+      begin
+        @friend = User.find(params[:friend_id])
+      rescue
+        return render json: {errors: "This friend doesn't exist"}, status: 422   
+      end
+    end
+
+    # Checks if a user is allowed to see secret lovers from any friend
+    def secret_friendship
+      @friendship = Friendship.where(user_id: @user.user_id, friend_id: params[:friend_id]).first
+      @friendship.secret_lover_accepted
     end
 
     def friendships_params

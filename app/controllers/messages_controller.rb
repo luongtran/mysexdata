@@ -2,33 +2,35 @@ class MessagesController < ApplicationController
   before_action :set_user, :authenticate
 
 
+  # GET /users/:user_id/messages
   def index
-    @user = current_user
-    @messages = current_user.messages
+    @messages = @user.messages
     respond_to do |format|
       format.html { render 'index' }
-      format.json { render action:'index', location: @messages }
+      format.json { render action:'index' }
     end
   end
 
+  # POST /users/:user_id/messages
   def create
-    @user = User.find(params[:message][:receiver_id])
-    @message = @user.messages.build(sender_id: current_user.user_id, content: params[:message][:content])
+    @receiver = User.find(params[:message][:receiver_id])
+    @message = @receiver.messages.build(sender_id: @user.user_id, content: params[:message][:content])  
 
     respond_to do |format|
       if @message.save
         format.html { redirect_back_or user }
-        format.json { render action: 'show_message', status: :created, location: @user }
+        format.json { render action: 'show_message', status: :created }
       else
         format.html { redirect_back_or user }
-         format.json { head :no_content }
+         format.json { render json: {error:"Imposible to send your message"}}
       end
     end
   end
 
+  # DELETE /users/:user_id/messages
   def clear
-    @user = current_user
-    @messages = current_user.messages.where("created_at <= :date", date: params[:message][:date_at]).destroy_all
+    @messages = @user.messages.destroy_all
+    # @messages = @user.messages.where("created_at <= :date", date: params[:message][:date_at]).destroy_all
     respond_to do |format|
       format.html { render 'index' }
       format.json {  render action:'index', location: @message }
@@ -40,7 +42,10 @@ class MessagesController < ApplicationController
   private
 
     def set_user
-      @user = User.find(params[:user_id])
+      begin
+        @user = User.find(params[:user_id])
+      rescue
+        return render json: {errors: "This user doesn't exist"}, status: 412   
+      end    
     end
-
 end

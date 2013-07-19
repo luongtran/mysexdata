@@ -17,10 +17,7 @@ class ExperiencesController < ApplicationController
   # GET /users/:user_id/lovers/:lover_ir/experiences/:experience_id.json
   # GET /users/:user_id/lovers/:lover_ir/experiences/:experience_id
   def show
-    respond_to do |format|
-      format.html {render 'show'}
-      format.json {render action: 'show'}
-    end
+    return render action: 'show'
   end
 
   # DELETE /users/:user_id/lovers/:lover_ir/experiences
@@ -47,7 +44,7 @@ class ExperiencesController < ApplicationController
         format.json { render action: 'show', status: :updated }
       else
         #format.html { render action: 'show' }
-        format.json { ender json: @experience.errors.full_messages, status: :unprocessable_entity }
+        format.json { render json: @experience.errors.full_messages, status: :unprocessable_entity }
       end
     end
   end
@@ -55,26 +52,37 @@ class ExperiencesController < ApplicationController
   # DELETE /users/:user_id/lovers/:lover_ir/experiences/:experience_id.json
   # DELETE /users/:user_id/lovers/:lover_ir/experiences/:experience_id
   def destroy
-    @experience = Experience.find(params[:id])
     @experience.destroy
-    return render :json => {"message"=> "Experience removed correctly"}
+    return render json: {message: "Experience removed correctly"}
   end
 
   private
     
     # Defines current user
     def set_user
-      @user = User.find(params[:user_id])
+      begin
+        @user = User.find(params[:user_id])
+      rescue
+        return render json: {errors: "This user doesn't exist"}, status: 422   
+      end
     end
 
     # Defines current lover
     def set_lover
-      @lover = Lover.find(params[:lover_id])
+      begin
+        @lover = Lover.find(params[:lover_id])
+      rescue
+        return render json: {errors: "This lover doesn't exist"}, status: 422   
+      end
     end
 
     # Defines current experience
     def set_experience
-      @experience = Experience.find(params[:experience_id])
+      begin
+        @experience = Experience.find(params[:experience_id])
+      rescue
+        return render json: {error: "This experience doesn't exist"}, status: 422
+      end
 
     end
 

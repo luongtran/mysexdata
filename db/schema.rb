@@ -17,7 +17,6 @@ ActiveRecord::Schema.define(version: 20130716080607) do
   enable_extension "plpgsql"
 
   create_table "experiences", primary_key: "experience_id", force: true do |t|
-    t.integer  "lover_id"
     t.datetime "date"
     t.string   "location"
     t.integer  "place"
@@ -63,23 +62,24 @@ ActiveRecord::Schema.define(version: 20130716080607) do
 
   add_index "friendships", ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true, using: :btree
 
-  create_table "geosexes", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "access",                             default: 0
-    t.integer  "status",                             default: 0
-    t.decimal  "lat",        precision: 3, scale: 2
-    t.decimal  "lng",        precision: 3, scale: 2
+  create_table "geosexes", primary_key: "user_id", force: true do |t|
+    t.integer  "access",     default: 0
+    t.integer  "status",     default: 0
+    t.float    "lat"
+    t.float    "lng"
+    t.string   "address"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "geosexes", ["status"], name: "index_geosexes_on_status", using: :btree
   add_index "geosexes", ["user_id"], name: "index_geosexes_on_user_id", using: :btree
 
   create_table "lover_experiences", force: true do |t|
     t.integer "lover_id"
     t.integer "experience_id"
   end
+
+  add_index "lover_experiences", ["lover_id", "experience_id"], name: "index_lover_experiences_on_lover_id_and_experience_id", unique: true, using: :btree
 
   create_table "lovers", primary_key: "lover_id", force: true do |t|
     t.string   "facebook_id"
@@ -89,15 +89,8 @@ ActiveRecord::Schema.define(version: 20130716080607) do
     t.integer  "sex_gender",  default: -1
     t.integer  "job",         default: -1
     t.integer  "height",      default: -1
-    t.integer  "visibility",  default: 0
-    t.boolean  "pending",     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "lovers_users", id: false, force: true do |t|
-    t.integer "user_id"
-    t.integer "lover_id"
   end
 
   create_table "messages", primary_key: "message_id", force: true do |t|
@@ -113,6 +106,15 @@ ActiveRecord::Schema.define(version: 20130716080607) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "user_lovers", force: true do |t|
+    t.integer "user_id"
+    t.integer "lover_id"
+    t.integer "visibility", default: 0
+    t.boolean "pending",    default: false
+  end
+
+  add_index "user_lovers", ["user_id", "lover_id"], name: "index_user_lovers_on_user_id_and_lover_id", unique: true, using: :btree
 
   create_table "user_photos", id: false, force: true do |t|
     t.integer "user_id"
