@@ -42,7 +42,7 @@ def make_users
                preferences: [1,2,3,4,5,6])
 
   admin.toggle!(:admin)
-  99.times do |n|
+  50.times do |n|
     name  = Faker::Name.name
     email = "example-#{n+1}@railstutorial.org"
     password  = "1234"
@@ -76,6 +76,41 @@ def make_users
                  sex_interest: sex_interest,
                  sex_gender: sex_gender,
                  preferences: [1,2,3,4,5,6])
+  end
+  49.times do |n|
+    name  = Faker::Name.name
+    email = "example-#{100-n+1}@railstutorial.org"
+    password  = "1234"
+    facebook_id = Faker::Lorem.characters(15)
+    main_photo_url ="http://url.jpg"
+    photo_num = 0
+    age = 30
+    startday = Date.new(1111,11,11)
+    job = 0
+    eye_color = 0
+    hair_color = 0
+    height = 2
+    hairdressing = 1
+    sex_interest = 0
+    sex_gender = 0
+    User.create!(name: name,
+                 email: email,
+                 password: password,
+                 password_confirmation: password,
+                 facebook_id: facebook_id,
+                 status: 0,
+                 main_photo_url: main_photo_url,
+                 photo_num: photo_num,
+                 age: age,
+                 startday: startday,
+                 job: job,
+                 eye_color: eye_color,
+                 hair_color: hair_color,
+                 height: height,
+                 hairdressing: hairdressing,
+                 sex_interest: sex_interest,
+                 sex_gender: sex_gender,
+                 preferences: [2,4,3,5,1,6])
   end
 end
 

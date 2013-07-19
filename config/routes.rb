@@ -25,6 +25,9 @@ Mysexdata::Application.routes.draw do
   match '/users/:user_id', to: 'users#update', via: 'put'             # Update a user (Default method)
   match '/users/:user_id', to: 'users#destroy', via: 'delete'         # Delete a user (Must be post method).
 
+  match '/users/:user_id/sex_affinity/:user2_id', to: 'users#sex_affinity', via: 'get'
+  
+
   # Experiences
   match '/users/:user_id/lovers/:lover_id/experiences', to: 'experiences#show_all', via: 'get'
   match '/users/:user_id/lovers/:lover_id/experiences/:experience_id', to: 'experiences#show', via: 'get'

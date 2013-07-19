@@ -70,6 +70,65 @@ class UsersController < ApplicationController
     end
   end
 
+  # GET /users/:user_id/sex_affinity/:user2_id
+  def sex_affinity
+    @user2 = User.find(params[:user2_id])
+    @affinity = calculate_sex_affinity(@user, @user2)
+    logger.debug @affinity
+    render action: 'show_sex_affinity'
+  end
+
+  def calculate_sex_affinity(user, user2)
+
+    # Calculating each value.
+    i = calculate_interest(user,user2)
+    h = calculate_height(user,user2)
+    hd = calculate_hairdressing(user,user2)
+    p = calculate_preferences(user,user2)
+
+    logger.debug "Results i: #{i} , h: #{h}, hd: #{hd}, pref: #{p}"
+      
+    return sa= 100 * i*(0.22*p[0] + 0.19*p[1] + 0.17*p[2] + 0.14*p[3] + 0.11*p[4] + 0.08*p[5] + 0.06*h + 0.03*hd)
+  end
+
+  def calculate_interest(user,user2)
+    i = 0
+    i = 1 if (user.sex_interest == user2.sex_gender or user.sex_interest == 3)
+  end
+
+  def calculate_height(user,user2)
+    h = 0
+    h = 1 if ((user.sex_gender == 0 and user.height == user2.height) or (user.sex_gender == 1 and (user2.height == user.height + 1)) or (user.height == 3 and user2.height == 3))
+    h = 0.5 if ((user.sex_gender == 1 and (user.height == user2.height and user.height < 3 and user2.height < 3)) or (user.sex_gender == 1 and (1..2).include?(user.height) and(1..2).include?(user2.height))   or (user.height == 3 and user.height == 2))
+
+    return h
+  end
+
+  def calculate_hairdressing(user,user2)
+    hd = 0
+    hd = 1 unless (user.hairdressing == 1 and user1.hairdressing != user2.hairdressing)
+  end
+
+  def calculate_preferences(user,user2)
+    # Default values
+    g1 = 0
+    g2 = 0
+    g3 = 0
+    g4 = 0
+    g5 = 0
+    g6 = 0
+
+    g1 = 1 if user.preferences[0] == user2.preferences[0]
+    g2 = 1 if user.preferences[1] == user2.preferences[1]
+    g3 = 1 if user.preferences[2] == user2.preferences[2]
+    g4 = 1 if user.preferences[3] == user2.preferences[3]
+    g5 = 1 if user.preferences[4] == user2.preferences[4]
+    g6 = 1 if user.preferences[5] == user2.preferences[5]
+
+    return preferences = [g1,g2,g3,g4,g5,g6]
+  end
+
+
 
   private
     # Define current user.
