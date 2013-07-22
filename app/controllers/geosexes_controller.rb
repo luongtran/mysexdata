@@ -17,7 +17,6 @@ class GeosexesController < ApplicationController
   # POST /users/:user_id/geosexes.json
   def create
    @geouser = @user.create_geosex(geo_params)
-   
 
    if @geouser.save
       render json: @geouser
@@ -54,7 +53,7 @@ class GeosexesController < ApplicationController
       begin
         @user = User.find(params[:user_id])
       rescue
-        return render json: {errors: "This user with id: #{params[:user_id]} doesn't exist"}, status: 412   
+        return render json: {errors: "This user with id: #{params[:user_id]} doesn't exist"}, status: 412
       end
     end
 

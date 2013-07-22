@@ -11,7 +11,6 @@ class LoversController < ApplicationController
 
   # Verifying user before the given methods.
   #before_action :signed_in_user, only: [:create, :update, :destroy]
-  #before_action :correct_user,   only:  :destroy
 
   # Only responds in json format.
   respond_to :json

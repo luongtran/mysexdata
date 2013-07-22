@@ -1,5 +1,6 @@
 Mysexdata::Application.routes.draw do
   
+  apipie
   resources :sessions, only: [:new, :create, :destroy]
   #resources :geosexes, only: [:index]
   

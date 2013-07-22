@@ -149,8 +149,8 @@ def make_friendships
   user  = users.first
   followed_users = users[2..50]
   followers      = users[3..40]
-  followed_users.each { |friend_id| user.make_friend!(friend_id) }
-  followers.each      { |user_id| user_id.make_friend!(user) }
+  followed_users.each { |friend_id| user.invite_friend!(friend_id) }
+  followers.each      { |user_id| user_id.accept_friend!(user) }
 end
 
 def send_messages
