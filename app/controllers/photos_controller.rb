@@ -69,16 +69,16 @@ class PhotosController < ApplicationController
      begin
         @user = User.find(params[:user_id])
       rescue
-        return render json: {errors: "This user doesn't exist"}, status: 422
+        return render json: {exception: "PhotosException", message: "This user doesn't exist"}, status: 422
       end
     end
-    
+
     # Use callbacks to share common setup or constraints between actions.
     def set_photo
       begin
         @photo = Photo.find(params[:photo_id])
       rescue
-        return render json: {errors: "This photo doesn't exist"}, status: 422
+        return render json: {exception: "PhotosException", message: "This photo doesn't exist"}, status: 422
       end
     end
 

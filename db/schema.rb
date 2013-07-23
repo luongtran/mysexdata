@@ -93,6 +93,8 @@ ActiveRecord::Schema.define(version: 20130716080607) do
     t.datetime "updated_at"
   end
 
+  add_index "lovers", ["facebook_id", "name"], name: "index_lovers_on_facebook_id_and_name", unique: true, using: :btree
+
   create_table "messages", primary_key: "message_id", force: true do |t|
     t.integer  "receiver_id"
     t.integer  "sender_id"

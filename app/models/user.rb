@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
 
   # Friendships
   has_many :friendships, foreign_key: "user_id", dependent: :destroy
-  has_many :friends, through: :friendships, source: :friend, conditions: ["friendships.accepted = ?", true], select: 'users.user_id as friend_id'
+  has_many :friends, through: :friendships, source: :friend, conditions: ["friendships.accepted = ?", true], select: 'users.user_id as friend_id '
   has_many :pending_friends, through: :friendships, source: :friend, conditions: ["friendships.pending = ?", true], select: 'users.user_id as friend_id'
   has_many :secret_petitions, through: :friendships, source: :friend, conditions: ["friendships.secret_lover_ask = ? AND friendships.accepted = ?", true, true], select: 'users.user_id as friend_id'
 
@@ -79,7 +79,9 @@ class User < ActiveRecord::Base
   def accept_friend!(other_user)
     friendship = friendships.where(friend_id: other_user.user_id).first
     reverse_friendship = other_user.friendships.where(friend_id: self.user_id).first
-
+    if friendship.nil?
+      return render json: {exception: "UserException", message: "This user is not invited to be your friend"}
+    end
     friendship.update_attributes!(accepted: true,pending: false) and reverse_friendship.update_attributes!(accepted: true,pending: false)
   end
 

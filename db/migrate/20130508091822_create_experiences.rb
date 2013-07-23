@@ -2,6 +2,7 @@ class CreateExperiences < ActiveRecord::Migration
   def change
     create_table :experiences, :primary_key => :experience_id do |t|
       t.datetime :date
+      t.integer :moment
       t.string :location
       t.integer :place
       t.integer :detail_one

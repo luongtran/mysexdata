@@ -125,8 +125,8 @@ def make_lovers
     url2 = "http://#{name2}.jpg"
     public_lover = Lover.create!(name: name,facebook_id: Faker::Lorem.characters(15), photo_url: url)
     secret_lover = Lover.create!(name: name2,facebook_id: Faker::Lorem.characters(15), photo_url: url2)
-    public_lovers.push(public_lover) 
-    secret_lovers.push(secret_lover) 
+    public_lovers.push(public_lover)
+    secret_lovers.push(secret_lover)
   end
   users.each { |user| public_lovers.each { |lover| user.user_lovers.create(:lover => lover, visibility: 1)}}
   users.each { |user| secret_lovers.each { |lover| user.user_lovers.create(:lover => lover, visibility: 0)}}
@@ -147,8 +147,8 @@ end
 def make_friendships
   users = User.all
   user  = users.first
-  followed_users = users[2..50]
-  followers      = users[3..40]
+  followed_users = users[2..8]
+  followers      = users[3..7]
   followed_users.each { |friend_id| user.invite_friend!(friend_id) }
   followers.each      { |user_id| user_id.accept_friend!(user) }
 end
@@ -176,7 +176,7 @@ def make_geosexes
   n = 0
   lat = 41.10
   lng = 2.01
-  users.each do |user| 
+  users.each do |user|
     lat = lat + 0.1
     lng = lng + 0.1
     geouser = user.create_geosex(lat: lat, lng: lng)

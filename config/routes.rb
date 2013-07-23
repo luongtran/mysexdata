@@ -1,9 +1,9 @@
 Mysexdata::Application.routes.draw do
-  
+
   apipie
   resources :sessions, only: [:new, :create, :destroy]
   #resources :geosexes, only: [:index]
-  
+
   #resources :users do
   #  resources :lovers, only: [:create, :destroy] do
   #      resources :experiences, only: [:show_all, :create, :update, :destroy]
@@ -18,7 +18,7 @@ Mysexdata::Application.routes.draw do
 
   # Login / logout
   match '/signin',  to: 'sessions#new',         via: 'get'
-  
+
   # Users
   match '/users', to: 'users#create', via: 'post'                # Create a user
   match '/users', to: 'users#index', via: 'get'                  # Show all users
@@ -27,10 +27,11 @@ Mysexdata::Application.routes.draw do
   match '/users/:user_id', to: 'users#destroy', via: 'delete'         # Delete a user (Must be post method).
 
   match '/users/:user_id/sex_affinity/:user2_id', to: 'users#sex_affinity', via: 'get'
-  
+
 
   # Experiences
-  match '/users/:user_id/lovers/:lover_id/experiences', to: 'experiences#show_all', via: 'get'
+  match '/users/:user_id/lovers/:lover_id/experiences', to: 'experiences#index', via: 'get'
+  match '/users/:user_id/lovers/:lover_id/experiences', to: 'experiences#create', via: 'post'
   match '/users/:user_id/lovers/:lover_id/experiences/:experience_id', to: 'experiences#show', via: 'get'
   match '/users/:user_id/lovers/:lover_id/experiences/:experience_id', to: 'experiences#update', via: 'put'
   match '/users/:user_id/lovers/:lover_id/experiences/:experience_id', to: 'experiences#destroy', via: 'delete'
@@ -58,7 +59,7 @@ Mysexdata::Application.routes.draw do
   match '/users/:user_id/friendships/:friend_id/lovers/:lover_id', to: 'friendships#lover', via: 'get'
   match '/users/:user_id/friendships/:friend_id/lovers/:lover_id/experiences/:experience_id', to: 'friendships#lover_experience', via: 'get'
 
-  
+
 
   # Geosex
   match '/users/:user_id/geosex', to: 'geosexes#index', via:'get'
@@ -70,8 +71,8 @@ Mysexdata::Application.routes.draw do
   match '/users/:user_id/messages', to: 'messages#index', via: 'get'
   match '/users/:user_id/messages', to: 'messages#create', via: 'post'
   match '/users/:user_id/messages', to: 'messages#clear', via: 'delete'
-  
- 
+
+
   # Photos
   match '/users/:user_id/photos', to: 'photos#index', via: 'get'
   match '/users/:user_id/photos', to: 'photos#create', via: 'post'

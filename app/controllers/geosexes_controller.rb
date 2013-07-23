@@ -21,7 +21,7 @@ class GeosexesController < ApplicationController
    if @geouser.save
       render json: @geouser
     else
-      render json: {error: "Impossible to save your location"}
+      render json: {exception: "GeosexException", message: "Impossible to save your location"}
     end
   end
 
@@ -30,7 +30,7 @@ class GeosexesController < ApplicationController
     if @geouser.update_attributes(lat: params[:geosex][:lat], lng: params[:geosex][:lng], access: true)
       render json: @geouser
     else
-      render json: {error: "Impossible to save your location"}
+      render json: {exception: "GeosexException", message: "Impossible to save your location"}
     end
   end
 
@@ -53,7 +53,7 @@ class GeosexesController < ApplicationController
       begin
         @user = User.find(params[:user_id])
       rescue
-        return render json: {errors: "This user with id: #{params[:user_id]} doesn't exist"}, status: 412
+        return render json: {exception: "GeosexException", message: "This user with id: #{params[:user_id]} doesn't exist"}, status: 412
       end
     end
 
@@ -61,7 +61,7 @@ class GeosexesController < ApplicationController
       begin
         @geouser = Geosex.find(params[:user_id])
       rescue
-        return render json: {errors: "This geosex user with id: #{params[:user_id]} doesn't exist"}, status: 412
+        return render json: {exception: "GeosexException", message: "This geosex user with id: #{params[:user_id]} doesn't exist"}, status: 412
       end
 
     end

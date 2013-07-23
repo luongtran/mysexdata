@@ -14,7 +14,7 @@ class MessagesController < ApplicationController
   # POST /users/:user_id/messages
   def create
     @receiver = User.find(params[:message][:receiver_id])
-    @message = @receiver.messages.build(sender_id: @user.user_id, content: params[:message][:content])  
+    @message = @receiver.messages.build(sender_id: @user.user_id, content: params[:message][:content])
 
     respond_to do |format|
       if @message.save
@@ -45,7 +45,7 @@ class MessagesController < ApplicationController
       begin
         @user = User.find(params[:user_id])
       rescue
-        return render json: {errors: "This user doesn't exist"}, status: 412   
-      end    
+        return render json: {exception: "MessageException", message: "This user doesn't exist"}, status: 412
+      end
     end
 end
