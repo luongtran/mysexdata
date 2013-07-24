@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20130716080607) do
 
   create_table "experiences", primary_key: "experience_id", force: true do |t|
     t.datetime "date"
+    t.integer  "moment"
     t.string   "location"
     t.integer  "place"
     t.integer  "detail_one"
@@ -104,7 +105,7 @@ ActiveRecord::Schema.define(version: 20130716080607) do
   end
 
   create_table "photos", primary_key: "photo_id", force: true do |t|
-    t.string   "photo_url"
+    t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

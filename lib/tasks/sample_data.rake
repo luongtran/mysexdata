@@ -165,7 +165,7 @@ def make_photos
   photos = Array.new
   5.times do |n|
     url="http://myurl#{n+1}"
-    photo = Photo.create!(photo_url: url)
+    photo = Photo.create!(url: url)
     photos.push(photo)
   end
   users.each { |user| user.photos = photos}
@@ -179,7 +179,7 @@ def make_geosexes
   users.each do |user|
     lat = lat + 0.1
     lng = lng + 0.1
-    geouser = user.create_geosex(lat: lat, lng: lng)
-    geouser.save
+    geosex = user.create_geosex(lat: lat, lng: lng)
+    geosex.save
   end
 end

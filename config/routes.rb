@@ -76,6 +76,7 @@ Mysexdata::Application.routes.draw do
   # Photos
   match '/users/:user_id/photos', to: 'photos#index', via: 'get'
   match '/users/:user_id/photos', to: 'photos#create', via: 'post'
+  match '/users/:user_id/photos/:photo_id', to: 'photos#show', via: 'get'
   match '/users/:user_id/photos/:photo_id', to: 'photos#destroy', via: 'delete'
 
 

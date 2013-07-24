@@ -7,12 +7,14 @@ class FriendshipsController < ApplicationController
   before_action :set_user, :authenticate
   before_action :set_friend, only: [:show, :update, :destroy, :lovers, :lover]
 
-  def_param_group :friendships do
+  # Definition of api doc params
+  def_param_group :friendships_params do
     param :friends_id, Array, required: true
     param :emails, Array, required: true
   end
 
-  def_param_group :accept do
+  # Definition of api doc params
+  def_param_group :accept_params do
     param :friendships, Hash do
       param :friend_id, Integer, required: true
     end
@@ -23,6 +25,12 @@ class FriendshipsController < ApplicationController
 
   api :GET, '/users/:user_id/friendships.json',  'Show all friends of the given user'
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  example "
   {
     'user_id': 1,
     'friendships': [
@@ -46,11 +54,14 @@ class FriendshipsController < ApplicationController
     return render action:'index'
   end
 
-  # GET /users/:user_id/friendships/:friend_id.json
-  #
-  # Show all info of a given friend.
   api :GET, '/users/:user_id/friendships/:friend_id','Show all info of the given user friend'
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  example "
   {
     'user_id': 1,
     'friend': {
@@ -118,8 +129,15 @@ class FriendshipsController < ApplicationController
 
 
   api :POST,'/users/:user_id/friendships', 'Send a request to the given user to be his/her friend'
-  param_group :friendships
+  formats ['json']
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  param_group :friendships_params
+  example "
   {
     'info': 'Invitations sent'
   }"
@@ -164,8 +182,15 @@ class FriendshipsController < ApplicationController
 
 
   api :PUT, '/users/:user_id/friendships/:friend_id','Accepts the given user as your friend'
-  param_group :accept
+  formats ['json']
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  param_group :accept_params
+  example "
   {
     'friendships':
       {
@@ -203,6 +228,12 @@ class FriendshipsController < ApplicationController
 
   api :GET, '/users/:user_id/friendships_pending', 'Show all pending friends'
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  example "
   {
       'user_id': 10,
       'friendships': [
@@ -220,8 +251,14 @@ class FriendshipsController < ApplicationController
   end
 
   api :DELETE, '/users/:user_id/frienships/omit', 'Omit friendship'
-  param_group :accept
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  param_group :accept_params
+  example "
   {
     'friendships':
       {
@@ -240,6 +277,12 @@ class FriendshipsController < ApplicationController
 
   api :GET, '/users/:user_id/friendships_secret_pending', 'Show friends that accepts to show his/her secret lovers.'
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  example "
   {
       'user_id': 10,
       'friendships': [
@@ -257,8 +300,15 @@ class FriendshipsController < ApplicationController
   end
 
   api :POST,'/users/:user_id/friendships_secret', 'Send an invitation to see his/her friend secret lovers.'
-  param_group :friendships
+  formats ['json']
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  param_group :friendships_params
+  example "
   {
     'info': 'Invitations sent'
   }"
@@ -274,8 +324,15 @@ class FriendshipsController < ApplicationController
   end
 
   api :PUT, '/users/:user_id/friendships_secret/:friend_id','Accept to see secret lovers'
-  param_group :accept
+  formats ['json']
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  param_group :accept_params
+  example "
   {
     'friendships':
       {
@@ -293,8 +350,14 @@ class FriendshipsController < ApplicationController
   end
 
   api :DELETE, '/users/:user_id/frienships_secret/omit', 'Not to show secret lovers to the given users'
-  param_group :accept
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  param_group :accept_params
+  example "
   {
     'friendships':
       {
@@ -314,6 +377,12 @@ class FriendshipsController < ApplicationController
 
   api :GET, '/users/:user_id/friendships/:friend_id/lovers', 'Method to see your friend lovers'
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  example "
   {
 
     'user_id': 10,
@@ -355,9 +424,14 @@ class FriendshipsController < ApplicationController
       return render action: 'show_lovers'
   end
 
-  # GET /users/:user_id/friendships/:friend_id/lovers/:lover_id.json
   api :GET, '/users/:user_id/friendships/:friend_id/lovers/:lover_id', 'Retrieve all info about lover from user friend'
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  example "
   {
     'user_id': 10,
     'friend_id': 1,
@@ -395,6 +469,12 @@ class FriendshipsController < ApplicationController
 
   api :GET, '/users/:user_id/friendships/:friend_id/lovers/:lover_id/experiences/:experience_id', 'Getting info about lover experience of the given user friend'
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  example "
   {
     'experience_id': 1,
     'final_score': 4

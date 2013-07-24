@@ -9,23 +9,24 @@ class ExperiencesController < ApplicationController
   before_action :set_lover, only: [:index, :show, :create, :update, :destroy]
   before_action :set_experience, only: [:show, :update, :destroy]
 
+  # Definition of api doc params
   def_param_group :experiences do
     param :experience, Hash do
       param :date, String, required: false
       param :location, String, required: false
       param :moment, [0,1,2], required: false
-      param :place, [0...9], required: false
+      param :place, [0,1,2,3,4,5,6,7,8,9], required: false
       param :detail_one, [0,1,2], required: false
       param :detail_two, [0,1,2], required: false
       param :detail_three, [0,1,2], required: false
       param :hairdressing, [0,1], required: false
-      param :kiss, [0...9], required: false
-      param :oral_sex, [0...9], required: false
-      param :intercourse, [0...9], required: false
-      param :caresses, [0...9], required: false
-      param :anal_sex, [0...9], required: false
-      param :post_intercourse, [0...9], required: false
-      param :personal_score, [0...9], required: false
+      param :kiss, [0,1,2,3,4,5,6,7,8,9], required: false
+      param :oral_sex, [0,1,2,3,4,5,6,7,8,9], required: false
+      param :intercourse, [0,1,2,3,4,5,6,7,8,9], required: false
+      param :caresses, [0,1,2,3,4,5,6,7,8,9], required: false
+      param :anal_sex, [0,1,2,3,4,5,6,7,8,9], required: false
+      param :post_intercourse, [0,1,2,3,4,5,6,7,8,9], required: false
+      param :personal_score, [0,1,2,3,4,5,6,7,8,9], required: false
       param :repeat, [0,1], required: false
       param :msd_score, Float, required: false
       param :bad_lover, Integer, required: false
@@ -38,6 +39,13 @@ class ExperiencesController < ApplicationController
 
   api :GET, '/users/:user_id/lovers/:lover_ir/experiences/:experience_id', 'Get lover experiences'
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  example "
+  Response:
   {
     'lover_id': 2,
     'experience':
@@ -69,6 +77,13 @@ class ExperiencesController < ApplicationController
 
   api :GET, '/users/:user_id/lovers/:lover_id/experiences', 'Get all experiences of a lover'
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  example "
+  Response:
   {
     'user_id': 1,
     'lover_id': 2,
@@ -122,41 +137,102 @@ class ExperiencesController < ApplicationController
     return render action: 'index'
   end
 
-  # POST /users/:user_id/lovers/:lover_ir/experiences
-  # POST /users/:user_id/lovers/:lover_ir/experiences.json
-  api :POST, '/users/:user_id/lovers/:lover_ir/experiences', 'Create an experience'
+  api :POST, '/users/:user_id/lovers/:lover_id/experiences', 'Create an experience'
+  param_group :experiences
+  description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  example "
+  Request body:
+  {
+      'date': '1111-11-11T00:00:00.000Z',
+      'location': 1,
+      'place': 1,
+      'detail_one': 1,
+      'detail_two': 1,
+      'detail_three': 1,
+      'hairdressing': 1,
+      'kiss': 1,
+      'oral_sex': 2,
+      'intercourse': 3,
+      'caresses': 5,
+      'anal_sex': 3,
+      'post_intercourse': 5,
+      'personal_score': 1,
+      'repeat': 1,
+      'msd_score': 9.0,
+      'bad_lover': 1,
+      'final_score': 7
+  }
+
+  Response:
+  {
+    'lover_id': 7,
+    'experience': {
+        'experience_id': 6,
+        'date': '1111-11-11T00:00:00.000Z',
+        'location': 1,
+        'place': 1,
+        'detail_one': 1,
+        'detail_two': 1,
+        'detail_three': 1,
+        'hairdressing': 1,
+        'kiss': 1,
+        'oral_sex': 2,
+        'intercourse': 3,
+        'caresses': 5,
+        'anal_sex': 3,
+        'post_intercourse': 5,
+        'personal_score': 1,
+        'repeat': 1,
+        'msd_score': 9.0,
+        'bad_lover': 1,
+        'final_score': 7
+    }
+}"
   def create
       experience = JSON.parse(params[:experience].to_json)
      @experience= @lover.experiences.create(experience)
       return render action: 'show'
   end
 
-  # PUT /users/:user_id/lovers/:lover_ir/experiences/:experience_id.json
-  # PUT /users/:user_id/lovers/:lover_ir/experiences/:experience_id
   api :PUT, '/users/:user_id/lovers/:lover_ir/experiences/:experience_id', 'Updates an experience'
-  param_group :experiences
   description "
-  Response
+  <b>Headers</b>
 
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  param_group :experiences
+  example "
+  Request body:
+  {
+    'place':2
+  }
+
+  Response:
    {
       'experience_id': 2,
       'date': '1111-11-11T00:00:00.000Z',
       'location': '2',
-      'place': null,
-      'detail_one': null,
-      'detail_two': null,
-      'detail_three': null,
-      'hairdressing': null,
-      'kiss': null,
-      'oral_sex': null,
-      'intercourse': null,
-      'caresses': null,
-      'anal_sex': null,
-      'post_intercourse': null,
+      'place': 2,
+      'detail_one': 1,
+      'detail_two': 1,
+      'detail_three': 1,
+      'hairdressing': 1,
+      'kiss': 3,
+      'oral_sex': 4,
+      'intercourse': 2,
+      'caresses': 5,
+      'anal_sex': 6,
+      'post_intercourse': 5,
       'personal_score': 5,
-      'repeat': null,
-      'msd_score': '8.0',
-      'bad_lover': null,
+      'repeat': 1,
+      'msd_score': 8.0,
+      'bad_lover': 1,
       'final_score': 4
   }"
   def update
@@ -167,20 +243,24 @@ class ExperiencesController < ApplicationController
     end
   end
 
-  # DELETE /users/:user_id/lovers/:lover_ir/experiences/:experience_id.json
-  # DELETE
   api :DELETE, '/users/:user_id/lovers/:lover_ir/experiences/:experience_id', 'Remove an experience'
   description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  example "
   {
     'info':'Experience removed successfully'
   }"
+  error code: 422
   def destroy
     @experience.destroy
     return render json: {info: "Experience removed successfully"}
   end
 
   private
-
     # Defines current user
     def set_user
       begin

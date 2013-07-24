@@ -17,12 +17,13 @@ class CreateExperiences < ActiveRecord::Migration
       t.integer :post_intercourse
       t.integer :personal_score
       t.integer :repeat
-      t.decimal :msd_score
+      t.float :msd_score
       t.integer :bad_lover
       t.integer :final_score
 
       t.timestamps
     end
+
 
     create_table :lover_experiences do |t|
       t.belongs_to :lover
