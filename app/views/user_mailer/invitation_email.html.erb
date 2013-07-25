@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MySexDatabase</title>
+    <link rel="author" href="humans.txt">
+</head>
+
+<body style="font-family: comic sans ms; background-color: #bfbfbf;width: 700px; height: 600px;display:inline-block;">
+  <div style="border-radius: 10px; display: block; background-color: white; margin-right: auto; margin-left: auto;margin-top:50px; width: 600px;height: 500px; padding:10px">
+    <header style=" display: block; padding: 20px; color: #bfbfbf;">
+        <div syle="display: inline-block; width: 400px; height: 80px;"> <%= image_tag attachments['light-logo.png'].url -%></div>
+        <p style="color: #bfbfbf">El sexo es un juego ... ¡MSD te ayudará a disfrutarlo más!<p>
+    </header>
+    <div id='corpus' style="display: block; padding: 20px;">
+      <p>"<%= @user.name %>" te ha invitado a probar My Sex Data app! Disfrútala!<p>
+
+        <p>Para más información: http://mysexdata.info<p>
+    </div>
+  </div>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

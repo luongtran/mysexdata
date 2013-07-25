@@ -2,7 +2,8 @@ json.(@user, :user_id)
 json.user_id @friendships.user_id
 
 json.friend do
-	json.(@friend, :user_id,:name, :lovers_num, :sex_interest, :age, :startday, :eye_color, :hair_color, :height, :hairdressing, :preferences)
+	json.(@friend, :user_id,:name, :sex_interest, :age, :startday, :eye_color, :hair_color, :height, :hairdressing, :preferences)
+     json.lovers_num @lovers_num
 
 	json.lovers do
 		json.public(@public_lovers) do |json, public_lover|

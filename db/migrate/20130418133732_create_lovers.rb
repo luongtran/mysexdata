@@ -10,7 +10,7 @@ class CreateLovers < ActiveRecord::Migration
       t.integer :height, default: -1
       t.timestamps
     end
-    add_index :lovers, [:facebook_id, :name], :unique => true
+    add_index :lovers, [:facebook_id], :unique => true
 
 
     create_table :user_lovers do |t|

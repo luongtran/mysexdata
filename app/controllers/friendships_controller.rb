@@ -8,16 +8,20 @@ class FriendshipsController < ApplicationController
   before_action :set_friend, only: [:show, :update, :destroy, :lovers, :lover]
 
   # Definition of api doc params
-  def_param_group :friendships_params do
-    param :friends_id, Array, required: true
-    param :emails, Array, required: true
-  end
-
-  # Definition of api doc params
   def_param_group :accept_params do
     param :friendships, Hash do
       param :friend_id, Integer, required: true
     end
+  end
+
+  def_param_group :facebook_params do
+    param :friendships, Array do
+      param :name, String, required: true
+      param :facebook_id, String, required: true
+      param :photo_url, String, required: true
+    end
+
+
   end
 
   # All querys will be answered in a JSON format
@@ -109,6 +113,7 @@ class FriendshipsController < ApplicationController
   def show
     @friendships = Friendship.find_by(friend_id: params[:friend_id], user_id: params[:user_id])
     @public_lovers = @friend.public_lovers
+    @lovers_num = @user.user_lovers.count
 
     # Checking permissions for showing secret lovers.
     @secret_lovers = []
@@ -136,8 +141,14 @@ class FriendshipsController < ApplicationController
   Content-type: application/json
 
   Authorization: Token token=<remember_token>"
-  param_group :friendships_params
+  param :friends_id, Array, required: true, allow_nil: true
   example "
+  Request body:
+  {
+    'emails':['info@mysexdata.com','info2@mysexdata.com'']
+  }
+
+  Response:
   {
     'info': 'Invitations sent'
   }"
@@ -148,34 +159,112 @@ class FriendshipsController < ApplicationController
 
     # Store array values to iterate.
     friends_id  = params[:friends_id]
-    emails  = params[:emails]
 
     # Rending a request for each user.
-    if !friends_id.empty?
+    if !friends_id.nil?
       friends_id.each do |id|
         begin
           @user_receiver = User.find(id)
           @user_sender.invite_friend!(@user_receiver)
-        rescue ActiveRecord::RecordNotUnique => e
-          return render json: {exception: e.inspect, message: "Some users are already your friends"}
+        rescue => e
+          return render json: {exception: "FriendshipException", message: e.message}
         end
       end
     end
 
+    # Throwing error only if there aren't any user id or email
+    return render json: {exception: "FriendshipException", message: "No friends to invite"}, status: 422 if friends_id.nil?
+    return render json: {info: "Invitations sent"}, status: 201
+
+  end
+
+  api :POST,'/users/:user_id/friendships_mail', 'Send a request to the given user to be his/her friend'
+  formats ['json']
+  description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  param :emails, Array, required: true, allow_nil: true
+  example "
+  Request body:
+  {
+    'emails':['info@mysexdata.com']
+  }
+
+  Response:
+  {
+    'info': 'Invitations sent'
+  }"
+  def create_mail
+
+    # Sender user
+    @user_sender= User.find(params[:user_id])
+
+    # Store array values to iterate.
+    emails  = params[:emails]
+
     # Sending a request for each email.
-    if !emails.empty?
+    if !emails.nil?
       emails.each do |email|
         begin
           # Sending email request.
-          @user_sender.invite_email_friend!(email)
-        rescue
+          @user_sender.invite_email_friend!(@user, email)
+        rescue => e
           return render json: {exception: e.inspect, message: e.message}
         end
       end
     end
 
     # Throwing error only if there aren't any user id or email
-    return render json: {exception: "FriendshipException", message: "No friends to invite"}, status: 422 unless !friends_id.empty? and !emails.empty?
+    return render json: {exception: "FriendshipException", message: "No friends to invite"}, status: 422 if emails.nil?
+    return render json: {info: "Invitations sent"}, status: 201
+
+  end
+
+  api :POST,'/users/:user_id/friendships_facebook', 'Send a request to the given user to be his/her friend'
+  formats ['json']
+  description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  param_group :facebook_params
+  example "
+  Request body:
+  {
+    'emails':['info@mysexdata.com']
+  }
+
+  Response:
+  {
+    'info': 'Invitations sent'
+  }"
+  def create_facebook
+
+    # Sender user
+    @user_sender= User.find(params[:user_id])
+
+    # Store array values to iterate.
+    facebooks  = params[:friendships]
+
+    # Sending a request for each email.
+    if !facebooks.nil?
+      facebooks.each do |fc|
+        logger.debug "PASANDO"
+        logger.debug fc[:name]
+        begin
+          @user_sender.add_facebook_friend!(fc)
+        rescue => e
+          return render json: {exception: e.inspect, message: e.message}
+        end
+      end
+    end
+
+    # Throwing error only if there aren't any user id or email
+    return render json: {exception: "FriendshipException", message: "No friends to invite"}, status: 422 if facebooks.nil?
     return render json: {info: "Invitations sent"}, status: 201
 
   end
@@ -307,7 +396,7 @@ class FriendshipsController < ApplicationController
   Content-type: application/json
 
   Authorization: Token token=<remember_token>"
-  param_group :friendships_params
+  param_group :accept_params
   example "
   {
     'info': 'Invitations sent'

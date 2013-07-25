@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20130716080607) do
     t.integer  "post_intercourse"
     t.integer  "personal_score"
     t.integer  "repeat"
-    t.decimal  "msd_score"
+    t.float    "msd_score"
     t.integer  "bad_lover"
     t.integer  "final_score"
     t.datetime "created_at"
@@ -43,12 +43,14 @@ ActiveRecord::Schema.define(version: 20130716080607) do
   create_table "external_invitations", force: true do |t|
     t.integer  "sender_id"
     t.string   "receiver"
-    t.datetime "date"
+    t.string   "facebook_id"
+    t.string   "name"
+    t.string   "photo_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "external_invitations", ["sender_id", "receiver"], name: "index_external_invitations_on_sender_id_and_receiver", unique: true, using: :btree
+  add_index "external_invitations", ["sender_id", "facebook_id"], name: "index_external_invitations_on_sender_id_and_facebook_id", unique: true, using: :btree
 
   create_table "friendships", force: true do |t|
     t.integer  "user_id"
@@ -94,7 +96,7 @@ ActiveRecord::Schema.define(version: 20130716080607) do
     t.datetime "updated_at"
   end
 
-  add_index "lovers", ["facebook_id", "name"], name: "index_lovers_on_facebook_id_and_name", unique: true, using: :btree
+  add_index "lovers", ["facebook_id"], name: "index_lovers_on_facebook_id", unique: true, using: :btree
 
   create_table "messages", primary_key: "message_id", force: true do |t|
     t.integer  "receiver_id"

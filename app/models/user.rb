@@ -69,11 +69,20 @@ class User < ActiveRecord::Base
     friendships.create!(friend_id: other_user.user_id)
 
     # Creating the reverse relationship with pending = true.
-    other_user.friendships.create(friend_id: self.user_id, pending: true)
+    other_user.friendships.create!(friend_id: self.user_id, pending: true)
   end
 
-  def invite_email_friend!(email)
-    external_invitations.create(receiver: email, date: Time.now)
+  def invite_email_friend!(user, email)
+    if UserMailer.invitation_email(user, email).deliver
+      external_invitations.create!(receiver: email)
+      return true
+    else
+      return false
+    end
+  end
+
+  def add_facebook_friend!(friend)
+     external_invitations.create!(name: friend[:name],facebook_id: friend[:facebook_id],photo_url: friend[:photo_url])
   end
 
   def accept_friend!(other_user)

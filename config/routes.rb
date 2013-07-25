@@ -47,6 +47,8 @@ Mysexdata::Application.routes.draw do
   # Friendships
   match '/users/:user_id/friendships', to: 'friendships#index', via: 'get'
   match '/users/:user_id/friendships', to: 'friendships#create', via: 'post'
+  match '/users/:user_id/friendships_mail', to: 'friendships#create_mail', via: 'post'
+  match '/users/:user_id/friendships_facebook', to: 'friendships#create_facebook', via: 'post'
   match '/users/:user_id/friendships_secret', to: 'friendships#create_secret', via: 'post'
   match '/users/:user_id/friendships/accept', to: 'friendships#accept', via: 'put'
   match '/users/:user_id/friendships/omit', to: 'friendships#omit', via: 'post'

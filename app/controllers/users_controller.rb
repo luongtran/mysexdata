@@ -201,7 +201,18 @@ class UsersController < ApplicationController
   }"
   def create
     @user = User.new(user_params)
+    friends_users = Array.new
     if @user.save
+      # Retrieve users invitations by email and facebook_id
+      friends_users = search_users_by_email_and_facebook_id(@user.email, @user.facebook_id);
+      logger.debug "HELLOOO"
+      logger.debug friends_users
+      # Create pending friendship between the current user and users that sent requests.
+      if create_friendships(friends_users)
+        clear_external_invitations();
+      end
+
+
       return render action: 'show', status: :created
     else
       return render json: @user.errors.full_messages, status: :unprocessable_entity
@@ -368,5 +379,45 @@ class UsersController < ApplicationController
         g6 = 1 if user.preferences[5] == user2.preferences[5]
 
         return preferences = [g1,g2,g3,g4,g5,g6]
+      end
+
+      #Go to external invitations to retrieve users that sent requests to the current user.
+      def search_users_by_email_and_facebook_id(email, facebook_id)
+        users = Array.new
+        requests = ExternalInvitation.where(receiver: email)
+        requests2 = ExternalInvitation.where(facebook_id: facebook_id)
+        requests.each do |req|
+          if !users.include?(req.sender_id)
+            users.push(req.sender_id)
+          end
+        end
+        requests2.each do |req|
+          if !users.include?(req.sender_id)
+            users.push(req.sender_id)
+          end
+        end
+        return users
+      end
+
+      def create_friendships (friends_id)
+        logger.debug "HOLA"
+        logger.debug friends_id
+        if friends_id.empty?
+          return false
+        end
+        friends_id.each do |friend|
+          logger.debug 'TREST'
+          logger.debug friend
+          user = User.where(user_id: friend).first
+          if !user.nil?
+            user.invite_friend!(@user)
+          end
+        end
+        return true;
+      end
+
+      def clear_external_invitations
+        ExternalInvitation.where(receiver: @user.email).destroy_all
+        ExternalInvitation.where(facebook_id: @user.facebook_id).destroy_all
       end
 end

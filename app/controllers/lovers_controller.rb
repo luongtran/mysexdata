@@ -166,9 +166,11 @@ class LoversController < ApplicationController
         errors << "Lover with facebook_id: #{lov["facebook_id"]} and name: #{lov["name"]} already exists"
       else
         begin
-          @lover = @user.lovers.create(lov)
+          created_lover = Lover.create!(name: lov["name"],facebook_id: lov["facebook_id"], photo_url: lov["photo_url"], age: lov["age"], sex_gender: lov["sex_gender"], job: lov["job"], height: lov["height"])
+          @lover = @user.user_lovers.create(lover: created_lover, visibility: lov["visibility"])
         rescue
-          render json: {exception: "LoversException", message:"#{$!}"}
+          errors << "#{$!}"
+          break;
         end
         info << "Lover with facebook_id: #{lov["facebook_id"]} and name:#{lov["name"]} added successfully"
       end
@@ -209,6 +211,19 @@ class LoversController < ApplicationController
 
     }"
   def update
+    if !params[:lovers][:visibility].nil?
+      logger.debug "PRUEBA"
+      logger.debug params[:lovers][:visibility]
+
+      rel  = @user.user_lovers.where(lover_id: params[:lover_id]).first
+
+      if rel.update_attribute(:visibility, params[:lovers][:visibility])
+        return render action: 'show'
+      else
+        return render json: rel.errors.full_messages, status: :unprocessable_entity
+      end
+    end
+
     if @lover.update(lover_params)
       return render action: 'show'
     else
