@@ -112,21 +112,22 @@ class User < ActiveRecord::Base
   end
 
   def omit_secret_friend!(other_user)
-
+    friendship = friendships.where(friend_id: other_user.user_id).first
+    logger.debug friendship.secret_lover_ask
+    if friendship.update_attribute(:secret_lover_ask, false)
+      return true
+    else
+      return false
+    end
   end
 
   def send_message!(receiver, content)
-
+    messages.create!(sender_id: receiver.user_id, content: content)
   end
 
 
   def receive_message!(sender,content)
     messages.create!(sender_id: sender.user_id, content: content)
-  end
-
-  def unmake_friend!(other_user)
-    friendships.find_by(friend_id: other_user.user_id).destroy
-    friendships.find_by(user_id: other_user.user_id).destroy
   end
 
   def remember_me!

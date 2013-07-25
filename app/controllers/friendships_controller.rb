@@ -178,7 +178,7 @@ class FriendshipsController < ApplicationController
 
   end
 
-  api :POST,'/users/:user_id/friendships_mail', 'Send a request to the given user to be his/her friend'
+  api :POST,'/users/:user_id/friendships_mail', 'Send a request to the given user to be his/her friend via email'
   formats ['json']
   description "
   <b>Headers</b>
@@ -223,7 +223,7 @@ class FriendshipsController < ApplicationController
 
   end
 
-  api :POST,'/users/:user_id/friendships_facebook', 'Send a request to the given user to be his/her friend'
+  api :POST,'/users/:user_id/friendships_facebook', 'Send a request to the given user to be his/her friend via facebook'
   formats ['json']
   description "
   <b>Headers</b>
@@ -235,7 +235,19 @@ class FriendshipsController < ApplicationController
   example "
   Request body:
   {
-    'emails':['info@mysexdata.com']
+
+    'friendships':[
+      {
+        'name':'Pedro',
+        'facebook_id':'ee11241rd',
+        'photo_url':'http://masd.com'
+      },
+      {
+        'name':'Cristian',
+        'facebook_id':'211241rd',
+        'photo_url':'http://masd.com'
+      }
+    ]
   }
 
   Response:
@@ -455,9 +467,8 @@ class FriendshipsController < ApplicationController
   }"
   def omit_secret
     @user2 = User.find(params[:friendships][:friend_id])
-    @friendship = @user2.friendships.where(friend_id: @user.user_id).first
 
-    if @friendship.update_attributes(secret_lover_accepted: false)
+    if @user.omit_secret_friend!(@user2)
       return render json: {message: "Omitted secret friend with id #{@user2.user_id}"}
     else
       return render json: {exception: "FriendshipException", message: "Impossible to omit secret friend"}
