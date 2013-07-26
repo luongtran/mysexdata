@@ -6,7 +6,7 @@ class PhotosController < ApplicationController
 
   def_param_group :photos_param do
     param :photo, Hash do
-      param :url, String, required: true
+      param :url, String, required: false
     end
   end
 

@@ -11,13 +11,14 @@ class LoversController < ApplicationController
   # Definition of api doc params
   def_param_group :lover do
     param :lovers, Array  do
-      param :name, String, required: false
-      param :email, String, required: false
-      param :photo_url, String, required: false
-      param :age, Integer, required: false
-      param :sex_gender, [0,1], required: false
-      param :job, [0,1,2,3], required: false
-      param :height, [0,1], required: false
+      param :name, String, required: true
+      param :email, String, required: true
+      param :facebook_id, String, required: true
+      param :photo_url, String, required: true
+      param :age, Integer, required: true
+      param :sex_gender, [0,1], required: true
+      param :job, [0,1,2,3], required: true
+      param :height, [0,1], required: true
     end
   end
 
@@ -25,6 +26,7 @@ class LoversController < ApplicationController
   def_param_group :lover_up do
     param :name, String, required: false
     param :email, String, required: false
+    param :facebook_id, String, required: false
     param :photo_url, String, required: false
     param :age, Integer, required: false
     param :sex_gender, [0,1], required: false
