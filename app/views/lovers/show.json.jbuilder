@@ -1,1 +1,1 @@
-json.extract! @lover , :lover_id, :facebook_id, :name, :photo_url, :age, :sex_gender, :job, :height, :visibility, :pending
+json.extract! @lover , :lover_id, :facebook_id, :name, :photo_url, :age, :sex_gender, :job, :height

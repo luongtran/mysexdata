@@ -1,3 +1,10 @@
 json.user_id @user.user_id
-json.friendship_id @friendship.id
-json.extract! @lover ,:lover_id, :facebook_id, :name, :photo_url, :age, :sex_gender, :job, :height, :visibility, :pending,  :created_at, :updated_at
+json.friend_id @friend.id
+
+json.lover do 
+	json.(@lover ,:lover_id, :facebook_id, :name, :photo_url)
+	json.experiences (@experiences) do |json, experience|
+		json.(experience, :experience_id,:final_score)
+	end
+end
+

@@ -1,26 +1,40 @@
 class User < ActiveRecord::Base
-  #Encrypt password in database  
+  #Encrypt password in database
   has_secure_password
 
   self.primary_key = "user_id"
 
   before_save { self.email = email.downcase }
   before_create :create_remember_token
-  before_create :create_geosex
 
-  has_many :photos, dependent: :destroy
-  has_and_belongs_to_many :lovers
+
+
+  # Lovers
+  has_many :user_lovers, foreign_key: "user_id", dependent: :destroy
+  has_many :secret_lovers, through: :user_lovers, source: :lover, conditions: ["user_lovers.visibility = ?", 0]
+  has_many :public_lovers, through: :user_lovers, source: :lover, conditions: ["user_lovers.visibility = ?", 1]
+  has_many :non_pending_lovers, through: :user_lovers, source: :lover, conditions: ["user_lovers.pending = ?", false]
+  has_many :pending_lovers, through: :user_lovers, source: :lover, conditions: ["user_lovers.pending = ?", true]
+  has_many :lovers, through: :user_lovers
+
+  # Photos
   has_many :user_photos
-  has_many :photos, through: :user_photos
-  has_many :messages, through: :user_messages
-  has_many :external_invitations,foreign_key: "sender_id", dependent: :destroy
+  has_many :photos, through: :user_photos, dependent: :destroy
 
-  has_many :friendships, foreign_key: "user_id", dependent: :destroy
-  has_many :friends, through: :friendships, source: :friend, conditions: ["friendships.accepted = ?", true], select: 'users.user_id as friend_id'
-  has_many :pending_friends, through: :friendships, source: :friend, conditions: ["friendships.pending = ?", true], select: 'users.user_id as friend_id'
-  has_many :secret_petitions, through: :friendships, source: :friend, conditions: ["friendships.secret_lover_ask = ?", true]
+  # Messages
   has_many :messages, foreign_key: "receiver_id", dependent: :destroy
 
+
+  # Friendships
+  has_many :friendships, foreign_key: "user_id", dependent: :destroy
+  has_many :friends, through: :friendships, source: :friend, conditions: ["friendships.accepted = ?", true], select: 'users.user_id as friend_id '
+  has_many :pending_friends, through: :friendships, source: :friend, conditions: ["friendships.pending = ?", true], select: 'users.user_id as friend_id'
+  has_many :secret_petitions, through: :friendships, source: :friend, conditions: ["friendships.secret_lover_ask = ? AND friendships.accepted = ?", true, true], select: 'users.user_id as friend_id'
+
+  # Requests
+  has_many :external_invitations,foreign_key: "sender_id", dependent: :destroy
+
+  # Geosex
   has_one :geosex, dependent: :destroy
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
@@ -50,17 +64,70 @@ class User < ActiveRecord::Base
 
   end
 
-  def make_friend!(other_user)
+  def invite_friend!(other_user)
+    # Create a friendship between the user that sends the invitation and receiver with accepted = false (default).
     friendships.create!(friend_id: other_user.user_id)
+
+    # Creating the reverse relationship with pending = true.
+    other_user.friendships.create!(friend_id: self.user_id, pending: true)
   end
 
-  def receive_message!(other_user,content)
-    messages.create!(sender_id: other_user.user_id, content: content)
+  def invite_email_friend!(user, email)
+    if UserMailer.invitation_email(user, email).deliver
+      external_invitations.create!(receiver: email)
+      return true
+    else
+      return false
+    end
   end
 
-  def unmake_friend!(other_user)
-    friendships.find_by(friend_id: other_user.user_id).destroy
-    friendships.find_by(user_id: other_user.user_id).destroy
+  def add_facebook_friend!(friend)
+     external_invitations.create!(name: friend[:name],facebook_id: friend[:facebook_id],photo_url: friend[:photo_url])
+  end
+
+  def accept_friend!(other_user)
+    friendship = friendships.where(friend_id: other_user.user_id).first
+    reverse_friendship = other_user.friendships.where(friend_id: self.user_id).first
+    if friendship.nil?
+      return render json: {exception: "UserException", message: "This user is not invited to be your friend"}
+    end
+    friendship.update_attributes!(accepted: true,pending: false) and reverse_friendship.update_attributes!(accepted: true,pending: false)
+  end
+
+  def omit_friend!(other_user)
+    friendships.where(friend_id: other_user.user_id).first.destroy
+    other_user.friendships.where(friend_id: self.user_id).first.destroy
+  end
+
+  def invite_secret_friend!(other_user)
+    friendship = other_user.friendships.where(friend_id: self.user_id).first
+    friendship.update_attributes(secret_lover_ask: true)
+  end
+
+  def accept_secret_friend!(other_user)
+    friendship2 = other_user.friendships.where(friend_id: self.user_id).first
+    friendship = friendships.where(friend_id: other_user.user_id).first
+    friendship.update_attributes(secret_lover_ask: false) and friendship2.update_attributes(secret_lover_accepted: true)
+
+  end
+
+  def omit_secret_friend!(other_user)
+    friendship = friendships.where(friend_id: other_user.user_id).first
+    logger.debug friendship.secret_lover_ask
+    if friendship.update_attribute(:secret_lover_ask, false)
+      return true
+    else
+      return false
+    end
+  end
+
+  def send_message!(receiver, content)
+    messages.create!(sender_id: receiver.user_id, content: content)
+  end
+
+
+  def receive_message!(sender,content)
+    messages.create!(sender_id: sender.user_id, content: content)
   end
 
   def remember_me!
@@ -73,11 +140,5 @@ class User < ActiveRecord::Base
     def create_remember_token
       self.remember_token = SecureRandom.urlsafe_base64
     end
-
-    def create_geosex
-      self.build_geosex
-    end
-
-
 
 end

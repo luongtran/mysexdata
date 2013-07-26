@@ -5,6 +5,8 @@ gem 'rails', '4.0.0'
 gem 'pg', '0.14.1'
 gem 'bcrypt-ruby', '3.0.1'
 gem 'faker', '1.0.1'
+gem 'geocoder'
+gem 'apipie-rails'
 
 group :development, :test do
   gem 'rspec-rails', '2.13.0'

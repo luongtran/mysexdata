@@ -1,5 +1,5 @@
-json.array!(@messages) do |message|
-  user = User.find(message.sender_id)
-  json.extract! message, :receiver_id, :sender_id, :created_at
-  json.extract! user, :id, :name
+json.receiver_id @user.user_id
+json.messages(@messages) do |message|
+	json.extract! message, :sender_id, :content
+	json.date message.created_at
 end

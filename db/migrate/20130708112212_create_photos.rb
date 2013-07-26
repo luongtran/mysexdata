@@ -1,7 +1,7 @@
 class CreatePhotos < ActiveRecord::Migration
   def change
     create_table :photos, :primary_key => :photo_id do |t|
-      t.string :photo_url
+      t.string :url
 
       t.timestamps
     end

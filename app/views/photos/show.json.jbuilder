@@ -1,1 +1,2 @@
-json.extract! @photo, :photo_id, :photo_url, :created_at, :updated_at
+json.(@photo , :photo_id, :url)
+json.date @photo.created_at

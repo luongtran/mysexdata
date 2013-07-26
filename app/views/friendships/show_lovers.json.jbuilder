@@ -1,5 +1,10 @@
 json.user_id @user.user_id
-json.friendship_id @friendship.id
-json.lovers (@lovers) do |json, lover|
-	json.extract! lover ,:lover_id, :facebook_id, :name, :photo_url, :age, :sex_gender, :job, :height, :visibility, :pending, :created_at, :updated_at
+json.friend_id @friend.id
+json.lovers do
+	json.public(@public_lovers) do |json, public_lover|
+    	json.extract! public_lover, :lover_id, :name, :photo_url
+    end
+    json.secret(@secret_lovers) do |json, secret_lover|
+    	json.extract! secret_lover, :lover_id, :name, :photo_url
+    end
 end

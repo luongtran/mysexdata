@@ -24,4 +24,14 @@ Mysexdata::Application.configure do
 
   # Debug mode disables concatenation and preprocessing of assets.
   config.assets.debug = true
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.1and1.es',
+    port:                 25,
+    domain:               'mysexdata.com',
+    user_name:            'info@mysexdata.com',
+    password:             'vallhis2013',
+    authentication:       'plain',
+    enable_starttls_auto: true  }
 end
