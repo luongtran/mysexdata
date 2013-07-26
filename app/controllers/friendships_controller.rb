@@ -111,13 +111,14 @@ class FriendshipsController < ApplicationController
     }
   }"
   def show
-    @friendships = Friendship.find_by(friend_id: params[:friend_id], user_id: params[:user_id])
+    @friendships = Friendship.where(friend_id: params[:friend_id], user_id: params[:user_id])
     @public_lovers = @friend.public_lovers
-    @lovers_num = @user.user_lovers.count
 
     # Checking permissions for showing secret lovers.
     @secret_lovers = []
+    @lovers_num = @friend.user_lovers.where(visibility: 1).count
     if secret_friendship
+      @lovers_num = @friend.user_lovers.count
       @secret_lovers = @friend.secret_lovers
     end
 
