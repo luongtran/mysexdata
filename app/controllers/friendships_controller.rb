@@ -265,8 +265,6 @@ class FriendshipsController < ApplicationController
     # Sending a request for each email.
     if !facebooks.nil?
       facebooks.each do |fc|
-        logger.debug "PASANDO"
-        logger.debug fc[:name]
         begin
           @user_sender.add_facebook_friend!(fc)
         rescue => e

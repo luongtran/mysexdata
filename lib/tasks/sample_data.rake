@@ -2,7 +2,11 @@
 
 namespace :db do
   desc "Fill database with sample data"
+  task admin: :environment do
+    make_admin
+  end
   task populate: :environment do
+    make_admin
     make_users
     make_lovers
     make_experiences
@@ -15,24 +19,27 @@ namespace :db do
       Rake::Task['db:drop'].invoke
       Rake::Task['db:create'].invoke
       Rake::Task['db:migrate'].invoke
+  end
+   task repopulate: :environment do
+      Rake::Task['db:drop'].invoke
+      Rake::Task['db:create'].invoke
+      Rake::Task['db:migrate'].invoke
       Rake::Task['db:populate'].invoke
   end
 end
 
-def make_users
-  age = 20
-  startday = Date.new(1111,11,11)
-  admin = User.create!(name: "Example User",
-               email: "example@railstutorial.org",
-               password: "1234",
-               password_confirmation: "1234",
-               facebook_id: "0",
+def make_admin
+  admin = User.create!(name: "Admin",
+               email: "admin@example.com",
+               password: "0123",
+               password_confirmation: "0123",
+               facebook_id: "-1",
                status: 0,
                main_photo_url: "http://url.jpg",
                photo_num: 0,
                job: 0,
-               age: age,
-               startday: startday,
+               age: 0,
+               startday: "11/11/1111",
                eye_color: 0,
                hair_color: 0,
                height: 0,
@@ -42,6 +49,11 @@ def make_users
                preferences: [1,2,3,4,5,6])
 
   admin.toggle!(:admin)
+end
+
+def make_users
+  age = 20
+  startday = Date.new(1111,11,11)
   50.times do |n|
     name  = Faker::Name.name
     email = "example-#{n+1}@railstutorial.org"

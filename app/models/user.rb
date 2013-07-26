@@ -113,7 +113,6 @@ class User < ActiveRecord::Base
 
   def omit_secret_friend!(other_user)
     friendship = friendships.where(friend_id: other_user.user_id).first
-    logger.debug friendship.secret_lover_ask
     if friendship.update_attribute(:secret_lover_ask, false)
       return true
     else

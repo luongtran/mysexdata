@@ -212,8 +212,6 @@ class LoversController < ApplicationController
     }"
   def update
     if !params[:lovers][:visibility].nil?
-      logger.debug "PRUEBA"
-      logger.debug params[:lovers][:visibility]
 
       rel  = @user.user_lovers.where(lover_id: params[:lover_id]).first
 

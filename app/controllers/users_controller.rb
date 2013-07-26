@@ -4,8 +4,10 @@
 class UsersController < ApplicationController
 
   # Token authentication
-  before_action :set_user, except: [ :index, :create ]
-  before_action :authenticate, except: [ :index, :create ]
+  before_action :set_user, except: [:index, :create]
+  before_action :authenticate, except: [:index, :create]
+
+  before_action :authenticate_admin, only: [:index, :create]
 
   protect_from_forgery :except => [:index,:create]
 
@@ -205,8 +207,7 @@ class UsersController < ApplicationController
     if @user.save
       # Retrieve users invitations by email and facebook_id
       friends_users = search_users_by_email_and_facebook_id(@user.email, @user.facebook_id);
-      logger.debug "HELLOOO"
-      logger.debug friends_users
+
       # Create pending friendship between the current user and users that sent requests.
       if create_friendships(friends_users)
         clear_external_invitations();
@@ -307,7 +308,6 @@ class UsersController < ApplicationController
   def sex_affinity
     @user2 = User.find(params[:user2_id])
     @affinity = calculate_sex_affinity(@user, @user2)
-    logger.debug @affinity
     render action: 'show_sex_affinity'
   end
   private
@@ -400,14 +400,10 @@ class UsersController < ApplicationController
       end
 
       def create_friendships (friends_id)
-        logger.debug "HOLA"
-        logger.debug friends_id
         if friends_id.empty?
           return false
         end
         friends_id.each do |friend|
-          logger.debug 'TREST'
-          logger.debug friend
           user = User.where(user_id: friend).first
           if !user.nil?
             user.invite_friend!(@user)
