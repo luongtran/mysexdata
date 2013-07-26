@@ -111,7 +111,7 @@ class FriendshipsController < ApplicationController
     }
   }"
   def show
-    @friendships = Friendship.where(friend_id: params[:friend_id], user_id: params[:user_id])
+    @friendships = Friendship.where(friend_id: params[:friend_id], user_id: params[:user_id]).first
     @public_lovers = @friend.public_lovers
 
     # Checking permissions for showing secret lovers.
