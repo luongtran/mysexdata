@@ -239,11 +239,13 @@ class FriendshipsController < ApplicationController
 
     'friendships':[
       {
+        'email':'pedro@gmail.com',
         'name':'Pedro',
         'facebook_id':'ee11241rd',
         'photo_url':'http://masd.com'
       },
       {
+        'email':'cristiann@gmail.com',
         'name':'Cristian',
         'facebook_id':'211241rd',
         'photo_url':'http://masd.com'
@@ -267,7 +269,7 @@ class FriendshipsController < ApplicationController
     if !facebooks.nil?
       facebooks.each do |fc|
         begin
-          @user_sender.add_facebook_friend!(fc)
+          @user_sender.invite_facebook_friend!(@user, fc)
         rescue => e
           return render json: {exception: e.inspect, message: e.message}
         end

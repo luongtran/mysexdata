@@ -9,8 +9,6 @@ class UsersController < ApplicationController
 
   before_action :authenticate_admin, only: [:index, :create]
 
-  protect_from_forgery :except => [:index,:create]
-
   respond_to :json
 
   # Definition of api doc params
@@ -210,9 +208,8 @@ class UsersController < ApplicationController
 
       # Create pending friendship between the current user and users that sent requests.
       if create_friendships(friends_users)
-        clear_external_invitations();
+        clear_external_invitations;
       end
-
 
       return render action: 'show', status: :created
     else
@@ -304,12 +301,22 @@ class UsersController < ApplicationController
     'user_id': 1,
     'user2_id': 2,
     'sex_affinity': 95.6
-    }"
+  }"
   def sex_affinity
     @user2 = User.find(params[:user2_id])
     @affinity = calculate_sex_affinity(@user, @user2)
     render action: 'show_sex_affinity'
   end
+
+  def report_abuse
+    content = params[:content]
+    if UserMailer.report_abuse(@user, content).deliver
+      return render json: {info: "Abuse message sended"}
+    else
+      return render json: {exception:"UserException", message: "Abuse message cannot be sended"}
+    end
+  end
+
   private
       # Define current user.
       def set_user
@@ -320,19 +327,16 @@ class UsersController < ApplicationController
         end
       end
 
-      # Never trust parameters from the scary internet, only allow the white list through.
+      # List of parameters allowed in user requests.
       def user_params
         params.permit(:name, :email, :facebook_id, :status, :password, :password_confirmation,  :age, :startday, :eye_color, :hair_color, :height,:main_photo_url, :photo_num, :sex_interest, :sex_gender, {preferences: []}, :hairdressing, :job)
-      end
-
-      def geo_params
-        params.require(:geosex).permit(:access, :state, :lat, :lng)
       end
 
       def admin_user
         redirect_to(root_path) unless @user.admin?
       end
 
+      # Algorithm that calculates sex_affinity value between two users.
       def calculate_sex_affinity(user, user2)
 
         # Calculating each value.
@@ -384,14 +388,14 @@ class UsersController < ApplicationController
       #Go to external invitations to retrieve users that sent requests to the current user.
       def search_users_by_email_and_facebook_id(email, facebook_id)
         users = Array.new
-        requests = ExternalInvitation.where(receiver: email)
-        requests2 = ExternalInvitation.where(facebook_id: facebook_id)
-        requests.each do |req|
+        email_requests = ExternalInvitation.where(receiver: email)
+        facebook_requests = ExternalInvitation.where(facebook_id: facebook_id)
+        email_requests.each do |req|
           if !users.include?(req.sender_id)
             users.push(req.sender_id)
           end
         end
-        requests2.each do |req|
+        facebook_requests.each do |req|
           if !users.include?(req.sender_id)
             users.push(req.sender_id)
           end
@@ -399,6 +403,7 @@ class UsersController < ApplicationController
         return users
       end
 
+      # Method to create a friendship.
       def create_friendships (friends_id)
         if friends_id.empty?
           return false
@@ -412,6 +417,7 @@ class UsersController < ApplicationController
         return true;
       end
 
+      # Clear all invitations when a user is registered in application.
       def clear_external_invitations
         ExternalInvitation.where(receiver: @user.email).destroy_all
         ExternalInvitation.where(facebook_id: @user.facebook_id).destroy_all

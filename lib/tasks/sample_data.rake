@@ -30,9 +30,9 @@ end
 
 def make_admin
   admin = User.create!(name: "Admin",
-               email: "admin@example.com",
-               password: "0123",
-               password_confirmation: "0123",
+               email: ADMIN_USER,
+               password: ADMIN_PASS,
+               password_confirmation: ADMIN_PASS,
                facebook_id: "-1",
                status: 0,
                main_photo_url: "http://url.jpg",
@@ -191,7 +191,12 @@ def make_geosexes
   users.each do |user|
     lat = lat + 0.1
     lng = lng + 0.1
-    geosex = user.create_geosex(lat: lat, lng: lng)
+    if n % 2 == 0
+      geosex = user.create_geosex(lat: lat, lng: lng, access: 1)
+    else
+      geosex = user.create_geosex(lat: lat, lng: lng, access: 0)
+    end
     geosex.save
+    n +=1
   end
 end

@@ -28,6 +28,8 @@ Mysexdata::Application.routes.draw do
 
   match '/users/:user_id/sex_affinity/:user2_id', to: 'users#sex_affinity', via: 'get'
 
+  match '/users/:user_id/report_abuse', to: 'users#report_abuse', via: 'post'
+
 
   # Experiences
   match '/users/:user_id/lovers/:lover_id/experiences', to: 'experiences#index', via: 'get'
@@ -60,8 +62,6 @@ Mysexdata::Application.routes.draw do
   match '/users/:user_id/friendships/:friend_id/lovers', to: 'friendships#lovers', via: 'get'
   match '/users/:user_id/friendships/:friend_id/lovers/:lover_id', to: 'friendships#lover', via: 'get'
   match '/users/:user_id/friendships/:friend_id/lovers/:lover_id/experiences/:experience_id', to: 'friendships#lover_experience', via: 'get'
-
-
 
   # Geosex
   match '/users/:user_id/geosex', to: 'geosexes#index', via:'get'

@@ -52,7 +52,8 @@ class GeosexesController < ApplicationController
   {
   'geosex':{
                   'lat':54.33555,
-                  'lng':4.33
+                  'lng':4.33,
+                  'access':1
                 }
   }
 
@@ -77,7 +78,7 @@ class GeosexesController < ApplicationController
     end
   end
 
-  api :PUT, '/users/:user_id/geosex', 'Send your location to update it'
+  api :PUT, '/users/:user_id/geosex', 'Send your location to update it with access = 1 or to disable location with access = 0'
   formats ['json']
   description "
   <b>Headers</b>
@@ -91,8 +92,17 @@ class GeosexesController < ApplicationController
   {
   'geosex':{
                   'lat':54.33555,
-                  'lng':4.33
+                  'lng':4.33,
+                  'access':1
                 }
+  }
+
+  or, to disable location:
+
+  {
+    'geosex': {
+                    'access':0
+                  }
   }
 
   Response:
@@ -104,10 +114,18 @@ class GeosexesController < ApplicationController
     'address': null
   }"
   def locate
-    if @geosex.update_attributes(lat: params[:geosex][:lat], lng: params[:geosex][:lng], access: true)
-      render action: 'index'
+    if params[:geosex][:access] == 1
+      if @geosex.update_attributes(lat: params[:geosex][:lat], lng: params[:geosex][:lng], access: params[:geosex][:access])
+        render action: 'index'
+      else
+        render json: {exception: "GeosexException", message: "Impossible to update your location.  Remember that lat must be between -90 and 90 and lng between -180 and 180"}
+      end
     else
-      render json: {exception: "GeosexException", message: "Impossible to update your location.  Remember that lat must be between -90 and 90 and lng between -180 and 180"}
+      if @geosex.update_attributes(access: params[:geosex][:access])
+        render action: 'index'
+      else
+        render json: {exception: "GeosexException", message: "Impossible disable your location"}
+      end
     end
   end
 
@@ -124,7 +142,7 @@ class GeosexesController < ApplicationController
     'user_id': 1,
     'lat': 54.33555,
     'lng': 4.33,
-    'address': null,
+    'address': 0,
     'closest_users': [
         {
             'user_id': 7,
@@ -140,8 +158,11 @@ class GeosexesController < ApplicationController
 
     # Iterate over each closest user to retrieve his personal info.
     @closest_users.each do |user|
-      nearby = User.find(user.user_id)
-      @nearby_users.push(nearby)
+      # Check if a user is accessible to be showed to other users.
+      if user.access == 1
+        nearby = User.find(user.user_id)
+        @nearby_users.push(nearby)
+      end
     end
     render action: "show_closest_users"
   end
@@ -166,7 +187,7 @@ class GeosexesController < ApplicationController
     end
 
     def geo_params
-      params.require(:geosex).permit(:lat, :lng, :address)
+      params.require(:geosex).permit(:lat, :lng, :address, :access)
     end
 
 end

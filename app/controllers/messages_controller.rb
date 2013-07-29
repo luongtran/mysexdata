@@ -120,4 +120,8 @@ class MessagesController < ApplicationController
         return render json: {exception: "MessageException", message: "This user doesn't exist"}, status: 412
       end
     end
+
+    def message_params
+      params.permit(:sender)
+    end
 end

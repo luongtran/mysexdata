@@ -81,8 +81,13 @@ class User < ActiveRecord::Base
     end
   end
 
-  def add_facebook_friend!(friend)
-     external_invitations.create!(name: friend[:name],facebook_id: friend[:facebook_id],photo_url: friend[:photo_url])
+  def invite_facebook_friend!(user, friend)
+    if UserMailer.invitation_email(user, friend[:email]).deliver
+      external_invitations.create!(receiver: friend[:email], name: friend[:name],facebook_id: friend[:facebook_id],photo_url: friend[:photo_url])
+      return true
+    else
+      return false
+    end
   end
 
   def accept_friend!(other_user)
