@@ -129,6 +129,8 @@ ActiveRecord::Schema.define(version: 20130725152914) do
     t.datetime "updated_at"
   end
 
+  add_index "lovers", ["facebook_id"], name: "index_lovers_on_facebook_id", unique: true, using: :btree
+
   create_table "messages", primary_key: "message_id", force: true do |t|
     t.integer  "receiver_id"
     t.integer  "sender_id"
@@ -137,7 +139,7 @@ ActiveRecord::Schema.define(version: 20130725152914) do
     t.datetime "updated_at"
   end
 
-  create_table "photos", force: true do |t|
+  create_table "photos", primary_key: "photo_id", force: true do |t|
     t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -152,7 +154,12 @@ ActiveRecord::Schema.define(version: 20130725152914) do
 
   add_index "user_lovers", ["user_id", "lover_id"], name: "index_user_lovers_on_user_id_and_lover_id", unique: true, using: :btree
 
-  create_table "users", force: true do |t|
+  create_table "user_photos", id: false, force: true do |t|
+    t.integer "user_id"
+    t.integer "photo_id"
+  end
+
+  create_table "users", primary_key: "user_id", force: true do |t|
     t.string   "name"
     t.string   "email"
     t.string   "facebook_id"
