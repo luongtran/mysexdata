@@ -1,5 +1,6 @@
 Mysexdata::Application.routes.draw do
-
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   apipie
   resources :sessions, only: [:new, :create, :destroy]
   #resources :geosexes, only: [:index]

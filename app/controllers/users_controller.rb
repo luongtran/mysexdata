@@ -280,11 +280,11 @@ class UsersController < ApplicationController
      'info':'User :user_id removed successfully'
   }"
   def destroy
-    id = @user.user_id
+    id = @user.id
     @user.destroy
     respond_to do |format|
       format.html { redirect_to users_url }
-      format.json { render json: {info:"User #{@user.user_id} removed successfully"} }
+      format.json { render json: {info:"User #{@user.id} removed successfully"} }
     end
   end
 
@@ -321,7 +321,7 @@ class UsersController < ApplicationController
       # Define current user.
       def set_user
         begin
-          @user = User.find(params[:user_id])
+          @user = User.find(params[:id])
         rescue
           return render json: {exception: "UserException", message: "This user doesn't exist"}, status: 412
         end
@@ -409,7 +409,7 @@ class UsersController < ApplicationController
           return false
         end
         friends_id.each do |friend|
-          user = User.where(user_id: friend).first
+          user = User.where(id: friend).first
           if !user.nil?
             user.invite_friend!(@user)
           end
