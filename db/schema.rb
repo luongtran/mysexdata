@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 20130725152914) do
     t.boolean  "pending",               default: false
     t.boolean  "secret_lover_ask",      default: false
     t.boolean  "secret_lover_accepted", default: false
-    t.boolean  "blocked",               default: false
+    t.boolean  "blocked",               default: true,  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
