@@ -9,7 +9,7 @@
      !current_user.nil?
    end
 
-  def sign_out
+  def sign_out_
      self.current_user = nil
      cookies.delete(:remember_token)
    end
@@ -34,7 +34,13 @@
 
    def authenticate_admin
     authenticate_or_request_with_http_token do |token, options|
+
       @user = User.where(admin: true).first
+
+      logger.debug "PRUEBA TOKEN"
+      logger.debug @user.remember_token
+      logger.debug token
+
       token == @user.remember_token and @user.admin == true
     end
   end

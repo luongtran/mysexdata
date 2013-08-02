@@ -41,7 +41,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    sign_out
+    sign_out_
     respond_to do |format|
       format.html { redirect_to root_url }
     end

@@ -80,17 +80,18 @@ class MessagesController < ApplicationController
   }"
   def create
     @receiver = User.find(params[:message][:receiver_id])
-    @message = @receiver.messages.build(sender_id: @user.user_id, content: params[:message][:content])
+    #if !is_banned(receiver)
+      @message = @receiver.messages.build(sender_id: @user.user_id, content: params[:message][:content])
+    #else
+    # return render json: {exception: "MessageException", message: "You are blocked by this user and you can't send any message"}
+    #end
 
-    respond_to do |format|
-      if @message.save
-        format.html { redirect_back_or user }
-        format.json { render action: 'show_message', status: :created }
-      else
-        format.html { redirect_back_or user }
-         format.json { render json: {error:"Imposible to send your message"}}
-      end
+    if @message.save
+      return render action: 'show_message', status: :created
+    else
+      return render json: {exception: "MessageException", message:"Imposible to send your message"}
     end
+
   end
 
   api :DELETE, '/users/:user_id/messages', 'Clear all message from the server'
@@ -120,6 +121,11 @@ class MessagesController < ApplicationController
         return render json: {exception: "MessageException", message: "This user doesn't exist"}, status: 412
       end
     end
+
+    #def is_banned(receiver)
+    #  @friendship = Friendship.where(user_id: @user.user_id, friend_id: receiver)
+    #  return @friendship.banned
+    #end
 
     def message_params
       params.permit(:sender)

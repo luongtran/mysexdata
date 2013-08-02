@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130725152914) do
+ActiveRecord::Schema.define(version: 20130730145125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,17 @@ ActiveRecord::Schema.define(version: 20130725152914) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "blocked_users", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "blocked_user_id"
+    t.boolean  "blocked"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "blocked_users", ["user_id", "blocked_user_id"], name: "index_blocked_users_on_user_id_and_blocked_user_id", unique: true, using: :btree
+
   create_table "experiences", primary_key: "experience_id", force: true do |t|
     t.datetime "date"
     t.integer  "moment"
@@ -64,10 +75,9 @@ ActiveRecord::Schema.define(version: 20130725152914) do
     t.integer  "caresses"
     t.integer  "anal_sex"
     t.integer  "post_intercourse"
-    t.integer  "personal_score"
     t.integer  "repeat"
-    t.float    "msd_score"
-    t.integer  "bad_lover"
+    t.integer  "personal_score"
+    t.integer  "msd_score"
     t.integer  "final_score"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -130,8 +140,6 @@ ActiveRecord::Schema.define(version: 20130725152914) do
     t.datetime "updated_at"
   end
 
-  add_index "lovers", ["facebook_id"], name: "index_lovers_on_facebook_id", unique: true, using: :btree
-
   create_table "messages", primary_key: "message_id", force: true do |t|
     t.integer  "receiver_id"
     t.integer  "sender_id"
@@ -140,7 +148,7 @@ ActiveRecord::Schema.define(version: 20130725152914) do
     t.datetime "updated_at"
   end
 
-  create_table "photos", primary_key: "photo_id", force: true do |t|
+  create_table "photos", force: true do |t|
     t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"

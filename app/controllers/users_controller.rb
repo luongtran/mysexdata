@@ -321,7 +321,7 @@ class UsersController < ApplicationController
       # Define current user.
       def set_user
         begin
-          @user = User.find(params[:id])
+          @user = User.find(params[:user_id])
         rescue
           return render json: {exception: "UserException", message: "This user doesn't exist"}, status: 412
         end

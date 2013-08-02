@@ -19,6 +19,7 @@ class LoversController < ApplicationController
       param :sex_gender, [0,1], required: true
       param :job, [0,1,2,3], required: true
       param :height, [0,1], required: true
+      param :visibility, [0,1], required: true
     end
   end
 
@@ -32,6 +33,7 @@ class LoversController < ApplicationController
     param :sex_gender, [0,1], required: false
     param :job, [0,1,2,3], required: false
     param :height, [0,1], required: false
+    param :visibility, [0,1], required: false
   end
 
   # Verifying user before the given methods.

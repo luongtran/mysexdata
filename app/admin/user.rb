@@ -33,19 +33,6 @@ show do |ad|
       end
 end
 
-sidebar "Friendships", :only => :show do
-  form do |f|
-  table_for Friendship.where(user_id: user.user_id) do |t, f|
-    t.column :friend
-    t.column "Banned", :accepted  do
-      form do |f|
-        f.check_box("banner", "incited")
-      end
-    end
-  end
-end
-button_to_function "Greeting", "alert('Hello world!')", class: "ok"
-end
 
 form do |f|
       f.inputs "User info" do
