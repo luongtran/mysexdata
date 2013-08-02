@@ -37,7 +37,7 @@
 
       @user = User.where(admin: true).first
 
-      logger.debug "PRUEBA TOKEN"
+      logger.debug "PRUEBA TOKE"
       logger.debug @user.remember_token
       logger.debug token
 
