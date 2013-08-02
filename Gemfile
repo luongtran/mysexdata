@@ -14,7 +14,6 @@ gem 'inherited_resources', github: 'josevalim/inherited_resources'
 gem 'ransack',             github: 'ernie/ransack', branch: 'rails-4'
 gem 'activeadmin',         github: 'gregbell/active_admin', branch: 'rails4'
 gem 'formtastic',          github: 'justinfrench/formtastic'
-gem "meta_search",    '>= 1.1.0.pre'
 
 group :development, :test do
   gem 'rspec-rails', '2.13.0'
