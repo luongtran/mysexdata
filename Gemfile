@@ -27,8 +27,7 @@ group :test do
   gem 'selenium-webdriver', '2.0'
   gem 'capybara', '2.1.0.beta1'
   gem 'factory_girl_rails', '4.2.0'
-  gem 'libnotify'
-  gem 'growl'
+  gem 'growl' if /darwin/ =~ RUBY_PLATFORM
 end
 
 group :production do
