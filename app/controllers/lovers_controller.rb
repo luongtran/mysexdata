@@ -20,6 +20,7 @@ class LoversController < ApplicationController
       param :job, [0,1,2,3], required: true
       param :height, [0,1], required: true
       param :visibility, [0,1], required: true
+      param :pending, [true, false], required: true
     end
   end
 
@@ -34,6 +35,7 @@ class LoversController < ApplicationController
     param :job, [0,1,2,3], required: false
     param :height, [0,1], required: false
     param :visibility, [0,1], required: false
+    param :pending, [true, false], required: false
   end
 
   # Verifying user before the given methods.

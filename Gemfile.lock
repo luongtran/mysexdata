@@ -166,8 +166,6 @@ GEM
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    libnotify (0.8.1)
-      ffi (>= 1.0.11)
     listen (1.2.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
@@ -298,7 +296,6 @@ DEPENDENCIES
   inherited_resources!
   jbuilder (= 1.0.1)
   jquery-rails (= 3.0.0)
-  libnotify
   pg (= 0.14.1)
   rails (= 4.0.0)
   rails_12factor
