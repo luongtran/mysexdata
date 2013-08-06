@@ -6,12 +6,13 @@ class UsersController < ApplicationController
   # Token authentication
   before_action :set_user, except: [:index, :create]
   before_action :authenticate, except: [:index, :create]
-
   before_action :authenticate_admin, only: [:index, :create]
 
   respond_to :json
 
-  # Definition of api doc params
+  # Definition of api doc params #
+
+  # User params that are required
   def_param_group :user_param do
     param :name, String, 'Name of the user', required: true
     param :email, String, 'Email of the user', required: true
@@ -33,7 +34,7 @@ class UsersController < ApplicationController
     param :preferences,Array, 'Array of size 6. This must contain 1 to 6 numbers sorted by user preferences. Example: [2,5,3,1,6,4] or [6,4,2,4,3,1]', required: true
   end
 
-  # Definition of api doc params
+  # Optional user params used to update users.
   def_param_group :user_opt_param do
     param :name, String, 'Name of the user', required: false
     param :email, String, 'Email of the user', required: false
@@ -61,8 +62,6 @@ class UsersController < ApplicationController
     'user_id': 1,
     'name': 'Example User'
     ‘email’: ‘example@railstutorial6.org’,
-    ‘password’: ‘1234’,
-    ‘password_confirmation’: ‘1234’,
     ‘facebook_id’: ‘26’,
     ‘status’: 0
     ‘main_photo_url’:’http://url.jpg’,
@@ -79,7 +78,23 @@ class UsersController < ApplicationController
     ‘preferences’: [1, 2, 3, 4, 5, 6]
     },{
 
-    ...
+    'user_id': 2,
+    'name': 'Example User2'
+    ‘email’: ‘example@railstutorial2.org’,
+    ‘facebook_id’: ‘26’,
+    ‘status’: 0
+    ‘main_photo_url’:’http://url.jpg’,
+    ‘photo_num’: 0,
+    ‘job’: 0,
+    ‘age’: 25,
+    ‘startday’: ‘11/11/1111’,
+    ‘eye_color’: 0,
+    ‘hair_color’: 0,
+    ‘height’: 0,
+    ‘hairdressing’: 0,
+    ‘sex_interest’: 0,
+    ‘sex_gender’: 0,
+    ‘preferences’: [1, 2, 3, 4, 5, 6]
 
     }]"
   def index
@@ -257,14 +272,10 @@ class UsersController < ApplicationController
   def update
     @public_lovers = @user.public_lovers
     @secret_lovers = @user.secret_lovers
-    respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { render action: 'show'}
+        return render action: 'show'
       else
-        format.html { render action: 'edit' }
-        format.json { head :no_content  }
-      end
+      return render json: {exception: "UserException", message: "User \"#{@user.user_id}\" cannot be updated"}
     end
   end
 
@@ -282,10 +293,7 @@ class UsersController < ApplicationController
   def destroy
     id = @user.id
     @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url }
-      format.json { render json: {info:"User #{@user.id} removed successfully"} }
-    end
+    return  render json: {info:"User #{@user.id} removed successfully"}
   end
 
   api :GET, '/users/:user_id/sex_affinity/:user2_id', 'Calculate sex affinity percentage of two users'

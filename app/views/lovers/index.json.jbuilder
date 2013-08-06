@@ -1,4 +1,9 @@
-json.array!(@lovers) do |lover|
-  json.extract! lover, :user_id, :lover_id, :name, :photo_url, :age, :sex_gender, :job, :height, :visibility
-  json.url lover_url(lover, format: :json)
+json.user_id @user.user_id
+json.lovers do
+  json.public(@public_lovers) do |json, public_lover|
+      json.extract! public_lover, :lover_id, :name, :photo_url, :age, :sex_gender, :job, :height
+    end
+    json.secret(@secret_lovers) do |json, secret_lover|
+      json.extract! secret_lover, :lover_id, :name, :photo_url, :age, :sex_gender, :job, :height
+    end
 end

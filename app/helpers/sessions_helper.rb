@@ -1,5 +1,4 @@
-
- module SessionsHelper
+module SessionsHelper
   def sign_in_(user)
      cookies.permanent[:remember_token] = user.remember_token
      self.current_user = user
@@ -36,10 +35,6 @@
     authenticate_or_request_with_http_token do |token, options|
 
       @user = User.where(admin: true).first
-
-      logger.debug "PRUEBA TOKEN"
-      logger.debug @user.remember_token
-      logger.debug token
 
       token == @user.remember_token and @user.admin == true
     end

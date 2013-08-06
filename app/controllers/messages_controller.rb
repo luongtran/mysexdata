@@ -1,4 +1,6 @@
 class MessagesController < ApplicationController
+include UsersHelper
+
   before_action :set_user, :authenticate
 
   respond_to :json
@@ -47,10 +49,7 @@ class MessagesController < ApplicationController
   }"
   def index
     @messages = @user.messages
-    respond_to do |format|
-      format.html { render 'index' }
-      format.json { render action:'index' }
-    end
+    render action:'index'
   end
 
   api :POST, '/users/:user_id/messages', 'Send a message to another user'
@@ -80,11 +79,11 @@ class MessagesController < ApplicationController
   }"
   def create
     @receiver = User.find(params[:message][:receiver_id])
-    #if !is_banned(receiver)
+    if !is_blocked(@user, @receiver)
       @message = @receiver.messages.build(sender_id: @user.user_id, content: params[:message][:content])
-    #else
-    # return render json: {exception: "MessageException", message: "You are blocked by this user and you can't send any message"}
-    #end
+    else
+     return render json: {exception: "MessageException", message: "You are blocked by this user and you can't send any message"}
+    end
 
     if @message.save
       return render action: 'show_message', status: :created
@@ -122,10 +121,7 @@ class MessagesController < ApplicationController
       end
     end
 
-    #def is_banned(receiver)
-    #  @friendship = Friendship.where(user_id: @user.user_id, friend_id: receiver)
-    #  return @friendship.banned
-    #end
+
 
     def message_params
       params.permit(:sender)

@@ -30,6 +30,7 @@ class GeosexesController < ApplicationController
     'lng': 2.11,
     'address': 'Carretera de la Bunyola, 08820 El Prat de Llobregat, Barcelona, Spain'
   }"
+  error code: 400
   def index
     @geosex = Geosex.where(user_id: @user.user_id).first
     if @geosex.nil?
@@ -65,10 +66,11 @@ class GeosexesController < ApplicationController
     'lng': 4.33,
     'address': null
   }"
+  error code: 400
   def create
     geosex = Geosex.where(user_id: @user.user_id).first
     if !geosex.nil?
-      return render json: {exception: "GeosexException", message:"Geosex location already exists"}, status: 422
+      return render json: {exception: "GeosexException", message:"Geosex location already exists"}, status: 400
     end
     @geosex = @user.build_geosex(geo_params)
     if @geosex.save
@@ -129,7 +131,6 @@ class GeosexesController < ApplicationController
     end
   end
 
-  # GET /users/:user_id/closer_users.json
   api :GET, '/users/:user_id/closer_users', 'Search closer users from the current user in a distance of 20 miles'
   description "
   <b>Headers</b>
@@ -152,6 +153,7 @@ class GeosexesController < ApplicationController
         }
     ]
   }"
+  error code: 400
   def search_closest_users
     @closest_users = @user.geosex.nearbys(DISTANCE_USERS)
     @nearby_users = Array.new
@@ -173,7 +175,7 @@ class GeosexesController < ApplicationController
       begin
         @user = User.find(params[:user_id])
       rescue
-        return render json: {exception: "GeosexException", message: "This user with id: #{params[:user_id]} doesn't exist"}, status: 412
+        return render json: {exception: "GeosexException", message: "This user with id: #{params[:user_id]} doesn't exist"}, status: 400
       end
     end
 
@@ -181,7 +183,7 @@ class GeosexesController < ApplicationController
       begin
         @geosex = Geosex.find(params[:user_id])
       rescue
-        return render json: {exception: "GeosexException", message: "This geosex user with id: #{params[:user_id]} doesn't exist"}, status: 412
+        return render json: {exception: "GeosexException", message: "This geosex user with id: #{params[:user_id]} doesn't exist"}, status: 400
       end
 
     end

@@ -49,6 +49,7 @@ class FriendshipsController < ApplicationController
             'main_photo_url': 'http://url.jpg'
         }
   }"
+  error code:400
   def index
     @friendships = @user.friends
     @users = []
@@ -110,6 +111,7 @@ class FriendshipsController < ApplicationController
         'messages': []
     }
   }"
+  error code: 400
   def show
     @friendships = Friendship.where(friend_id: params[:friend_id], user_id: params[:user_id]).first
     @public_lovers = @friend.public_lovers
@@ -129,7 +131,7 @@ class FriendshipsController < ApplicationController
     if !@friendships.nil?
       return render action:'show'
     else
-      return  render json: {exception: "FriendshipException", message: "This friendship doesn't belong to the given user"}, status: 422
+      return  render json: {exception: "FriendshipException", message: "This friendship doesn't belong to the given user"}, status: 400
     end
   end
 
@@ -153,6 +155,7 @@ class FriendshipsController < ApplicationController
   {
     'info': 'Invitations sent'
   }"
+  error code:400
   def create
 
     # Sender user
@@ -174,7 +177,7 @@ class FriendshipsController < ApplicationController
     end
 
     # Throwing error only if there aren't any user id or email
-    return render json: {exception: "FriendshipException", message: "No friends to invite"}, status: 422 if friends_id.nil?
+    return render json: {exception: "FriendshipException", message: "No friends to invite"}, status: 400 if friends_id.nil?
     return render json: {info: "Invitations sent"}, status: 201
 
   end
@@ -198,6 +201,7 @@ class FriendshipsController < ApplicationController
   {
     'info': 'Invitations sent'
   }"
+  error code: 400
   def create_mail
 
     # Sender user
@@ -219,7 +223,7 @@ class FriendshipsController < ApplicationController
     end
 
     # Throwing error only if there aren't any user id or email
-    return render json: {exception: "FriendshipException", message: "No friends to invite"}, status: 422 if emails.nil?
+    return render json: {exception: "FriendshipException", message: "No friends to invite"}, status: 400 if emails.nil?
     return render json: {info: "Invitations sent"}, status: 201
 
   end
@@ -257,6 +261,7 @@ class FriendshipsController < ApplicationController
   {
     'info': 'Invitations sent'
   }"
+  error code: 400
   def create_facebook
 
     # Sender user
@@ -277,7 +282,7 @@ class FriendshipsController < ApplicationController
     end
 
     # Throwing error only if there aren't any user id or email
-    return render json: {exception: "FriendshipException", message: "No friends to invite"}, status: 422 if facebooks.nil?
+    return render json: {exception: "FriendshipException", message: "No friends to invite"}, status: 400 if facebooks.nil?
     return render json: {info: "Invitations sent"}, status: 201
 
   end
@@ -299,6 +304,7 @@ class FriendshipsController < ApplicationController
           'friend_id':2
       }
   }"
+  error code:400
   def accept
     # Friend to accept
     @friend_user = User.find(params[:friendships][:friend_id])
@@ -347,6 +353,7 @@ class FriendshipsController < ApplicationController
         }
       ]
   }"
+  error code:400
   def pending
     @friendships = @user.pending_friends
     return render action: 'show_pending'
@@ -367,6 +374,7 @@ class FriendshipsController < ApplicationController
           'friend_id':2
       }
   }"
+  error code:400
   def omit
     begin
       @user2 = User.find(params[:friendships][:friend_id])
@@ -396,6 +404,7 @@ class FriendshipsController < ApplicationController
         }
       ]
   }"
+  error code:400
   def secrets
     @friendships = @user.secret_petitions
     return render action:'show_pending'
@@ -414,6 +423,7 @@ class FriendshipsController < ApplicationController
   {
     'info': 'Invitations sent'
   }"
+  error code:400
   def create_secret
     @user2 = User.find(params[:friendships][:friend_id])
     # Checking that friendship exists to send a request.
@@ -441,12 +451,13 @@ class FriendshipsController < ApplicationController
           'friend_id':2
       }
   }"
+  error code: 400
   def accept_secret
     @user2 = User.find(params[:friendships][:friend_id])
     begin
       @user.accept_secret_friend!(@user2)
     rescue
-      return render json: {exception: "FrienshipError", message:"Now your friend #{@user2.name} can not see your secret lovers"}, status: 422
+      return render json: {exception: "FrienshipError", message:"Now your friend #{@user2.name} can not see your secret lovers"}, status: 400
     end
       return  render json: {message:"Now your friend #{@user2.name} can see your secret lovers"}
   end
@@ -466,6 +477,7 @@ class FriendshipsController < ApplicationController
           'friend_id':2
       }
   }"
+  error code:400
   def omit_secret
     @user2 = User.find(params[:friendships][:friend_id])
 
@@ -515,7 +527,8 @@ class FriendshipsController < ApplicationController
         ]
     }
   }"
-  def lovers
+  error code:400
+  def get_friend_lovers
     @public_lovers = @friend.public_lovers
     @friendship = Friendship.where(user_id: @user.user_id, friend_id: @friend.user_id).first
     @secret_lovers = []
@@ -557,7 +570,8 @@ class FriendshipsController < ApplicationController
         ]
     }
   }"
-  def lover
+  error code:400
+  def get_friend_lover
     @lover = Lover.find_by_lover_id(params[:lover_id])
     @lover_rel = UserLover.where(user_id: params[:friend_id], lover_id: params[:lover_id]).first
 
@@ -597,7 +611,7 @@ class FriendshipsController < ApplicationController
       begin
         @user = User.find(params[:user_id])
       rescue
-        return render json: {exception:"FriendshipException", message: "This user doesn't exist"}, status: 422
+        return render json: {exception:"FriendshipException", message: "This user doesn't exist"}, status: 400
       end
     end
 
@@ -606,7 +620,7 @@ class FriendshipsController < ApplicationController
       begin
         @friend = User.find(params[:friend_id])
       rescue
-        return render json: {exception:"FriendshipException", message: "This friend doesn't exist"}, status: 422
+        return render json: {exception:"FriendshipException", message: "This friend doesn't exist"}, status: 400
       end
     end
 

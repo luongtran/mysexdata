@@ -77,10 +77,10 @@ class LoversController < ApplicationController
         ]
     }
   }"
-  def show_all
+  def index
     @public_lovers = @user.public_lovers
     @secret_lovers = @user.secret_lovers
-    return render action: 'show_all'
+    return render action: 'index'
   end
 
 
@@ -246,10 +246,7 @@ class LoversController < ApplicationController
   }"
   def destroy
     @lover.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url }
-      format.json { render json: {info: "Lover #{@lover.lover_id} removed successfully"} }
-    end
+    return  render json: {info: "Lover #{@lover.lover_id} removed successfully"}
   end
 
   private

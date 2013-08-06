@@ -1,21 +1,15 @@
 Mysexdata::Application.routes.draw do
+
+  #Active admin configuration
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  apipie
-  resources :sessions, only: [:new, :create, :destroy]
-  #resources :geosexes, only: [:index]
 
-  #resources :users do
-  #  resources :lovers, only: [:create, :destroy] do
-  #      resources :experiences, only: [:show_all, :create, :update, :destroy]
-  #  end
-  #  resources :friendships, only: [:index, :create, :destroy]
-  #  resources :messages, only: [:index, :create, :destroy]
-  #  resources :photos, only: [:index, :create, :destroy]
-  #  member do
-  #    get :friends, :pendingfriends
-  #  end
-  #end
+  #Apipie route configuration.
+  apipie
+
+  resources :sessions, only: [:new, :create, :destroy]
+
+
 
   # Login / logout
   match '/signin',  to: 'sessions#new',         via: 'get'
@@ -27,8 +21,10 @@ Mysexdata::Application.routes.draw do
   match '/users/:user_id', to: 'users#update', via: 'put'             # Update a user (Default method)
   match '/users/:user_id', to: 'users#destroy', via: 'delete'         # Delete a user (Must be post method).
 
+  #Sex affinity
   match '/users/:user_id/sex_affinity/:user2_id', to: 'users#sex_affinity', via: 'get'
 
+  #Report abuse
   match '/users/:user_id/report_abuse', to: 'users#report_abuse', via: 'post'
 
 
@@ -41,7 +37,7 @@ Mysexdata::Application.routes.draw do
 
 
   # Lovers
-  match '/users/:user_id/lovers', to: 'lovers#show_all', via:'get'
+  match '/users/:user_id/lovers', to: 'lovers#index', via:'get'
   match '/users/:user_id/lovers', to: 'lovers#create', via:'post'
   match '/users/:user_id/lovers/:lover_id', to: 'lovers#show', via:'get'
   match '/users/:user_id/lovers/:lover_id', to: 'lovers#update', via:'put'
@@ -60,8 +56,8 @@ Mysexdata::Application.routes.draw do
   match '/users/:user_id/friendships/:friend_id', to: 'friendships#show', via: 'get'
   match '/users/:user_id/friendships_pending', to: 'friendships#pending', via: 'get'
   match '/users/:user_id/friendships_secret_pending', to: 'friendships#secrets', via: 'get'
-  match '/users/:user_id/friendships/:friend_id/lovers', to: 'friendships#lovers', via: 'get'
-  match '/users/:user_id/friendships/:friend_id/lovers/:lover_id', to: 'friendships#lover', via: 'get'
+  match '/users/:user_id/friendships/:friend_id/lovers', to: 'friendships#get_friend_lovers', via: 'get'
+  match '/users/:user_id/friendships/:friend_id/lovers/:lover_id', to: 'friendships#get_friend_lover', via: 'get'
   match '/users/:user_id/friendships/:friend_id/lovers/:lover_id/experiences/:experience_id', to: 'friendships#lover_experience', via: 'get'
 
   # Geosex

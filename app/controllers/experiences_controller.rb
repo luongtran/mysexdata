@@ -71,6 +71,7 @@ class ExperiencesController < ApplicationController
             'final_score': 4
         }
   }"
+  error code:400
   def show
     return render action: 'show'
   end
@@ -92,46 +93,47 @@ class ExperiencesController < ApplicationController
             'experience_id': 1,
             'date': '1111-11-11T00:00:00.000Z',
             'location': '2',
-            'place': null,
-            'detail_one': null,
-            'detail_two': null,
-            'detail_three': null,
-            'hairdressing': null,
-            'kiss': null,
-            'oral_sex': null,
-            'intercourse': null,
-            'caresses': null,
-            'anal_sex': null,
-            'post_intercourse': null,
+            'place': 0,
+            'detail_one': 1,
+            'detail_two': 2,
+            'detail_three': 1,
+            'hairdressing': 1,
+            'kiss': 3,
+            'oral_sex': 4,
+            'intercourse': 7,
+            'caresses': 3,
+            'anal_sex': 1,
+            'post_intercourse': 9,
             'personal_score': 5,
-            'repeat': null,
+            'repeat': 0,
             'msd_score': '0.0',
-            'bad_lover': null,
+            'bad_lover': 0,
             'final_score': 4
         },
         {
-            'experience_id': 2,
+           'experience_id': 2,
             'date': '1111-11-11T00:00:00.000Z',
             'location': '2',
-            'place': null,
-            'detail_one': null,
-            'detail_two': null,
-            'detail_three': null,
-            'hairdressing': null,
-            'kiss': null,
-            'oral_sex': null,
-            'intercourse': null,
-            'caresses': null,
-            'anal_sex': null,
-            'post_intercourse': null,
+            'place': 0,
+            'detail_one': 1,
+            'detail_two': 2,
+            'detail_three': 1,
+            'hairdressing': 1,
+            'kiss': 3,
+            'oral_sex': 4,
+            'intercourse': 7,
+            'caresses': 3,
+            'anal_sex': 1,
+            'post_intercourse': 9,
             'personal_score': 5,
-            'repeat': null,
-            'msd_score': '8.0',
-            'bad_lover': null,
-            'final_score': 4
+            'repeat': 0,
+            'msd_score': '0.0',
+            'bad_lover': 0,
+            'final_score': 5
         }
       ]
   }"
+  error code:400
   def index
     @experiences = @lover.experiences
     return render action: 'index'
@@ -193,6 +195,7 @@ class ExperiencesController < ApplicationController
         'final_score': 7
     }
 }"
+error code:400
   def create
       experience = JSON.parse(params[:experience].to_json)
      @experience= @lover.experiences.create(experience)
@@ -235,6 +238,7 @@ class ExperiencesController < ApplicationController
       'bad_lover': 1,
       'final_score': 4
   }"
+  error code:400
   def update
     if @experience.update(experience_params)
       return render action: 'show', status: :updated
@@ -254,7 +258,7 @@ class ExperiencesController < ApplicationController
   {
     'info':'Experience removed successfully'
   }"
-  error code: 422
+  error code: 400
   def destroy
     @experience.destroy
     return render json: {info: "Experience removed successfully"}
@@ -266,7 +270,7 @@ class ExperiencesController < ApplicationController
       begin
         @user = User.find(params[:user_id])
       rescue
-        return render json: {exception: "ExperienceException", message: "This user doesn't exist"}, status: 422
+        return render json: {exception: "ExperienceException", message: "This user doesn't exist"}, status: 400
       end
     end
 
@@ -275,7 +279,7 @@ class ExperiencesController < ApplicationController
       begin
         @lover = Lover.find(params[:lover_id])
       rescue
-        return render json: {exception: "ExperienceException", message: "This lover doesn't exist"}, status: 422
+        return render json: {exception: "ExperienceException", message: "This lover doesn't exist"}, status: 400
       end
     end
 
@@ -284,7 +288,7 @@ class ExperiencesController < ApplicationController
       begin
         @experience = Experience.find(params[:experience_id])
       rescue
-        return render json: {exception: "ExperienceException", message: "This experience doesn't exist"}, status: 422
+        return render json: {exception: "ExperienceException", message: "This experience doesn't exist"}, status: 400
       end
 
     end
