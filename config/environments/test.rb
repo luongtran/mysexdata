@@ -33,4 +33,14 @@ Mysexdata::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.1and1.es',
+    port:                 25,
+    domain:               'mysexdata.com',
+    user_name:            'info@mysexdata.com',
+    password:             'vallhis2013',
+    authentication:       'plain',
+    enable_starttls_auto: true  }
 end

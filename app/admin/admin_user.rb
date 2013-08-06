@@ -13,14 +13,13 @@ ActiveAdmin.register AdminUser do
     f.inputs "Admin Details" do
       f.input :email
       f.input :password
-      f.input :password_confirmation
     end
     f.actions
   end
 
 controller do
     def permitted_params
-      params.permit(:admin_user => [:email, :password, :password_confirmation])
+      params.permit(:admin_user => [:email, :password])
     end
   end
 end

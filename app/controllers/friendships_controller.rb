@@ -54,7 +54,7 @@ class FriendshipsController < ApplicationController
     @friendships = @user.friends
     @users = []
     @friendships.each do |friend|
-      @users.push(User.find(friend.friend_id))
+      @users.push(User.find(friend.user_id))
     end
     return render action:'index'
   end

@@ -127,7 +127,9 @@ class LoversController < ApplicationController
         'age': 36,
         'sex_gender': 0,
         'job': 1,
-        'height': 3
+        'height': 3,
+        'visibility': 1,
+        'pending': true
       },
       {
         'name': 'Emilio Sanchez',
@@ -136,7 +138,9 @@ class LoversController < ApplicationController
         'age': 32,
         'sex_gender': 0,
         'job': 1,
-        'height': 3
+        'height': 3,
+        'visibility': 0,
+        'pending': false
       }
     ]
   }
@@ -171,7 +175,7 @@ class LoversController < ApplicationController
       else
         begin
           created_lover = Lover.create!(name: lov["name"],facebook_id: lov["facebook_id"], photo_url: lov["photo_url"], age: lov["age"], sex_gender: lov["sex_gender"], job: lov["job"], height: lov["height"])
-          @lover = @user.user_lovers.create(lover: created_lover, visibility: lov["visibility"])
+          @lover = @user.user_lovers.create(lover: created_lover, visibility: lov["visibility"], pending: lov["pending"])
         rescue
           errors << "#{$!}"
           break;

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
 
-  before { @user = User.new(name: "sex", email: "sex@sex.com", age: 30, startday: "02/02/1975", eye_color: 0, hair_color: 0, height: 50, photo_num: 0, sex_interest: 0, sex_gender: 0,  facebook_id: "000", password: "1234", password_confirmation: "1234", sex_geo_id: 0, hairdressing: 0 ) }
+  before { @user = User.new(name: "sex", email: "sex@sex.com", age: 30, startday: "02/02/1975", eye_color: 0, hair_color: 0, height: 50, photo_num: 0, sex_interest: 0, sex_gender: 0,  facebook_id: "000", password: "1234", sex_geo_id: 0, hairdressing: 0 ) }
 
   subject { @user }
 
@@ -19,23 +19,12 @@ describe User do
   it { should respond_to(:sex_interest) }
   it { should respond_to(:sex_gender) }
   it { should respond_to(:hairdressing) }
-  it { should respond_to(:password_digest) }
   it { should respond_to(:password) }
-  it { should respond_to(:password_confirmation) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:authenticate) }
 
   it { should be_valid }
 
-  describe "when password is not present" do
-    before { @user.password = @user.password_confirmation = " " }
-    it { should_not be_valid }
-  end
-
-  describe "when password confirmation is nil" do
-    before { @user.password_confirmation = nil }
-    it { should_not be_valid }
-  end
 
   describe "return value of authenticate method" do
     before { @user.save }

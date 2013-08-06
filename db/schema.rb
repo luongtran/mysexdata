@@ -173,12 +173,11 @@ ActiveRecord::Schema.define(version: 20130730145125) do
     t.string   "email"
     t.string   "facebook_id"
     t.string   "remember_token"
-    t.string   "password_digest"
     t.string   "password"
     t.integer  "status"
     t.string   "main_photo_url"
     t.integer  "photo_num"
-    t.integer  "lovers_num",      default: 0
+    t.integer  "lovers_num",     default: 0
     t.integer  "job"
     t.integer  "age"
     t.datetime "startday"
@@ -188,8 +187,8 @@ ActiveRecord::Schema.define(version: 20130730145125) do
     t.integer  "hairdressing"
     t.integer  "sex_interest"
     t.integer  "sex_gender"
-    t.integer  "preferences",                     array: true
-    t.boolean  "admin",           default: false
+    t.integer  "preferences",                    array: true
+    t.boolean  "admin",          default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

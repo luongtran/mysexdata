@@ -18,7 +18,6 @@ class UsersController < ApplicationController
     param :email, String, 'Email of the user', required: true
     param :facebook_id, String, 'Facebook id of the user facebook profile', required: true
     param :password, String, 'User password', required: true
-    param :password_confirmation, String, 'Password to match introduced password', required: true
     param :status, [0,1,2,3], 'User love status', required: true
     param :main_photo_url, String, 'Profile user photo', required: true
     param :photo_num,[0,1,2,3], 'Number of photos to upload', required: true
@@ -40,7 +39,6 @@ class UsersController < ApplicationController
     param :email, String, 'Email of the user', required: false
     param :facebook_id, String, 'Facebook id of the user facebook profile', required: false
     param :password, String, 'User password', required: false
-    param :password_confirmation, String, 'Password to match introduced password', required: false
     param :status, [0,1,2,3], 'User love status', required: false
     param :main_photo_url, String, 'Profile user photo', required: false
     param :photo_num,[0,1,2,3], 'Number of photos to upload', required: false
@@ -115,7 +113,6 @@ class UsersController < ApplicationController
       'name': 'Example User'
       ‘email’: ‘example@railstutorial6.org’,
       ‘password’: ‘1234’,
-      ‘password_confirmation’: ‘1234’,
       ‘facebook_id’: ‘26’,
       ‘status’: 0
       ‘main_photo_url’:’http://url.jpg’,
@@ -171,7 +168,6 @@ class UsersController < ApplicationController
     'name': 'Example User'
     ‘email’: ‘example@railstutorial6.org’,
     ‘password’: ‘1234’,
-    ‘password_confirmation’: ‘1234’,
     ‘facebook_id’: ‘26’,
     ‘status’: 0
     ‘main_photo_url’:’http://url.jpg’,
@@ -194,7 +190,6 @@ class UsersController < ApplicationController
     'name': 'Example User'
     ‘email’: ‘example@railstutorial6.org’,
     ‘password’: ‘1234’,
-    ‘password_confirmation’: ‘1234’,
     ‘facebook_id’: ‘26’,
     ‘status’: 0
     ‘main_photo_url’:’http://url.jpg’,
@@ -253,7 +248,6 @@ class UsersController < ApplicationController
     'name': 'Federico'
     ‘email’: ‘example@railstutorial6.org’,
     ‘password’: ‘1234’,
-    ‘password_confirmation’: ‘1234’,
     ‘facebook_id’: ‘26’,
     ‘status’: 0
     ‘main_photo_url’:’http://url.jpg’,
@@ -337,7 +331,7 @@ class UsersController < ApplicationController
 
       # List of parameters allowed in user requests.
       def user_params
-        params.permit(:name, :email, :facebook_id, :status, :password, :password_confirmation,  :age, :startday, :eye_color, :hair_color, :height,:main_photo_url, :photo_num, :sex_interest, :sex_gender, {preferences: []}, :hairdressing, :job)
+        params.permit(:name, :email, :facebook_id, :status, :password,  :age, :startday, :eye_color, :hair_color, :height,:main_photo_url, :photo_num, :sex_interest, :sex_gender, {preferences: []}, :hairdressing, :job)
       end
 
       def admin_user

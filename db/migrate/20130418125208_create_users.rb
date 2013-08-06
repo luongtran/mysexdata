@@ -5,7 +5,6 @@ class CreateUsers < ActiveRecord::Migration
       t.string :email
       t.string :facebook_id
       t.string :remember_token
-      t.string :password_digest
       t.string :password
       t.integer :status
       t.string :main_photo_url

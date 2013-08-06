@@ -23,11 +23,12 @@ group :development, :test do
 end
 
 group :test do
+  gem 'simplecov'
   gem 'selenium-webdriver', '2.0'
   gem 'capybara', '2.1.0.beta1'
-  gem 'rb-inotify', '0.9.0'
-  gem 'libnotify', '0.8.0'
   gem 'factory_girl_rails', '4.2.0'
+  gem 'libnotify' if /linux/ =~ RUBY_PLATFORM
+  gem 'growl' if /darwin/ =~ RUBY_PLATFORM
 end
 
 group :production do
