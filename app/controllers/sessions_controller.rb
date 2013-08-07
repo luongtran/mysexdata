@@ -41,7 +41,11 @@ class SessionsController < ApplicationController
   }"
   def guest_token
     user = User.find_by_user_id(1)
-    return render json: {user: "Guest", remember_token: user.remember_token}
+    if !user.nil?
+      return render json: {user: "Guest", remember_token: user.remember_token}
+    else
+      return render json: {exception: "SessionsException", message: "Guest user not found"}
+    end
   end
 
 end
