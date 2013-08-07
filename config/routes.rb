@@ -14,6 +14,9 @@ Mysexdata::Application.routes.draw do
   # Login / logout
   match '/signin',  to: 'sessions#new',         via: 'get'
 
+  #Guest token
+  match '/guest', to: 'sessions#guest_token', via:'get'
+
   # Users
   match '/users', to: 'users#create', via: 'post'                # Create a user
   match '/users', to: 'users#index', via: 'get'                  # Show all users

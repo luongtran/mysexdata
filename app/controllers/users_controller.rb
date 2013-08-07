@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   # Token authentication
   before_action :set_user, except: [:index, :create]
   before_action :authenticate, except: [:index, :create]
-  before_action :authenticate_admin, only: [:index, :create]
+  before_action :authenticate_guest, only: [:index, :create]
 
   respond_to :json
 
@@ -187,6 +187,7 @@ class UsersController < ApplicationController
   Response:
   {
     'user_id': 1,
+    'remember_token':'xxxxxxxxxxxx'
     'name': 'Example User'
     ‘email’: ‘example@railstutorial6.org’,
     ‘password’: ‘1234’,

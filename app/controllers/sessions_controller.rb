@@ -32,4 +32,16 @@ class SessionsController < ApplicationController
     end
   end
 
+  api :GET, '/guest', 'Returns guest token to create a user and to see all registered users'
+  example "
+  Response:
+  {
+    'user': 'Guest',
+    'remember_token':'xxxxxxxxxxxx'
+  }"
+  def guest_token
+    user = User.find_by_user_id(1)
+    return render json: {user: "Guest", remember_token: user.remember_token}
+  end
+
 end

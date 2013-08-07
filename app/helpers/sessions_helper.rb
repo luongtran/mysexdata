@@ -31,7 +31,7 @@ module SessionsHelper
      end
    end
 
-   def authenticate_admin
+   def authenticate_guest
     authenticate_or_request_with_http_token do |token, options|
 
       @user = User.where(admin: true).first

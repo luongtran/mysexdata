@@ -14,18 +14,18 @@
       <img src="./assets/0.7.1/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2013-08-06T18:06:19+02:00">2013-08-06T18:06:19+02:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2013-08-06T18:27:14+02:00">2013-08-06T18:27:14+02:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="red">52.32%</span></span>
+    (<span class="covered_percent"><span class="red">53.13%</span></span>
      covered at
      <span class="covered_strength">
        <span class="red">
-         0.74
+         0.75
        </span>
     </span> hits/line)
   </h2>
@@ -33,8 +33,8 @@
   <div>
     <b>18</b> files in total.
     <b>367</b> relevant lines. 
-    <span class="green"><b>192</b> lines covered</span> and
-    <span class="red"><b>175</b> lines missed </span>
+    <span class="green"><b>195</b> lines covered</span> and
+    <span class="red"><b>172</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -102,12 +102,12 @@
       
       <tr>
         <td class="strong"><a href="#21acd66c94b26906fe3b9bcd58cf66135e343025" class="src_link" title="app/controllers/users_controller.rb">app/controllers/users_controller.rb</a></td>
-        <td class="red strong">51.59 %</td>
+        <td class="red strong">53.5 %</td>
         <td>427</td>
         <td>157</td>
-        <td>81</td>
-        <td>76</td>
-        <td>0.5</td>
+        <td>84</td>
+        <td>73</td>
+        <td>0.6</td>
       </tr>
       
       <tr>
@@ -187,7 +187,7 @@
         <td>30</td>
         <td>13</td>
         <td>17</td>
-        <td>0.4</td>
+        <td>0.5</td>
       </tr>
       
       <tr>
@@ -239,11 +239,11 @@
           <div class="file_list_container" id="Controllers">
   <h2>
     <span class="group_name">Controllers</span>
-    (<span class="covered_percent"><span class="red">52.5%</span></span>
+    (<span class="covered_percent"><span class="red">54.38%</span></span>
      covered at
      <span class="covered_strength">
        <span class="red">
-         0.75
+         0.8
        </span>
     </span> hits/line)
   </h2>
@@ -251,8 +251,8 @@
   <div>
     <b>2</b> files in total.
     <b>160</b> relevant lines. 
-    <span class="green"><b>84</b> lines covered</span> and
-    <span class="red"><b>76</b> lines missed </span>
+    <span class="green"><b>87</b> lines covered</span> and
+    <span class="red"><b>73</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -280,12 +280,12 @@
       
       <tr>
         <td class="strong"><a href="#21acd66c94b26906fe3b9bcd58cf66135e343025" class="src_link" title="app/controllers/users_controller.rb">app/controllers/users_controller.rb</a></td>
-        <td class="red strong">51.59 %</td>
+        <td class="red strong">53.5 %</td>
         <td>427</td>
         <td>157</td>
-        <td>81</td>
-        <td>76</td>
-        <td>0.5</td>
+        <td>84</td>
+        <td>73</td>
+        <td>0.6</td>
       </tr>
       
     </tbody>
@@ -404,7 +404,7 @@
      covered at
      <span class="covered_strength">
        <span class="red">
-         0.86
+         0.87
        </span>
     </span> hits/line)
   </h2>
@@ -506,7 +506,7 @@
         <td>30</td>
         <td>13</td>
         <td>17</td>
-        <td>0.4</td>
+        <td>0.5</td>
       </tr>
       
       <tr>
@@ -1654,11 +1654,11 @@
         <div class="source_table" id="21acd66c94b26906fe3b9bcd58cf66135e343025">
   <div class="header">
     <h3>app/controllers/users_controller.rb</h3>
-    <h4><span class="red">51.59 %</span> covered</h4>
+    <h4><span class="red">53.5 %</span> covered</h4>
     <div>
       <b>157</b> relevant lines. 
-      <span class="green"><b>81</b> lines covered</span> and
-      <span class="red"><b>76</b> lines missed.</span>
+      <span class="green"><b>84</b> lines covered</span> and
+      <span class="red"><b>73</b> lines missed.</span>
     </div>
   </div>
   
@@ -3609,14 +3609,14 @@
           <code class="ruby">      def set_user</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="325">
-          
+        <li class="covered" data-hits="3" data-linenumber="325">
+          <span class="hits">3</span>
           
           <code class="ruby">        begin</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="326">
-          
+        <li class="covered" data-hits="3" data-linenumber="326">
+          <span class="hits">3</span>
           
           <code class="ruby">          @user = User.find(params[:user_id])</code>
         </li>
@@ -3627,8 +3627,8 @@
           <code class="ruby">        rescue</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="328">
-          
+        <li class="covered" data-hits="3" data-linenumber="328">
+          <span class="hits">3</span>
           
           <code class="ruby">          return render json: {exception: &quot;UserException&quot;, message: &quot;This user doesn&#39;t exist&quot;}, status: 412</code>
         </li>
@@ -4659,8 +4659,8 @@
           <code class="ruby">   def authenticate_admin</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="35">
-          <span class="hits">1</span>
+        <li class="covered" data-hits="2" data-linenumber="35">
+          <span class="hits">2</span>
           
           <code class="ruby">    authenticate_or_request_with_http_token do |token, options|</code>
         </li>
