@@ -18,18 +18,18 @@ class UsersController < ApplicationController
     param :email, String, 'Email of the user', required: true
     param :facebook_id, String, 'Facebook id of the user facebook profile', required: true
     param :password, String, 'User password', required: true
-    param :status, [0,1,2,3], 'User love status', required: true
+    param :status, ['0' ,'1' ,'2' ,'3'], 'User love status', required: true
     param :main_photo_url, String, 'Profile user photo', required: true
-    param :photo_num,[0,1,2,3], 'Number of photos to upload', required: true
-    param :job, [0,1,2,3], 'User job', required: true
-    param :age, Integer, 'User age', required: true
+    param :photo_num,['0' ,'1' ,'2' ,'3'], 'Number of photos to upload', required: false
+    param :job, ['0' ,'1' ,'2' ,'3'], 'User job', required: true
+    param :age, String, 'User age', required: true
     param :startday, String, 'Date of the first relationship', required: true
-    param :eye_color, [0,1,2,3], 'User eyes color', required: true
-    param :hair_color, [0,1,2,3], 'User hair color', required: true
-    param :height, [0,1], 'User hair color', required: true
-    param :hairdressing, [0,1], 'User hairdressing', required: true
-    param :sex_interest, [0,1,2], 'Sex in which user is interested in. (0: Woman, 1: Man, 2: Both)', required: true
-    param :sex_gender, [0,1], 'User gender (0: Female, 1: Male)', required: true
+    param :eye_color, ['0' ,'1' ,'2' ,'3'], 'User eyes color', required: true
+    param :hair_color, ['0' ,'1' ,'2' ,'3'], 'User hair color', required: true
+    param :height, ['0' ,'1'], 'User hair color', required: true
+    param :hairdressing, ['0' ,'1'], 'User hairdressing', required: true
+    param :sex_interest, ['0' ,'1' ,'2'], 'Sex in which user is interested in. (0: Woman, 1: Man, 2: Both)', required: true
+    param :sex_gender, ['0' ,'1'], 'User gender (0: Female, 1: Male)', required: true
     param :preferences,Array, 'Array of size 6. This must contain 1 to 6 numbers sorted by user preferences. Example: [2,5,3,1,6,4] or [6,4,2,4,3,1]', required: true
   end
 
@@ -39,18 +39,18 @@ class UsersController < ApplicationController
     param :email, String, 'Email of the user', required: false
     param :facebook_id, String, 'Facebook id of the user facebook profile', required: false
     param :password, String, 'User password', required: false
-    param :status, [0,1,2,3], 'User love status', required: false
+    param :status, ['0' ,'1' ,'2' ,'3'], 'User love status', required: false
     param :main_photo_url, String, 'Profile user photo', required: false
-    param :photo_num,[0,1,2,3], 'Number of photos to upload', required: false
-    param :job, [0,1,2,3], 'User job', required: false
-    param :age, Integer, 'User age', required: false
+    param :photo_num,['0' ,'1' ,'2' ,'3'], 'Number of photos to upload', required: false
+    param :job, ['0' ,'1' ,'2' ,'3'], 'User job', required: false
+    param :age, String, 'User age', required: false
     param :startday, String, 'Date of the first relationship', required: false
-    param :eye_color, [0,1,2,3], 'User eyes color', required: false
-    param :hair_color, [0,1,2,3], 'User hair color', required: false
-    param :height, [0,1], 'User hair color', required: false
-    param :hairdressing, [0,1], 'User hairdressing', required: false
-    param :sex_interest, [0,1,2], 'Sex in which user is interested in. (0: Woman, 1: Man, 2: Both)', required: false
-    param :sex_gender, [0,1], 'User gender (0: Female, 1: Male)', required: false
+    param :eye_color, ['0' ,'1' ,'2' ,'3'], 'User eyes color', required: false
+    param :hair_color, ['0' ,'1' ,'2' ,'3'], 'User hair color', required: false
+    param :height, ['0' ,'1'], 'User hair color', required: false
+    param :hairdressing, ['0' ,'1'], 'User hairdressing', required: false
+    param :sex_interest, ['0' ,'1' ,'2'], 'Sex in which user is interested in. (0: Woman, 1: Man, 2: Both)', required: false
+    param :sex_gender, ['0' ,'1'], 'User gender (0: Female, 1: Male)', required: false
     param :preferences,Array, 'Array of size 6. This must contain 1 to 6 numbers sorted by user preferences. Example: [2,5,3,1,6,4] or [6,4,2,4,3,1]', required: false
   end
 
@@ -286,7 +286,7 @@ class UsersController < ApplicationController
      'info':'User :user_id removed successfully'
   }"
   def destroy
-    id = @user.id
+    id = @user.user_id
     @user.destroy
     return  render json: {info:"User #{@user.id} removed successfully"}
   end
@@ -332,7 +332,7 @@ class UsersController < ApplicationController
 
       # List of parameters allowed in user requests.
       def user_params
-        params.permit(:name, :email, :facebook_id, :status, :password,  :age, :startday, :eye_color, :hair_color, :height,:main_photo_url, :photo_num, :sex_interest, :sex_gender, {preferences: []}, :hairdressing, :job)
+        params.permit(:name, :email, :facebook_id, :status, :password,  :birthday, :age, :startday, :eye_color, :hair_color, :height,:main_photo_url, :photo_num, :sex_interest, :sex_gender, {preferences: []}, :hairdressing, :job)
       end
 
       def admin_user

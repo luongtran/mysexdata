@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   has_many :lovers, through: :user_lovers
 
   # Photos
-  has_many :user_photos
+  has_many :user_photos, foreign_key: "user_id", dependent: :destroy
   has_many :photos, through: :user_photos, dependent: :destroy
 
   # Messages
@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
   validates :photo_num, presence: true
   validates :lovers_num, presence: false
   validates :age, presence: true
+  validates :birthday, presence: true
   validates :startday, presence: true
   validates :eye_color, presence: true
   validates :hair_color, presence: true

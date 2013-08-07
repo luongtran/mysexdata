@@ -4,7 +4,7 @@
 class LoversController < ApplicationController
 
   # Token authentication
-  before_action :set_user, :authenticate
+  before_action :set_user#, :authenticate
 
   before_action :set_lover, only: [:show, :update, :destroy]
 
@@ -262,7 +262,7 @@ class LoversController < ApplicationController
      begin
         @user = User.find(params[:user_id])
       rescue
-        return render json: {exception: "LoverException", message: "This user doesn't exist"}, status: 422
+        return render json: {exception: "LoverException", message: "This user doesn't exist"}, status: 400
       end
     end
 
@@ -271,7 +271,7 @@ class LoversController < ApplicationController
       begin
         @lover = Lover.find(params[:lover_id])
       rescue
-        return render json: {exception: "LoverException", message: "This lover doesn't exist"}, status: 422
+        return render json: {exception: "LoverException", message: "This lover doesn't exist"}, status: 400
       end
 
     end

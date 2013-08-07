@@ -1,4 +1,5 @@
 # Script that add different elements in each table when is called rake db:populate
+require 'ffaker'
 
 namespace :db do
   desc "Fill database with sample data"
@@ -38,6 +39,7 @@ def make_admin
                photo_num: 0,
                job: 0,
                age: 0,
+               birthday: "11/11/1111",
                startday: "11/11/1111",
                eye_color: 0,
                hair_color: 0,
@@ -57,11 +59,12 @@ def make_users
     name  = Faker::Name.name
     email = "example-#{n+1}@railstutorial.org"
     password  = "1234"
-    facebook_id = Faker::Lorem.characters(15)
+    facebook_id = Faker::Internet.user_name
     main_photo_url ="http://url.jpg"
     photo_num = 0
     age = 30
     startday = Date.new(1111,11,11)
+    birthday = Date.new(1111,11,11)
     job = 0
     eye_color = 0
     hair_color = 0
@@ -77,6 +80,7 @@ def make_users
                  main_photo_url: main_photo_url,
                  photo_num: photo_num,
                  age: age,
+                 birthday: birthday,
                  startday: startday,
                  job: job,
                  eye_color: eye_color,
@@ -91,11 +95,12 @@ def make_users
     name  = Faker::Name.name
     email = "example-#{100-n+1}@railstutorial.org"
     password  = "1234"
-    facebook_id = Faker::Lorem.characters(15)
+    facebook_id = Faker::Internet.user_name
     main_photo_url ="http://url.jpg"
     photo_num = 0
     age = 30
     startday = Date.new(1111,11,11)
+    birthday = Date.new(1111,11,11)
     job = 0
     eye_color = 0
     hair_color = 0
@@ -111,6 +116,7 @@ def make_users
                  main_photo_url: main_photo_url,
                  photo_num: photo_num,
                  age: age,
+                 birthday: birthday,
                  startday: startday,
                  job: job,
                  eye_color: eye_color,
@@ -132,8 +138,8 @@ def make_lovers
     name2 = Faker::Name.name
     url = "http://#{name}.jpg"
     url2 = "http://#{name2}.jpg"
-    public_lover = Lover.create!(name: name,facebook_id: Faker::Lorem.characters(15), photo_url: url)
-    secret_lover = Lover.create!(name: name2,facebook_id: Faker::Lorem.characters(15), photo_url: url2)
+    public_lover = Lover.create!(name: name,facebook_id: Faker::Internet.user_name, photo_url: url)
+    secret_lover = Lover.create!(name: name2,facebook_id: Faker::Internet.user_name, photo_url: url2)
     public_lovers.push(public_lover)
     secret_lovers.push(secret_lover)
   end

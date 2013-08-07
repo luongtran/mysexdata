@@ -47,7 +47,7 @@ form do |f|
 
 controller do
     def permitted_params
-      params.permit(:user => [:name, :email, :remember_token, :password, :status, :main_photo_url, :photo_num, :lovers_num, :job, :age, :startday, :eye_color, :hair_color, :height, :hairdressing, :sex_intereset, :sex_gender, :preferences, :admin ])
+      params.permit(:user => [:name, :email, :remember_token, :password, :status, :main_photo_url, :photo_num, :lovers_num, :job, :age, :birthday, :startday, :eye_color, :hair_color, :height, :hairdressing, :sex_intereset, :sex_gender, :preferences, :admin ])
     end
   end
 end

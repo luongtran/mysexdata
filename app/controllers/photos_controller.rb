@@ -137,7 +137,7 @@ class PhotosController < ApplicationController
      begin
         @user = User.find(params[:user_id])
       rescue
-        return render json: {exception: "PhotosException", message: "This user doesn't exist"}, status: 422
+        return render json: {exception: "PhotosException", message: "This user doesn't exist"}, status: 400
       end
     end
 
@@ -146,7 +146,7 @@ class PhotosController < ApplicationController
       begin
         @photo = Photo.find(params[:photo_id])
       rescue
-        return render json: {exception: "PhotosException", message: "This photo doesn't exist"}, status: 422
+        return render json: {exception: "PhotosException", message: "This photo doesn't exist"}, status: 400
       end
     end
 

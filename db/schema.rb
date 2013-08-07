@@ -163,7 +163,7 @@ ActiveRecord::Schema.define(version: 20130730145125) do
 
   add_index "user_lovers", ["user_id", "lover_id"], name: "index_user_lovers_on_user_id_and_lover_id", unique: true, using: :btree
 
-  create_table "user_photos", id: false, force: true do |t|
+  create_table "user_photos", force: true do |t|
     t.integer "user_id"
     t.integer "photo_id"
   end
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 20130730145125) do
     t.integer  "lovers_num",     default: 0
     t.integer  "job"
     t.integer  "age"
+    t.datetime "birthday"
     t.datetime "startday"
     t.integer  "eye_color"
     t.integer  "hair_color"

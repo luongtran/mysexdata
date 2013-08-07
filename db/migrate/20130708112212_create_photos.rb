@@ -6,8 +6,8 @@ class CreatePhotos < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :user_photos, :id => false do |t|
-     t.belongs_to :user
+    create_table :user_photos do |t|
+      t.belongs_to :user
       t.belongs_to :photo
     end
   end

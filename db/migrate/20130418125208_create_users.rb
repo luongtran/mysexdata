@@ -12,6 +12,7 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :lovers_num, default: 0
       t.integer :job
       t.integer :age
+      t.datetime :birthday
       t.datetime :startday
       t.integer :eye_color
       t.integer :hair_color
