@@ -334,7 +334,7 @@ class UsersController < ApplicationController
 
       # List of parameters allowed in user requests.
       def user_params
-        params.permit(:name, :email, :facebook_id, :status, :password,  :birthday, :age, :startday, :eye_color, :hair_color, :height,:main_photo_url, :photo_num, :sex_interest, :sex_gender, {preferences: []}, :hairdressing, :job)
+        params.permit(:name, :email, :facebook_id, :status, :password, :age,:birthday, :startday, :eye_color, :hair_color, :height,:main_photo_url, :photo_num, :sex_interest, :sex_gender, {preferences: []}, :hairdressing, :job)
       end
 
       def admin_user
