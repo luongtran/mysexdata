@@ -8,7 +8,7 @@ include UsersHelper
   # Definition of api doc params
   def_param_group :messages do
     param :message, Hash do
-      param :receiver_id, Integer, required: true
+      param :receiver_id, String, required: true
       param :content, String, required: true
     end
   end

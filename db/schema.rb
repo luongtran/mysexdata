@@ -75,7 +75,10 @@ ActiveRecord::Schema.define(version: 20130730145125) do
     t.integer  "caresses"
     t.integer  "anal_sex"
     t.integer  "post_intercourse"
+    t.integer  "blow_job"
     t.integer  "repeat"
+    t.integer  "visibility"
+    t.integer  "times"
     t.integer  "personal_score"
     t.integer  "msd_score"
     t.integer  "final_score"
@@ -149,7 +152,7 @@ ActiveRecord::Schema.define(version: 20130730145125) do
   end
 
   create_table "photos", force: true do |t|
-    t.string   "url"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

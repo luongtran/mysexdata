@@ -3,8 +3,6 @@ class GeosexesController < ApplicationController
   before_action :set_user, :authenticate
   before_action :set_geouser, :except => [:create]
 
-  DISTANCE_USERS =20 #Miles
-
   respond_to :json
 
   def_param_group :geosex_param do
@@ -155,7 +153,7 @@ class GeosexesController < ApplicationController
   }"
   error code: 400
   def search_closest_users
-    @closest_users = @user.geosex.nearbys(DISTANCE_USERS)
+    @closest_users = @user.geosex.nearbys(USERS_DISTANCE)
     @nearby_users = Array.new
 
     # Iterate over each closest user to retrieve his personal info.

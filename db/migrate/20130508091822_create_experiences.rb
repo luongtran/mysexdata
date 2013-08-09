@@ -15,7 +15,10 @@ class CreateExperiences < ActiveRecord::Migration
       t.integer :caresses
       t.integer :anal_sex
       t.integer :post_intercourse
+      t.integer :blow_job
       t.integer :repeat
+      t.integer :visibility
+      t.integer :times
       t.integer :personal_score
       t.integer :msd_score
       t.integer :final_score

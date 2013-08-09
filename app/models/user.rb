@@ -38,7 +38,6 @@ class User < ActiveRecord::Base
   has_many :blocked_users,foreign_key: "user_id", dependent: :destroy
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
-  VALID_DATE_REGEX = /\d{2}+\/\d{2}+\/\d{4}/
 
   validates :name, presence: true
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false}

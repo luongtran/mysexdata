@@ -10,7 +10,7 @@ class FriendshipsController < ApplicationController
   # Definition of api doc params
   def_param_group :accept_params do
     param :friendships, Hash do
-      param :friend_id, Integer, required: true
+      param :friend_id, String, required: true
     end
   end
 
@@ -39,12 +39,12 @@ class FriendshipsController < ApplicationController
     'user_id': 1,
     'friendships': [
         {
-            'user_id': 4,
+            'user_id': '4',
             'name': 'Ida Fadel',
             'main_photo_url': 'http://url.jpg'
         },
         {
-            'user_id': 5,
+            'user_id': '5',
             'name': 'Zena Johns',
             'main_photo_url': 'http://url.jpg'
         }
@@ -301,7 +301,7 @@ class FriendshipsController < ApplicationController
   {
     'friendships':
       {
-          'friend_id':2
+          'friend_id':'2'
       }
   }"
   error code:400
@@ -342,6 +342,7 @@ class FriendshipsController < ApplicationController
 
   Authorization: Token token=<remember_token>"
   example "
+  Response:
   {
       'user_id': 10,
       'friendships': [
@@ -368,10 +369,11 @@ class FriendshipsController < ApplicationController
   Authorization: Token token=<remember_token>"
   param_group :accept_params
   example "
+  Request body:
   {
     'friendships':
       {
-          'friend_id':2
+          'friend_id':'2'
       }
   }"
   error code:400
@@ -393,6 +395,7 @@ class FriendshipsController < ApplicationController
 
   Authorization: Token token=<remember_token>"
   example "
+  Response:
   {
       'user_id': 10,
       'friendships': [
@@ -445,10 +448,11 @@ class FriendshipsController < ApplicationController
   Authorization: Token token=<remember_token>"
   param_group :accept_params
   example "
+  Request body:
   {
     'friendships':
       {
-          'friend_id':2
+          'friend_id':'2'
       }
   }"
   error code: 400
@@ -471,10 +475,11 @@ class FriendshipsController < ApplicationController
   Authorization: Token token=<remember_token>"
   param_group :accept_params
   example "
+  Request body:
   {
     'friendships':
       {
-          'friend_id':2
+          'friend_id':'2'
       }
   }"
   error code:400
@@ -496,6 +501,7 @@ class FriendshipsController < ApplicationController
 
   Authorization: Token token=<remember_token>"
   example "
+  Response:
   {
 
     'user_id': 10,
@@ -546,6 +552,7 @@ class FriendshipsController < ApplicationController
 
   Authorization: Token token=<remember_token>"
   example "
+  Response:
   {
     'user_id': 10,
     'friend_id': 1,
@@ -590,6 +597,7 @@ class FriendshipsController < ApplicationController
 
   Authorization: Token token=<remember_token>"
   example "
+  Response:
   {
     'experience_id': 1,
     'final_score': 4

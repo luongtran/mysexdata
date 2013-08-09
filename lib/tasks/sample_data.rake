@@ -179,8 +179,8 @@ def make_photos
   users = User.all(limit:6)
   photos = Array.new
   5.times do |n|
-    url="http://myurl#{n+1}"
-    photo = Photo.create!(url: url)
+    name="picture#{n+1}.jpeg"
+    photo = Photo.create!(name: name)
     photos.push(photo)
   end
   users.each { |user| user.photos = photos}

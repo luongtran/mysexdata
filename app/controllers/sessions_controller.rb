@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     @title = "Sign in"
   end
 
-  api :POST, '/session', 'Returns remember token to access user information'
+  api :POST, '/sessions', 'Returns remember token to access user information'
   formats ['json']
   param :email, String, required: true
   param :password, String, required: true

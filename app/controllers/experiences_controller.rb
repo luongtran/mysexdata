@@ -14,23 +14,25 @@ class ExperiencesController < ApplicationController
     param :experience, Hash do
       param :date, String, required: false
       param :location, String, required: false
-      param :moment, [0,1,2], required: false
-      param :place, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :detail_one, [0,1,2], required: false
-      param :detail_two, [0,1,2], required: false
-      param :detail_three, [0,1,2], required: false
-      param :hairdressing, [0,1], required: false
-      param :kiss, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :oral_sex, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :intercourse, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :caresses, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :anal_sex, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :post_intercourse, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :personal_score, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :repeat, [0,1], required: false
+      param :moment, ['0','1','2'], required: false
+      param :place, ['0','1','2','3','4','5','6','7','8','9'], required: false
+      param :detail_one, ['0','1','2'], 'If gender is male, then only can take two values (0 or 1)',required: false
+      param :detail_two, ['0','1','2'], 'If gender is male, then only can take two values (0 or 1)', required: false
+      param :detail_three, ['0','1','2','-1'],'If gender is male, -1 value is assigned because property three doesn\'t exist', required: false
+      param :hairdressing, ['0','1'], required: false
+      param :kiss, ['0','1','2','3','4','5','6','7','8','9'], required: false
+      param :oral_sex, ['0','1','2','3','4','5','6','7','8','9'], required: false
+      param :intercourse, ['0','1','2','3','4','5','6','7','8','9'], required: false
+      param :caresses, ['0','1','2','3','4','5','6','7','8','9'], required: false
+      param :anal_sex, ['0','1','2','3','4','5','6','7','8','9'], required: false
+      param :post_intercourse, ['0','1','2','3','4','5','6','7','8','9'], required: false
+      param :personal_score, ['0','1','2','3','4','5','6','7','8','9'], required: false
+      param :blow_job, ['0','1','2','3','4','5','6','7','8','9'], required: false
+      param :visibility, ['0','1'], required: false
+      param :times, String, required: false
+      param :repeat, String, required: false
       param :msd_score, Float, required: false
-      param :bad_lover, Integer, required: false
-      param :final_score, Integer, required: false
+      param :final_score, String, required: false
     end
   end
 
@@ -64,10 +66,12 @@ class ExperiencesController < ApplicationController
             'caresses': 3,
             'anal_sex': 1,
             'post_intercourse': 9,
+            'blow_job':2,
             'personal_score': 5,
+            'visibility':1,
+            'times':3,
             'repeat': 0,
-            'msd_score': '0.0',
-            'bad_lover': 0,
+            'msd_score': 0.0,
             'final_score': 4
         }
   }"
@@ -104,10 +108,12 @@ class ExperiencesController < ApplicationController
             'caresses': 3,
             'anal_sex': 1,
             'post_intercourse': 9,
+            'blow_job':2,
             'personal_score': 5,
+            'visibility':1,
+            'times':3,
             'repeat': 0,
             'msd_score': '0.0',
-            'bad_lover': 0,
             'final_score': 4
         },
         {
@@ -125,10 +131,12 @@ class ExperiencesController < ApplicationController
             'caresses': 3,
             'anal_sex': 1,
             'post_intercourse': 9,
+            'blow_job':2,
             'personal_score': 5,
+            'visibility':1,
+            'times':3,
             'repeat': 0,
             'msd_score': '0.0',
-            'bad_lover': 0,
             'final_score': 5
         }
       ]
@@ -150,24 +158,27 @@ class ExperiencesController < ApplicationController
   example "
   Request body:
   {
-      'date': '1111-11-11T00:00:00.000Z',
-      'location': 1,
-      'place': 1,
-      'detail_one': 1,
-      'detail_two': 1,
-      'detail_three': 1,
-      'hairdressing': 1,
-      'kiss': 1,
-      'oral_sex': 2,
-      'intercourse': 3,
-      'caresses': 5,
-      'anal_sex': 3,
-      'post_intercourse': 5,
-      'personal_score': 1,
-      'repeat': 1,
+      'date': '11/11/2010',
+      'moment':'1',
+      'location': '1',
+      'place': '1',
+      'detail_one': '1',
+      'detail_two': '1',
+      'detail_three': '1',
+      'hairdressing': '1',
+      'kiss': '1',
+      'oral_sex': '2',
+      'intercourse': '3',
+      'caresses': '5',
+      'anal_sex': '3',
+      'post_intercourse': '5',
+      'blow_job':'2',
+      'personal_score': '1',
+      'visibility':'1',
+      'times':'3',
+      'repeat': '1',
       'msd_score': 9.0,
-      'bad_lover': 1,
-      'final_score': 7
+      'final_score': '7'
   }
 
   Response:
@@ -176,6 +187,7 @@ class ExperiencesController < ApplicationController
     'experience': {
         'experience_id': 6,
         'date': '1111-11-11T00:00:00.000Z',
+        'moment':1,
         'location': 1,
         'place': 1,
         'detail_one': 1,
@@ -188,10 +200,12 @@ class ExperiencesController < ApplicationController
         'caresses': 5,
         'anal_sex': 3,
         'post_intercourse': 5,
+        'blow_job':2,
         'personal_score': 1,
+        'visibility':1,
+        'times':3,
         'repeat': 1,
         'msd_score': 9.0,
-        'bad_lover': 1,
         'final_score': 7
     }
 }"
@@ -213,14 +227,15 @@ error code:400
   example "
   Request body:
   {
-    'place':2
+    'place':'2'
   }
 
   Response:
    {
       'experience_id': 2,
       'date': '1111-11-11T00:00:00.000Z',
-      'location': '2',
+      'moment': 1,
+      'location': 2,
       'place': 2,
       'detail_one': 1,
       'detail_two': 1,
@@ -232,10 +247,12 @@ error code:400
       'caresses': 5,
       'anal_sex': 6,
       'post_intercourse': 5,
+      'blow_job':2,
       'personal_score': 5,
+      'visibility':1,
+      'times':3,
       'repeat': 1,
       'msd_score': 8.0,
-      'bad_lover': 1,
       'final_score': 4
   }"
   error code:400
@@ -295,7 +312,7 @@ error code:400
 
     # Parameters that are allowed by Experience model.
     def experience_params
-      params.require(:experience).permit(:date,:location,:place,:detail_one,:detail_two,:detail_three,:hairdressing,:kiss,:oral_sex,:intercourse,:caresses,:anal_sex,:post_intercourse,:personal_score,:next_one,:msd_score,:bad_lover,:final_score)
+      params.require(:experience).permit(:date,:moment,:location,:place,:detail_one,:detail_two,:detail_three,:hairdressing,:kiss,:oral_sex,:intercourse,:caresses,:anal_sex,:post_intercourse,:blow_job,:visibility, :times, :personal_score,:next_one,:msd_score,:final_score)
     end
 
 end

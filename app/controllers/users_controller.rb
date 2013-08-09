@@ -23,7 +23,8 @@ class UsersController < ApplicationController
     param :photo_num,['0' ,'1' ,'2' ,'3'], 'Number of photos to upload', required: false
     param :job, ['0' ,'1' ,'2' ,'3'], 'User job', required: true
     param :age, String, 'User age', required: true
-    param :startday, String, 'Date of the first relationship', required: true
+    param :birthday, String, 'Date of the birthday with the next format: dd/mm/yyyy', required: true
+    param :startday, String, 'Date of the first relationship with the next format: dd/mm/yyyy', required: true
     param :eye_color, ['0' ,'1' ,'2' ,'3'], 'User eyes color', required: true
     param :hair_color, ['0' ,'1' ,'2' ,'3'], 'User hair color', required: true
     param :height, ['0' ,'1'], 'User hair color', required: true
@@ -44,7 +45,8 @@ class UsersController < ApplicationController
     param :photo_num,['0' ,'1' ,'2' ,'3'], 'Number of photos to upload', required: false
     param :job, ['0' ,'1' ,'2' ,'3'], 'User job', required: false
     param :age, String, 'User age', required: false
-    param :startday, String, 'Date of the first relationship', required: false
+    param :birthday, String, 'Date of the birthday with the next format: dd/mm/yyyy', required: false
+    param :startday, String, 'Date of the first relationship with the next format: dd/mm/yyyy ', required: false
     param :eye_color, ['0' ,'1' ,'2' ,'3'], 'User eyes color', required: false
     param :hair_color, ['0' ,'1' ,'2' ,'3'], 'User hair color', required: false
     param :height, ['0' ,'1'], 'User hair color', required: false
