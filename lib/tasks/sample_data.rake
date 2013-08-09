@@ -59,7 +59,7 @@ def make_users
     name  = Faker::Name.name
     email = "example-#{n+1}@railstutorial.org"
     password  = "1234"
-    facebook_id = Faker::Internet.user_name
+    facebook_id = "face#{n+1}"
     main_photo_url ="http://url.jpg"
     photo_num = 0
     age = 30
