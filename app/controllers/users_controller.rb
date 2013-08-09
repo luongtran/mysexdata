@@ -174,19 +174,19 @@ class UsersController < ApplicationController
     ‘email’: ‘example@railstutorial6.org’,
     ‘password’: ‘1234’,
     ‘facebook_id’: ‘26’,
-    ‘status’: 0
+    ‘status’: '0'
     ‘main_photo_url’:’http://url.jpg’,
-    ‘photo_num’: 0,
-    ‘job’: 0,
-    ‘age’: 25,
+    ‘photo_num’: '0',
+    ‘job’: '0',
+    ‘age’: '25',
     ‘birthday: ‘11/11/1111’,
     ‘startday’: ‘11/11/1111’,
-    ‘eye_color’: 0,
-    ‘hair_color’: 0,
-    ‘height’: 0,
-    ‘hairdressing’: 0,
-    ‘sex_interest’: 0,
-    ‘sex_gender’: 0,
+    ‘eye_color’: '0',
+    ‘hair_color’: '0',
+    ‘height’: '0',
+    ‘hairdressing’: '0',
+    ‘sex_interest’: '0',
+    ‘sex_gender’: '0',
     ‘preferences’: [1, 2, 3, 4, 5, 6]
   }
 
