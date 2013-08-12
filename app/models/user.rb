@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
+  VALID_URL_REGEX = //i
 
   validates :name, presence: true
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false}
@@ -26,6 +27,9 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence:true
   validates :password, length: { maximum: 4 }
   validates :preferences, presence: true
+  validate :startday_and_birthday_must_be_before_current_time
+  validate :starday_must_be_after_birthday
+  validate :age_must_correspond_with_birthday
 
   before_save { self.email = email.downcase }
   before_create :create_remember_token
@@ -151,5 +155,30 @@ class User < ActiveRecord::Base
     def create_remember_token
       self.remember_token = SecureRandom.urlsafe_base64
     end
+
+    def  age_must_correspond_with_birthday
+      year = Time.now.strftime("%Y").to_i - self.birthday.strftime("%Y").to_i
+      if year != self.age
+        errors.add(:age, "not corresponds to birthday")
+      end
+    end
+
+    def starday_must_be_after_birthday
+      if self.startday < self.birthday
+        errors.add(:startday, "cannot be before birthday")
+      end
+    end
+
+    def  startday_and_birthday_must_be_before_current_time
+      logger.debug self.startday
+      logger.debug self.birthday
+
+      logger.debug self.startday > Time.now
+      logger.debug self.birthday > Time.now
+      if self.startday > Time.now or self.birthday > Time.now
+        errors.add(:startday_or_birthday, "cannot be after current time")
+      end
+    end
+
 
 end
