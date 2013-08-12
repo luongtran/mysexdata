@@ -347,10 +347,14 @@ class FriendshipsController < ApplicationController
       'user_id': 10,
       'friendships': [
         {
-            'friend_id': 1
+            'user_id': '4',
+            'name': 'Ida Fadel',
+            'main_photo_url': 'http://url.jpg'
         },
         {
-            'friend_id': 2
+            'user_id': '6',
+            'name': 'Pedro Sanchez',
+            'main_photo_url': 'http://url.jpg'
         }
       ]
   }"
