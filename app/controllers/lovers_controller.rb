@@ -209,7 +209,6 @@ class LoversController < ApplicationController
 
   Response
   {
-
     'lover_id': 14,
     'facebook_id': '2wewer',
     'name': 'Emilio Sánchez',
@@ -218,8 +217,7 @@ class LoversController < ApplicationController
     'sex_gender': 0,
     'job': 1,
     'height': 3
-
-    }"
+  }"
   def update
     if !params[:lovers][:visibility].nil?
 

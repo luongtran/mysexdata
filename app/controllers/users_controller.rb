@@ -63,7 +63,7 @@ class UsersController < ApplicationController
     'name': 'Example User'
     ‘email’: ‘example@railstutorial6.org’,
     ‘facebook_id’: ‘26’,
-    ‘status’: 0
+    ‘status’: 0,
     ‘main_photo_url’:’http://url.jpg’,
     ‘photo_num’: 0,
     ‘job’: 0,
@@ -83,7 +83,7 @@ class UsersController < ApplicationController
     'name': 'Example User2'
     ‘email’: ‘example@railstutorial2.org’,
     ‘facebook_id’: ‘26’,
-    ‘status’: 0
+    ‘status’: 0,
     ‘main_photo_url’:’http://url.jpg’,
     ‘photo_num’: 0,
     ‘job’: 0,
@@ -118,7 +118,7 @@ class UsersController < ApplicationController
       ‘email’: ‘example@railstutorial6.org’,
       ‘password’: ‘1234’,
       ‘facebook_id’: ‘26’,
-      ‘status’: 0
+      ‘status’: 0,
       ‘main_photo_url’:’http://url.jpg’,
       ‘photo_num’: 0,
       ‘job’: 0,
@@ -174,7 +174,7 @@ class UsersController < ApplicationController
     ‘email’: ‘example@railstutorial6.org’,
     ‘password’: ‘1234’,
     ‘facebook_id’: ‘26’,
-    ‘status’: '0'
+    ‘status’: '0',
     ‘main_photo_url’:’http://url.jpg’,
     ‘photo_num’: '0',
     ‘job’: '0',
@@ -198,7 +198,7 @@ class UsersController < ApplicationController
     ‘email’: ‘example@railstutorial6.org’,
     ‘password’: ‘1234’,
     ‘facebook_id’: ‘26’,
-    ‘status’: 0
+    ‘status’: 0,
     ‘main_photo_url’:’http://url.jpg’,
     ‘photo_num’: 0,
     ‘job’: 0,
@@ -257,7 +257,7 @@ class UsersController < ApplicationController
     ‘email’: ‘example@railstutorial6.org’,
     ‘password’: ‘1234’,
     ‘facebook_id’: ‘26’,
-    ‘status’: 0
+    ‘status’: 0,
     ‘main_photo_url’:’http://url.jpg’,
     ‘photo_num’: 0,
     ‘job’: 0,
