@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     param :password, String, 'User password', required: true
     param :status, [0,1 ,2 ,3], 'User love status', required: true
     param :main_photo_url, String, 'Profile user photo', required: true
-    param :photo_num,[0 ,1 ,2 ,3], 'Number of photos to upload (Integer)', required: false
+    param :photo_num,[1 ,2 ,3, 4], 'Number of photos to upload (Integer)', required: false
     param :job, [0 ,1 ,2 ,3], 'User job (Integer)', required: true
     param :age, Integer, 'User age', required: true
     param :birthday, String, 'Date of the birthday with the next format: dd/mm/yyyy', required: true
@@ -223,6 +223,9 @@ class UsersController < ApplicationController
       if create_friendships(friends_users)
         clear_external_invitations;
       end
+
+      #TODO Add default photo
+
 
       return render action: 'show_with_token', status: :created
     else

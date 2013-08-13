@@ -14,22 +14,22 @@ class ExperiencesController < ApplicationController
     param :experience, Hash do
       param :date, String, required: false
       param :location, String, required: false
-      param :moment, [0,1,2], required: false
-      param :place, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :detail_one, [0,1,2], 'If gender is male, then only can take two values (0 or 1)',required: false
-      param :detail_two, [0,1,2], 'If gender is male, then only can take two values (0 or 1)', required: false
+      param :moment, [-1,0,1,2], required: false
+      param :place, [-1,0,1,2,3,4,5,6,7,8,9], required: false
+      param :detail_one, [-1,0,1,2], 'If gender is male, then only can take two values (0 or 1)',required: false
+      param :detail_two, [-1,0,1,2], 'If gender is male, then only can take two values (0 or 1)', required: false
       param :detail_three, [0,1,2,-1],'If gender is male, -1 value is assigned because property three doesn\'t exist', required: false
-      param :hairdressing, [0,1], required: false
-      param :kiss, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :oral_sex, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :intercourse, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :caresses, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :anal_sex, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :post_intercourse,[0,1,2,3,4,5,6,7,8,9], required: false
-      param :personal_score, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :visibility, [0,1 ], required: false
+      param :hairdressing, [-1,0,1], '-1 if no value in field', required: false
+      param :kiss, [-1,0,1,2,3,4,5,6,7,8,9],'-1 if no value in field', required: false
+      param :oral_sex, [-1,0,1,2,3,4,5,6,7,8,9], '-1 if no value in field', required: false
+      param :intercourse, [-1,0,1,2,3,4,5,6,7,8,9], '-1 if no value in field', required: false
+      param :caresses, [-1,0,1,2,3,4,5,6,7,8,9], '-1 if no value in field', required: false
+      param :anal_sex, [-1,0,1,2,3,4,5,6,7,8,9], '-1 if no value in field', required: false
+      param :post_intercourse,[-1,0,1,2,3,4,5,6,7,8,9,], '-1 if no value in field', required: false
+      param :personal_score, [-1,0,1,2,3,4,5,6,7,8,9], '-1 if no value in field', required: false
+      param :visibility, [-1,0,1], required: false
       param :times, Integer, required: false
-      param :repeat, [0,1], required: false
+      param :repeat, [-1,0,1], '-1 if no value in field', required: false
       param :msd_score, Float, required: false
       param :final_score, Integer, required: false
     end
