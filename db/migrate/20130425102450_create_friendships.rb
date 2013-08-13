@@ -4,7 +4,7 @@ class CreateFriendships < ActiveRecord::Migration
       t.integer :user_id
       t.integer :friend_id
       t.boolean :accepted, default: false
-      t.boolean :pending, default: false
+      t.boolean :pending, default: true
       t.boolean :secret_lover_ask, default: false
       t.boolean :secret_lover_accepted, default: false
 

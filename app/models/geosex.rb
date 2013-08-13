@@ -8,6 +8,7 @@ class Geosex < ActiveRecord::Base
   VALID_LAT_LNG_REGEX = /\d+\.\d+/
 
   validates :user_id, presence: true, uniqueness: { case_sensitive: false}
-  validates :lat, presence: true, format: { with: VALID_LAT_LNG_REGEX },numericality: { greater_than: -90, less_than: 90 }
-  validates :lng, presence: true, format: { with: VALID_LAT_LNG_REGEX },numericality: { greater_than: -180, less_than: 180 }
+  validates :lat, presence: true, format: { with: VALID_LAT_LNG_REGEX },numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
+  validates :lng, presence: true, format: { with: VALID_LAT_LNG_REGEX },numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
+  validates :address, presence: false
 end
