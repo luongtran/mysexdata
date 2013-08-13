@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   validates :sex_interest, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 2 }
   validates :sex_gender, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
   validates :hairdressing, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
-  validates :password_confirmation, presence:true
+  validates :password_confirmation, presence:false
   validates :password, length: { maximum: 4 }
   validates :preferences, presence: true
   validate :startday_and_birthday_must_be_before_current_time

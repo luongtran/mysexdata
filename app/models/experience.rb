@@ -23,7 +23,7 @@ class Experience < ActiveRecord::Base
   validates :repeat, presence: false, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
   validates :visibility, presence: false, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
   validates :times, presence: false, numericality: { only_integer: true, greater_than_or_equal_to: 0}
-  validates :msd_score, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 10 }
+  validates :msd_score, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10 }
   validates :final_score, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 10 }
   validates :personal_score, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 10 }
 

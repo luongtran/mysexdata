@@ -18,20 +18,20 @@ class UsersController < ApplicationController
     param :email, String, 'Email of the user', required: true
     param :facebook_id, String, 'Facebook id of the user facebook profile', required: true
     param :password, String, 'User password', required: true
-    param :status, ['0' ,'1' ,'2' ,'3'], 'User love status', required: true
+    param :status, [0,1 ,2 ,3], 'User love status', required: true
     param :main_photo_url, String, 'Profile user photo', required: true
-    param :photo_num,['0' ,'1' ,'2' ,'3'], 'Number of photos to upload', required: false
-    param :job, ['0' ,'1' ,'2' ,'3'], 'User job', required: true
-    param :age, String, 'User age', required: true
+    param :photo_num,[0 ,1 ,2 ,3], 'Number of photos to upload (Integer)', required: false
+    param :job, [0 ,1 ,2 ,3], 'User job (Integer)', required: true
+    param :age, Integer, 'User age', required: true
     param :birthday, String, 'Date of the birthday with the next format: dd/mm/yyyy', required: true
     param :startday, String, 'Date of the first relationship with the next format: dd/mm/yyyy', required: true
-    param :eye_color, ['0' ,'1' ,'2' ,'3'], 'User eyes color', required: true
-    param :hair_color, ['0' ,'1' ,'2' ,'3'], 'User hair color', required: true
-    param :height, ['0' ,'1'], 'User hair color', required: true
-    param :hairdressing, ['0' ,'1'], 'User hairdressing', required: true
-    param :sex_interest, ['0' ,'1' ,'2'], 'Sex in which user is interested in. (0: Woman, 1: Man, 2: Both)', required: true
-    param :sex_gender, ['0' ,'1'], 'User gender (0: Female, 1: Male)', required: true
-    param :preferences,Array, 'Array of size 6. This must contain 1 to 6 numbers sorted by user preferences. Example: [2,5,3,1,6,4] or [6,4,2,4,3,1]', required: true
+    param :eye_color, [0 ,1 ,2 ,3], 'User eyes color (Integer)', required: true
+    param :hair_color, [0 ,1 ,2 ,3], 'User hair color (Integer) ', required: true
+    param :height, [0 ,1], 'User hair color (Integer)', required: true
+    param :hairdressing, [0 ,1], 'User hairdressing (Integer)', required: true
+    param :sex_interest, [0,1 ,2], 'Sex in which user is interested in. (0: Woman, 1: Man, 2: Both) (Integer)', required: true
+    param :sex_gender, [0 ,1], 'User gender (0: Female, 1: Male) (Integer)', required: true
+    param :preferences,Array, 'Array of size 6. This must contain 1 to 6 integers sorted by user preferences. Example: [2,5,3,1,6,4] or [6,4,2,4,3,1]', required: true
   end
 
   # Optional user params used to update users.
@@ -40,27 +40,27 @@ class UsersController < ApplicationController
     param :email, String, 'Email of the user', required: false
     param :facebook_id, String, 'Facebook id of the user facebook profile', required: false
     param :password, String, 'User password', required: false
-    param :status, ['0' ,'1' ,'2' ,'3'], 'User love status', required: false
+    param :status, [0 ,1 ,2 ,3], 'User love status', required: false
     param :main_photo_url, String, 'Profile user photo', required: false
-    param :photo_num,['0' ,'1' ,'2' ,'3'], 'Number of photos to upload', required: false
-    param :job, ['0' ,'1' ,'2' ,'3'], 'User job', required: false
-    param :age, String, 'User age', required: false
+    param :photo_num,[0 ,1 ,2 ,3], 'Number of photos to upload (Integer)', required: false
+    param :job, [0 ,1 ,2 ,3], 'User job (Integer)', required: false
+    param :age, Integer, 'User age', required: false
     param :birthday, String, 'Date of the birthday with the next format: dd/mm/yyyy', required: false
     param :startday, String, 'Date of the first relationship with the next format: dd/mm/yyyy ', required: false
-    param :eye_color, ['0' ,'1' ,'2' ,'3'], 'User eyes color', required: false
-    param :hair_color, ['0' ,'1' ,'2' ,'3'], 'User hair color', required: false
-    param :height, ['0' ,'1'], 'User hair color', required: false
-    param :hairdressing, ['0' ,'1'], 'User hairdressing', required: false
-    param :sex_interest, ['0' ,'1' ,'2'], 'Sex in which user is interested in. (0: Woman, 1: Man, 2: Both)', required: false
-    param :sex_gender, ['0' ,'1'], 'User gender (0: Female, 1: Male)', required: false
-    param :preferences,Array, 'Array of size 6. This must contain 1 to 6 numbers sorted by user preferences. Example: [2,5,3,1,6,4] or [6,4,2,4,3,1]', required: false
+    param :eye_color, [0 ,1 ,2 ,3], 'User eyes color (Integer)', required: false
+    param :hair_color, [0 ,1 ,2 ,3], 'User hair color (Integer)', required: false
+    param :height, [0 ,1], 'User hair color (Integer)', required: false
+    param :hairdressing, [0 ,1], 'User hairdressing (Integer)', required: false
+    param :sex_interest, [0 ,1 ,2], 'Sex in which user is interested in. (0: Woman, 1: Man, 2: Both) (Integer)', required: false
+    param :sex_gender, [0 ,1], 'User gender (0: Female, 1: Male) (Integer)', required: false
+    param :preferences,Array, 'Array of size 6. This must contain 1 to 6 integers sorted by user preferences. Example: [2,5,3,1,6,4] or [6,4,2,4,3,1]', required: false
   end
 
   api :GET, '/users', 'Show all users'
   example "
   [{
-    'user_id': 1,
-    'name': 'Example User'
+    ‘user_id’: 1,
+    ‘name’: ’Example User’,
     ‘email’: ‘example@railstutorial6.org’,
     ‘facebook_id’: ‘26’,
     ‘status’: 0,
@@ -77,10 +77,9 @@ class UsersController < ApplicationController
     ‘sex_interest’: 0,
     ‘sex_gender’: 0,
     ‘preferences’: [1, 2, 3, 4, 5, 6]
-    },{
-
+  },{
     'user_id': 2,
-    'name': 'Example User2'
+    'name': 'Example User2',
     ‘email’: ‘example@railstutorial2.org’,
     ‘facebook_id’: ‘26’,
     ‘status’: 0,
@@ -97,8 +96,7 @@ class UsersController < ApplicationController
     ‘sex_interest’: 0,
     ‘sex_gender’: 0,
     ‘preferences’: [1, 2, 3, 4, 5, 6]
-
-    }]"
+  }]"
   def index
     @users = User.all
   end
@@ -114,7 +112,7 @@ class UsersController < ApplicationController
   Response:
     {
       'user_id': 1,
-      'name': 'Example User'
+      'name': 'Example User',
       ‘email’: ‘example@railstutorial6.org’,
       ‘password’: ‘1234’,
       ‘facebook_id’: ‘26’,
@@ -131,7 +129,7 @@ class UsersController < ApplicationController
       ‘hairdressing’: 0,
       ‘sex_interest’: 0,
       ‘sex_gender’: 0,
-      ‘preferences’: [1, 2, 3, 4, 5, 6]
+      ‘preferences’: [1, 2, 3, 4, 5, 6],
       'lovers': {
         'public': [
           {
@@ -170,31 +168,7 @@ class UsersController < ApplicationController
   example "
   Request body:
   {
-    'name': 'Example User'
-    ‘email’: ‘example@railstutorial6.org’,
-    ‘password’: ‘1234’,
-    ‘facebook_id’: ‘26’,
-    ‘status’: '0',
-    ‘main_photo_url’:’http://url.jpg’,
-    ‘photo_num’: '0',
-    ‘job’: '0',
-    ‘age’: '25',
-    ‘birthday: ‘11/11/1111’,
-    ‘startday’: ‘11/11/1111’,
-    ‘eye_color’: '0',
-    ‘hair_color’: '0',
-    ‘height’: '0',
-    ‘hairdressing’: '0',
-    ‘sex_interest’: '0',
-    ‘sex_gender’: '0',
-    ‘preferences’: [1, 2, 3, 4, 5, 6]
-  }
-
-  Response:
-  {
-    'user_id': 1,
-    'remember_token':'xxxxxxxxxxxx'
-    'name': 'Example User'
+    'name': 'Example User',
     ‘email’: ‘example@railstutorial6.org’,
     ‘password’: ‘1234’,
     ‘facebook_id’: ‘26’,
@@ -212,9 +186,30 @@ class UsersController < ApplicationController
     ‘sex_interest’: 0,
     ‘sex_gender’: 0,
     ‘preferences’: [1, 2, 3, 4, 5, 6]
-    'lovers': {
-      'public': [],
-      'secret': []
+  }
+
+  Response:
+  {
+    'user_id': 1,
+    'name': 'Example User',
+    ‘email’: ‘example@railstutorial6.org’,
+    ‘password’: ‘1234’,
+    ‘facebook_id’: ‘26’,
+    ‘status’: 0,
+    ‘main_photo_url’:’http://url.jpg’,
+    ‘photo_num’: 0,
+    ‘job’: 0,
+    ‘age’: 25,
+    ‘birthday: ‘11/11/1111’,
+    ‘startday’: ‘11/11/1111’,
+    ‘eye_color’: 0,
+    ‘hair_color’: 0,
+    ‘height’: 0,
+    ‘hairdressing’: 0,
+    ‘sex_interest’: 0,
+    ‘sex_gender’: 0,
+    ‘preferences’: [1, 2, 3, 4, 5, 6],
+    'remember_token': 'adfdfasafag213asd'
     }
   }"
   def create
@@ -229,7 +224,7 @@ class UsersController < ApplicationController
         clear_external_invitations;
       end
 
-      return render action: 'show', status: :created
+      return render action: 'show_with_token', status: :created
     else
       return render json: @user.errors.full_messages, status: :unprocessable_entity
     end
@@ -253,7 +248,7 @@ class UsersController < ApplicationController
   Response
   {
     'user_id': 1,
-    'name': 'Federico'
+    'name': 'Federico',
     ‘email’: ‘example@railstutorial6.org’,
     ‘password’: ‘1234’,
     ‘facebook_id’: ‘26’,
@@ -275,10 +270,10 @@ class UsersController < ApplicationController
   def update
     @public_lovers = @user.public_lovers
     @secret_lovers = @user.secret_lovers
-      if @user.update(user_params)
-        return render action: 'show'
-      else
-      return render json: {exception: "UserException", message: "User \"#{@user.user_id}\" cannot be updated"}
+    if @user.update(user_params)
+      return render action: 'show'
+    else
+      return render json: {exception: "UserException", message: "User '#{@user.user_id}' cannot be updated, #{@user.errors.full_messages}."}
     end
   end
 
@@ -291,12 +286,12 @@ class UsersController < ApplicationController
   Authorization: Token token=<remember_token>"
   example "
   {
-     'info':'User :user_id removed successfully'
+     'info':'User :user_id was successfully remove'
   }"
   def destroy
     id = @user.user_id
     @user.destroy
-    return  render json: {info:"User #{@user.id} removed successfully"}
+    return  render json: {info:"User #{@user.id} was successfully remove"}
   end
 
   api :GET, '/users/:user_id/sex_affinity/:user2_id', 'Calculate sex affinity percentage of two users'
