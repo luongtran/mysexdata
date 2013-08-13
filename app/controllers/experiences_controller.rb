@@ -27,7 +27,7 @@ class ExperiencesController < ApplicationController
       param :anal_sex, [0,1,2,3,4,5,6,7,8,9], required: false
       param :post_intercourse,[0,1,2,3,4,5,6,7,8,9], required: false
       param :personal_score, [0,1,2,3,4,5,6,7,8,9], required: false
-      param :visibility, [0,1], required: false
+      param :visibility, [0,1 ], required: false
       param :times, Integer, required: false
       param :repeat, [0,1], required: false
       param :msd_score, Float, required: false
