@@ -3,18 +3,33 @@ module PhotosHelper
   require 'net/ftp'
   require 'stringio'
 
+  # Number of files that are by default in each folder.
+  PREDEFINED_FILES = 2
+
   # Method that uploads a picture to a FTP server.
-  def uploadPictureToFTP(id,name, image)
+  def uploadPictureToFTP(id,name, image, max_pic)
+    errors  = {}
+    logger.info "[INFO] Establishing connection with FTP Server"
     # FTP connection
     ftp = Net::FTP.new(FTP_HOST)
     ftp.passive = true
-    if ftp.login(FTP_USERNAME, FTP_PASSWORD)
+    begin
+      login = ftp.login(FTP_USERNAME, FTP_PASSWORD)
+    rescue Net::FTPPermError
+      logger.debug "[ERROR] User cannot be logged in"
+      errors[:error] = "User cannot be logged in"
+      return errors
+    end
+    if login
+      logger.info "[INFO] Login Done"
       # Cheking routes existence
       folders = ftp.nlst
       if !folders.any?{|s| s.include? 'profile_pictures'}
         if !ftp.mkdir("#{PATH_TO_WEB_FILE}")
+          logger.debug "[ERROR] Cannot create #{PATH_TO_WEB_FILE} directory"
+          errors[:error] = "Cannot create #{PATH_TO_WEB_FILE} directory"
           ftp.close
-          return false
+          return errors
         end
       end
       # Access to /profile_pictures
@@ -23,8 +38,10 @@ module PhotosHelper
       # Creating user folder if doesn't exist.
       if !folders.any?{|s| s.include? "user_#{id}"}
         if !ftp.mkdir("#{PATH_TO_WEB_FILE}/user_#{id}")
+          logger.debug "[ERROR] Cannot create #{PATH_TO_WEB_FILE}/user_#{id} directory"
+          errors[:error] = "Cannot create #{PATH_TO_WEB_FILE}/user_#{id} directory"
           ftp.close
-          return false
+          return errors
         end
       end
 
@@ -34,9 +51,11 @@ module PhotosHelper
       # Checking if this file exists to add or not an extension e.g. (1)
       file_name = "#{PATH_TO_WEB_FILE}/user_#{id}/#{name}"
       files = ftp.nlst
-      if files.length >= MAX_FILES_NUM
+      if files.length >= max_pic+ PREDEFINED_FILES
+        logger.debug "[ERROR] Picture can't be uploaded because excedeed maximum size"
+        errors[:error] = "Picture can't be uploaded because excedeed maximum size"
         ftp.close
-        return false
+        return errors
       end
 
       # Getting name and extension file.
@@ -64,35 +83,75 @@ module PhotosHelper
       end
       # Send string image
       ftp.puttextcontent(image, name)
+      logger.info "[INFO] Sending content to FTP Server"
 
-      # Close ftp folder
-      if ftp.last_response_code == 200
+      # Finish ftp connection
+      if  ftp.last_response_code == OK
+          logger.info "[INFO] Image sended"
         ftp.close
-        return true
+        return errors
       end
     end
+
     ftp.close
-    return false
+    return errors
   end
 
 def removePictureFromFTP (id, name)
   # FTP connection
-  ftp = Net::FTP.new(HOST)
+  errors = {}
+  ftp = Net::FTP.new(FTP_HOST)
   ftp.passive = true
-  ok = false
-  if ftp.login(FTP_USERNAME, FTP_PASSWORD)
+  begin
+    login = ftp.login(FTP_USERNAME, FTP_PASSWORD)
+  rescue Net::FTPPermError
+    logger.debug "[ERROR] User cannot be logged in"
+    errors[:error] = "User cannot be logged in"
+    return errors
+  end
+  if login
     begin
       ftp.delete("#{PATH_TO_WEB_FILE}/user_#{id}/#{name}")
-      ok = true
     rescue
-      ok = false
+      logger.debug "[ERROR] Picture cannot be deleted from FTP Server"
+      errors[:error] = "Picture cannot be deleted from FTP Server"
+    ensure
+      if ftp.last_response_code == OK
+          return errors
+      end
+      ftp.close
+      return errors
     end
   end
-  if ftp.last_response_code == 200
-        ok = true
+end
+
+def retrievePictureFromFTP(id, name)
+  # FTP connection
+  errors = {}
+  ftp = Net::FTP.new(FTP_HOST)
+  ftp.passive = true
+  begin
+    login = ftp.login(FTP_USERNAME, FTP_PASSWORD)
+  rescue Net::FTPPermError
+    logger.debug "[ERROR] User cannot be logged in"
+    errors[:error] = "User cannot be logged in"
+    return errors
   end
-  ftp.close
-  return ok
+  if login
+    begin
+      ftp.gettextfile("#{PATH_TO_WEB_FILE}/user_#{id}/#{name}", nil) {|data| @picture = data}
+      logger.debug "[INFO] Retrieving picture from #{PATH_TO_WEB_FILE}/user_#{id}/#{name}"
+    rescue
+      logger.debug "[ERROR] Picture cannot be found in FTP Server"
+      errors[:error] = "Picture cannot be found in FTP Server"
+    ensure
+      if ftp.last_response_code == OK
+          return @picture
+      end
+      ftp.close
+      return errors
+    end
+  end
 end
 
 

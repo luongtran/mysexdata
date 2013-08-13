@@ -14,3 +14,8 @@ FTP_PASSWORD ='vallhis2013'
 PATH_TO_WEB_FILE = '/profile_pictures'
 MAX_FILES_NUM = 6
 
+# HTTP CODES
+OK = '200'
+BAD_REQUEST = '400'
+
+

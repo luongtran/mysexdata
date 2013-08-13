@@ -27,7 +27,7 @@ module SessionsHelper
 
    def authenticate
      authenticate_or_request_with_http_token do |token, options|
-       token == @user.remember_token
+       token == @user.remember_token and @user.admin == false
      end
    end
 

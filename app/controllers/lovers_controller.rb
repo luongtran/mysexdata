@@ -15,10 +15,10 @@ class LoversController < ApplicationController
       param :email, String, required: true
       param :facebook_id, String, required: true
       param :photo_url, String, required: true
-      param :age, String, required: true
-      param :sex_gender, ['0','1'], required: true
-      param :job, ['0','1','2','3'], required: true
-      param :height, ['0','1'], required: true
+      param :age, String, required: false
+      param :sex_gender, ['0','1'], required: false
+      param :job, ['0','1','2','3'], required: false
+      param :height, ['0','1'], required: false
       param :visibility, ['0','1'], required: true
       param :pending, [true, false], required: true
     end
@@ -251,6 +251,32 @@ class LoversController < ApplicationController
   def destroy
     @lover.destroy
     return  render json: {info: "Lover #{@lover.lover_id} removed successfully"}
+  end
+
+  api :GET, 'users/:user_id/lovers_pending', 'Retrieve pending lovers'
+  description"
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  example "
+  {
+   'lovers':[
+      {
+        'name': 'Emilio Garcia',
+        'facebook_id': '3er',
+        'photo_url': 'http://myphoto_emilio.com',
+      },
+      {
+        'name': 'Emilio Sanchez',
+        'facebook_id': '2er',
+        'photo_url': 'http://myphoto_sanchez.com',
+      }
+  }"
+  def pending_lovers
+    @pending_lovers = @user.pending_lovers
+    render action: 'show_pending'
   end
 
   private

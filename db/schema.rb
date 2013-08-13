@@ -62,26 +62,25 @@ ActiveRecord::Schema.define(version: 20130730145125) do
 
   create_table "experiences", primary_key: "experience_id", force: true do |t|
     t.datetime "date"
-    t.integer  "moment"
+    t.integer  "moment",           default: 0
     t.string   "location"
-    t.integer  "place"
-    t.integer  "detail_one"
-    t.integer  "detail_two"
-    t.integer  "detail_three"
-    t.integer  "hairdressing"
-    t.integer  "kiss"
-    t.integer  "oral_sex"
-    t.integer  "intercourse"
-    t.integer  "caresses"
-    t.integer  "anal_sex"
-    t.integer  "post_intercourse"
-    t.integer  "blow_job"
-    t.integer  "repeat"
-    t.integer  "visibility"
-    t.integer  "times"
-    t.integer  "personal_score"
-    t.integer  "msd_score"
-    t.integer  "final_score"
+    t.integer  "place",            default: 0
+    t.integer  "detail_one",       default: 0
+    t.integer  "detail_two",       default: 0
+    t.integer  "detail_three",     default: 0
+    t.integer  "hairdressing",     default: 0
+    t.integer  "kiss",             default: 0
+    t.integer  "oral_sex",         default: 0
+    t.integer  "intercourse",      default: 0
+    t.integer  "caresses",         default: 0
+    t.integer  "anal_sex",         default: 0
+    t.integer  "post_intercourse", default: 0
+    t.integer  "repeat",           default: 0
+    t.integer  "visibility",       default: 0
+    t.integer  "times",            default: 0
+    t.integer  "personal_score",   default: 0
+    t.integer  "msd_score",        default: 0
+    t.integer  "final_score",      default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -102,10 +101,9 @@ ActiveRecord::Schema.define(version: 20130730145125) do
     t.integer  "user_id"
     t.integer  "friend_id"
     t.boolean  "accepted",              default: false
-    t.boolean  "pending",               default: false
+    t.boolean  "pending",               default: true
     t.boolean  "secret_lover_ask",      default: false
     t.boolean  "secret_lover_accepted", default: false
-    t.boolean  "banned",                default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -114,7 +112,6 @@ ActiveRecord::Schema.define(version: 20130730145125) do
 
   create_table "geosexes", primary_key: "user_id", force: true do |t|
     t.integer  "access",     default: 0
-    t.integer  "status",     default: 0
     t.float    "lat"
     t.float    "lng"
     t.string   "address"
@@ -135,10 +132,10 @@ ActiveRecord::Schema.define(version: 20130730145125) do
     t.string   "facebook_id"
     t.string   "name"
     t.string   "photo_url"
-    t.integer  "age",         default: -1
-    t.integer  "sex_gender",  default: -1
-    t.integer  "job",         default: -1
-    t.integer  "height",      default: -1
+    t.integer  "age",         default: 0
+    t.integer  "sex_gender",  default: 0
+    t.integer  "job",         default: 0
+    t.integer  "height",      default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -151,7 +148,7 @@ ActiveRecord::Schema.define(version: 20130730145125) do
     t.datetime "updated_at"
   end
 
-  create_table "photos", force: true do |t|
+  create_table "photos", primary_key: "photo_id", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -176,23 +173,23 @@ ActiveRecord::Schema.define(version: 20130730145125) do
     t.string   "email"
     t.string   "facebook_id"
     t.string   "remember_token"
-    t.string   "password"
-    t.integer  "status"
+    t.string   "password_digest"
+    t.integer  "status",          default: 0
     t.string   "main_photo_url"
-    t.integer  "photo_num"
-    t.integer  "lovers_num",     default: 0
-    t.integer  "job"
-    t.integer  "age"
+    t.integer  "photo_num",       default: 1
+    t.integer  "lovers_num",      default: 0
+    t.integer  "job",             default: 0
+    t.integer  "age",             default: 0
     t.datetime "birthday"
     t.datetime "startday"
-    t.integer  "eye_color"
-    t.integer  "hair_color"
-    t.integer  "height"
-    t.integer  "hairdressing"
-    t.integer  "sex_interest"
-    t.integer  "sex_gender"
-    t.integer  "preferences",                    array: true
-    t.boolean  "admin",          default: false
+    t.integer  "eye_color",       default: 0
+    t.integer  "hair_color",      default: 0
+    t.integer  "height",          default: 0
+    t.integer  "hairdressing",    default: 0
+    t.integer  "sex_interest",    default: 0
+    t.integer  "sex_gender",      default: 0
+    t.integer  "preferences",                     array: true
+    t.boolean  "admin",           default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

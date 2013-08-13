@@ -33,14 +33,15 @@ def make_admin
   admin = User.create!(name: "Admin",
                email: ADMIN_USER,
                password: ADMIN_PASS,
+               password_confirmation: ADMIN_PASS,
                facebook_id: "-1",
                status: 0,
                main_photo_url: "http://url.jpg",
-               photo_num: 0,
+               photo_num: 1,
                job: 0,
-               age: 0,
-               birthday: "11/11/1111",
-               startday: "11/11/1111",
+               age: 22,
+               birthday: "11/11/1991",
+               startday: "11/11/1992",
                eye_color: 0,
                hair_color: 0,
                height: 0,
@@ -53,18 +54,16 @@ def make_admin
 end
 
 def make_users
-  age = 20
-  startday = Date.new(1111,11,11)
   50.times do |n|
     name  = Faker::Name.name
     email = "example-#{n+1}@railstutorial.org"
     password  = "1234"
     facebook_id = "face#{n+1}"
     main_photo_url ="http://url.jpg"
-    photo_num = 0
-    age = 30
-    startday = Date.new(1111,11,11)
-    birthday = Date.new(1111,11,11)
+    photo_num = 1
+    age = 22
+    startday = Date.new(1992,11,11)
+    birthday = Date.new(1991,11,11)
     job = 0
     eye_color = 0
     hair_color = 0
@@ -75,6 +74,7 @@ def make_users
     User.create!(name: name,
                  email: email,
                  password: password,
+                 password_confirmation: password,
                  facebook_id: facebook_id,
                  status: 0,
                  main_photo_url: main_photo_url,
@@ -97,10 +97,10 @@ def make_users
     password  = "1234"
     facebook_id = Faker::Internet.user_name
     main_photo_url ="http://url.jpg"
-    photo_num = 0
-    age = 30
-    startday = Date.new(1111,11,11)
-    birthday = Date.new(1111,11,11)
+    photo_num = 2
+    age = 22
+    startday = Date.new(1992,11,11)
+    birthday = Date.new(1991,11,11)
     job = 0
     eye_color = 0
     hair_color = 0
@@ -111,6 +111,7 @@ def make_users
     User.create!(name: name,
                  email: email,
                  password: password,
+                 password_confirmation: password,
                  facebook_id: facebook_id,
                  status: 0,
                  main_photo_url: main_photo_url,

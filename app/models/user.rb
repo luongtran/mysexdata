@@ -1,5 +1,36 @@
 class User < ActiveRecord::Base
 
+  has_secure_password
+
+
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
+  VALID_URL_REGEX = //i
+
+  validates :name, presence: true
+  validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false}
+  validates :facebook_id, presence: true, uniqueness: { case_sensitive: false}
+  validates :status, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
+  validates :main_photo_url, presence: true
+  validates :photo_num, presence: false,  numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 4 }
+  validates :lovers_num, presence: false
+  validates :job, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }
+  validates :age, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :birthday, presence: true
+  validates :startday, presence: true
+  validates :eye_color, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }
+  validates :hair_color, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
+  validates :job, presence:true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
+  validates :height, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 2 }
+  validates :sex_interest, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 2 }
+  validates :sex_gender, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
+  validates :hairdressing, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
+  validates :password_confirmation, presence:false
+  validates :password, length: { maximum: 4 }
+  validates :preferences, presence: true
+  validate :startday_and_birthday_must_be_before_current_time
+  validate :starday_must_be_after_birthday
+  validate :age_must_correspond_with_birthday
+
   before_save { self.email = email.downcase }
   before_create :create_remember_token
 
@@ -37,27 +68,7 @@ class User < ActiveRecord::Base
   # Blocked Users
   has_many :blocked_users,foreign_key: "user_id", dependent: :destroy
 
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
-  validates :name, presence: true
-  validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false}
-  validates :facebook_id, presence: true, uniqueness: { case_sensitive: false}
-  validates :status, presence: true
-  validates :main_photo_url, presence: true
-  validates :photo_num, presence: true
-  validates :lovers_num, presence: false
-  validates :age, presence: true
-  validates :birthday, presence: true
-  validates :startday, presence: true
-  validates :eye_color, presence: true
-  validates :hair_color, presence: true
-  validates :job, presence:true
-  validates :height, presence: true
-  validates :sex_interest, presence: true
-  validates :sex_gender, presence: true
-  validates :hairdressing, presence: true
-  validates :password, length: { maximum: 4 }
-  validates :preferences, presence: true
 
   def friends?(other_user)
     friendships.accepted_scope.find_by(friend_id: other_user.user_id )
@@ -144,5 +155,30 @@ class User < ActiveRecord::Base
     def create_remember_token
       self.remember_token = SecureRandom.urlsafe_base64
     end
+
+    def  age_must_correspond_with_birthday
+      year = Time.now.strftime("%Y").to_i - self.birthday.strftime("%Y").to_i
+      if year != self.age
+        errors.add(:age, "not corresponds to birthday")
+      end
+    end
+
+    def starday_must_be_after_birthday
+      if self.startday < self.birthday
+        errors.add(:startday, "cannot be before birthday")
+      end
+    end
+
+    def  startday_and_birthday_must_be_before_current_time
+      logger.debug self.startday
+      logger.debug self.birthday
+
+      logger.debug self.startday > Time.now
+      logger.debug self.birthday > Time.now
+      if self.startday > Time.now or self.birthday > Time.now
+        errors.add(:startday_or_birthday, "cannot be after current time")
+      end
+    end
+
 
 end

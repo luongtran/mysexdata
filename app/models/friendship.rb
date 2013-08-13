@@ -6,5 +6,9 @@ class Friendship < ActiveRecord::Base
 
   validates :user_id, presence: true
   validates :friend_id, presence: true
+  validates :accepted, presence: false
+  validates :pending, presence: false
+  validates :secret_lover_ask, presence: false
+  validates :secret_lover_accepted, presence: false
 
 end

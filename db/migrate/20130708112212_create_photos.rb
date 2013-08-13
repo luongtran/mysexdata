@@ -1,6 +1,6 @@
 class CreatePhotos < ActiveRecord::Migration
   def change
-    create_table :photos do |t|
+    create_table :photos, :primary_key => :photo_id do |t|
       t.string :name
 
       t.timestamps

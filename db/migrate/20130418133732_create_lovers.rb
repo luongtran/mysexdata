@@ -4,13 +4,12 @@ class CreateLovers < ActiveRecord::Migration
       t.string :facebook_id
       t.string :name
       t.string :photo_url
-      t.integer :age, default: -1
-      t.integer :sex_gender, default:-1
-      t.integer :job, default: -1
-      t.integer :height, default: -1
+      t.integer :age, default: 0
+      t.integer :sex_gender, default: 0
+      t.integer :job, default: 0
+      t.integer :height, default: 0
       t.timestamps
     end
-    #add_index :lovers, [:facebook_id], :unique => true
 
 
     create_table :user_lovers do |t|

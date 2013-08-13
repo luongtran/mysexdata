@@ -40,11 +40,13 @@ Mysexdata::Application.routes.draw do
 
 
   # Lovers
+
   match '/users/:user_id/lovers', to: 'lovers#index', via:'get'
   match '/users/:user_id/lovers', to: 'lovers#create', via:'post'
   match '/users/:user_id/lovers/:lover_id', to: 'lovers#show', via:'get'
   match '/users/:user_id/lovers/:lover_id', to: 'lovers#update', via:'put'
   match '/users/:user_id/lovers/:lover_id', to: 'lovers#destroy', via:'delete'
+  match '/users/:user_id/lovers_pending', to: 'lovers#pending_lovers', via:'get'
 
   # Friendships
   match '/users/:user_id/friendships', to: 'friendships#index', via: 'get'
