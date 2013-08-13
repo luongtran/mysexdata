@@ -27,7 +27,6 @@ class ExperiencesController < ApplicationController
       param :anal_sex, ['0','1','2','3','4','5','6','7','8','9'], required: false
       param :post_intercourse, ['0','1','2','3','4','5','6','7','8','9'], required: false
       param :personal_score, ['0','1','2','3','4','5','6','7','8','9'], required: false
-      param :blow_job, ['0','1','2','3','4','5','6','7','8','9'], required: false
       param :visibility, ['0','1'], required: false
       param :times, String, required: false
       param :repeat, String, required: false
@@ -66,7 +65,6 @@ class ExperiencesController < ApplicationController
             'caresses': 3,
             'anal_sex': 1,
             'post_intercourse': 9,
-            'blow_job':2,
             'personal_score': 5,
             'visibility':1,
             'times':3,
@@ -108,7 +106,6 @@ class ExperiencesController < ApplicationController
             'caresses': 3,
             'anal_sex': 1,
             'post_intercourse': 9,
-            'blow_job':2,
             'personal_score': 5,
             'visibility':1,
             'times':3,
@@ -131,7 +128,6 @@ class ExperiencesController < ApplicationController
             'caresses': 3,
             'anal_sex': 1,
             'post_intercourse': 9,
-            'blow_job':2,
             'personal_score': 5,
             'visibility':1,
             'times':3,
@@ -172,7 +168,6 @@ class ExperiencesController < ApplicationController
       'caresses': '5',
       'anal_sex': '3',
       'post_intercourse': '5',
-      'blow_job':'2',
       'personal_score': '1',
       'visibility':'1',
       'times':'3',
@@ -200,7 +195,6 @@ class ExperiencesController < ApplicationController
         'caresses': 5,
         'anal_sex': 3,
         'post_intercourse': 5,
-        'blow_job':2,
         'personal_score': 1,
         'visibility':1,
         'times':3,
@@ -247,7 +241,6 @@ error code:400
       'caresses': 5,
       'anal_sex': 6,
       'post_intercourse': 5,
-      'blow_job':2,
       'personal_score': 5,
       'visibility':1,
       'times':3,
@@ -312,7 +305,7 @@ error code:400
 
     # Parameters that are allowed by Experience model.
     def experience_params
-      params.require(:experience).permit(:date,:moment,:location,:place,:detail_one,:detail_two,:detail_three,:hairdressing,:kiss,:oral_sex,:intercourse,:caresses,:anal_sex,:post_intercourse,:blow_job,:visibility, :times, :personal_score,:next_one,:msd_score,:final_score)
+      params.require(:experience).permit(:date,:moment,:location,:place,:detail_one,:detail_two,:detail_three,:hairdressing,:kiss,:oral_sex,:intercourse,:caresses,:anal_sex,:post_intercourse,:visibility, :times, :personal_score,:next_one,:msd_score,:final_score)
     end
 
 end

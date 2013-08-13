@@ -2,26 +2,25 @@ class CreateExperiences < ActiveRecord::Migration
   def change
     create_table :experiences, :primary_key => :experience_id do |t|
       t.datetime :date
-      t.integer :moment
+      t.integer :moment, default: 0
       t.string :location
-      t.integer :place
-      t.integer :detail_one
-      t.integer :detail_two
-      t.integer :detail_three
-      t.integer :hairdressing
-      t.integer :kiss
-      t.integer :oral_sex
-      t.integer :intercourse
-      t.integer :caresses
-      t.integer :anal_sex
-      t.integer :post_intercourse
-      t.integer :blow_job
-      t.integer :repeat
-      t.integer :visibility
-      t.integer :times
-      t.integer :personal_score
-      t.integer :msd_score
-      t.integer :final_score
+      t.integer :place, default: 0
+      t.integer :detail_one, default: 0
+      t.integer :detail_two, default: 0
+      t.integer :detail_three, default: 0
+      t.integer :hairdressing, default: 0
+      t.integer :kiss, default: 0
+      t.integer :oral_sex, default: 0
+      t.integer :intercourse, default: 0
+      t.integer :caresses, default: 0
+      t.integer :anal_sex, default: 0
+      t.integer :post_intercourse, default: 0
+      t.integer :repeat, default: 0
+      t.integer :visibility, default: 0
+      t.integer :times, default: 0
+      t.integer :personal_score, default: 0
+      t.integer :msd_score, default: 0
+      t.integer :final_score, default: 0
 
       t.timestamps
     end
