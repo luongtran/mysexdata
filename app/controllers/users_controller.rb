@@ -200,7 +200,6 @@ class UsersController < ApplicationController
     'user_id': 1,
     'name': 'Example User',
     ‘email’: ‘example@railstutorial6.org’,
-    ‘password’: ‘1234’,
     ‘facebook_id’: ‘26’,
     ‘status’: 0,
     ‘facebook_photo’:’http://url.jpg’,
