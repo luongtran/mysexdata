@@ -16,11 +16,11 @@ class LoversController < ApplicationController
       param :facebook_id, String, required: true
       param :photo_url, String, required: true
       param :age, String, required: false
-      param :sex_gender, ['0','1'], required: false
-      param :job, ['0','1','2','3'], required: false
-      param :height, ['0','1'], required: false
-      param :visibility, ['0','1'], required: true
-      param :pending, [true, false], required: true
+      param :sex_gender, [0,1],'(Integer)', required: false
+      param :job, [0,1,2,3],'(Integer)', required: false
+      param :height, [0,1],'(Integer)', required: false
+      param :visibility, [0,1],'(Integer)', required: true
+      param :pending, [true, false], '(Boolean)',required: true
     end
   end
 
@@ -31,11 +31,11 @@ class LoversController < ApplicationController
     param :facebook_id, String, required: false
     param :photo_url, String, required: false
     param :age, String, required: false
-    param :sex_gender, ['0','1'], required: false
-    param :job, ['0','1','2','3'], required: false
-    param :height, ['0','1'], required: false
-    param :visibility, ['0','1'], required: false
-    param :pending, [true, false], required: false
+    param :sex_gender, [0,1],'(Integer)', required: false
+    param :job, [0,1,2,3],'(Integer)', required: false
+    param :height, [0,1],'(Integer)', required: false
+    param :visibility, [0,1],'(Integer)', required: false
+    param :pending, [true, false], '(Boolean)',required: false
   end
 
   # Verifying user before the given methods.
@@ -126,22 +126,22 @@ class LoversController < ApplicationController
         'name': 'Emilio Garcia',
         'facebook_id': '3er',
         'photo_url': 'http://myphoto_emilio.com',
-        'age': '36',
-        'sex_gender': '0',
-        'job': '1',
-        'height': '3',
-        'visibility': '1',
+        'age': 36,
+        'sex_gender': 0,
+        'job': 1,
+        'height': 1,
+        'visibility': 1,
         'pending': true
       },
       {
         'name': 'Emilio Sanchez',
         'facebook_id': '2er',
         'photo_url': 'http://myphoto_sanchez.com',
-        'age': '32',
-        'sex_gender': '0',
-        'job': '1',
-        'height': '3',
-        'visibility': '0',
+        'age': 32,
+        'sex_gender': 0,
+        'job': 1,
+        'height': 1,
+        'visibility': 0,
         'pending': false
       }
     ]

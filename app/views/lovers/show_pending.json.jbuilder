@@ -1,6 +1,6 @@
 json.user_id @user.user_id
 json.lovers do
-  json.public(@public_lovers) do |json, public_lover|
-      json.extract! public_lover, :lover_id, :name, :photo_url
+  json.pending(@pending_lovers) do |json, pending_lover|
+      json.extract! pending_lover, :lover_id, :name, :photo_url
     end
 end

@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
   VALID_URL_REGEX = /https\:\/\/www.facebook.com\/photo.php\?(\w+)/i
 
-  validates :name, presence: true
+  validates :name, presence: true,  length: { maximum: 50 }
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false}
   validates :facebook_id, presence: true, uniqueness: { case_sensitive: false}
   validates :status, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
