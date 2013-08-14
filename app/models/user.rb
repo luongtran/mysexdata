@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
   VALID_URL_REGEX = /https\:\/\/www.facebook.com\/photo.php\?(\w+)/i
 
+  validate :check_type
   validates :name, presence: true,  length: { maximum: 50 }
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false}
   validates :facebook_id, presence: true, uniqueness: { case_sensitive: false}
@@ -158,26 +159,45 @@ class User < ActiveRecord::Base
     end
 
     def  age_must_correspond_with_birthday
-      year = Time.now.strftime("%Y").to_i - self.birthday.strftime("%Y").to_i
-      if year != self.age
-        errors.add(:age, "not corresponds to birthday")
+      if !self.birthday.nil?
+        time2 = self.birthday.advance(:years => self.age)
+        if time2.strftime("%Y").to_i != DateTime.current.strftime("%Y").to_i
+          errors.add(:age, "not corresponds to birthday")
+        end
       end
     end
 
     def starday_must_be_after_birthday
-      if self.startday < self.birthday
-        errors.add(:startday, "cannot be before birthday")
+      if !self.startday.nil? and !self.birthday.nil?
+        if self.startday < self.birthday
+          errors.add(:startday, "cannot be before birthday")
+        end
       end
     end
 
     def  startday_and_birthday_must_be_before_current_time
-      logger.debug self.startday
-      logger.debug self.birthday
+      if !self.startday.nil? and !self.birthday.nil?
+        if self.startday > Time.now or self.birthday > Time.now
+          errors.add(:startday_or_birthday, "cannot be after current time")
+        end
+      end
+    end
 
-      logger.debug self.startday > Time.now
-      logger.debug self.birthday > Time.now
-      if self.startday > Time.now or self.birthday > Time.now
-        errors.add(:startday_or_birthday, "cannot be after current time")
+    def check_type
+      if !name_before_type_cast.is_a?(String)
+        errors.add(:name, "must be String")
+      end
+      if !email_before_type_cast.is_a?(String)
+        errors.add(:email, "must be String")
+      end
+      if !facebook_photo_before_type_cast.is_a?(String)
+        errors.add(:facebook_photo, "must be String")
+      end
+      if !startday_before_type_cast.is_a?(String)
+        errors.add(:startday, "must be String")
+      end
+      if !birthday_before_type_cast.is_a?(String)
+        errors.add(:birthday, "must be String")
       end
     end
 
