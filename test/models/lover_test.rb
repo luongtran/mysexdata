@@ -13,7 +13,7 @@ class LoverTest < ActiveSupport::TestCase
     user.password = "1234"
     user.facebook_id = "face1234"
     user.status = 1
-    user.main_photo_url = "http://foobar.jpg"
+    user.profile_photo = "http://foobar.jpg"
     user.photo_num = 1
     user.age = 24
     user.startday = "10/11/2013"

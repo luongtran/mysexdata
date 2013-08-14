@@ -18,6 +18,7 @@ class UsersController < ApplicationController
     param :email, String, 'Email of the user', required: true
     param :facebook_id, String, 'Facebook id of the user facebook profile', required: true
     param :password, String, 'User password', required: true
+    param :password_confirmation, String, 'User password', required: true
     param :status, [0,1 ,2 ,3], 'User love status', required: true
     param :facebook_photo, String, 'Facebook user photo', required: false
     param :profile_photo, Integer, 'Photo identifier. -1 if facebook photo is set as profile photo', required: true
@@ -118,7 +119,6 @@ class UsersController < ApplicationController
       'user_id': 1,
       'name': 'Example User',
       ‘email’: ‘example@railstutorial6.org’,
-      ‘password’: ‘1234’,
       ‘facebook_id’: ‘26’,
       ‘status’: 0,
       ‘facebook_photo’:’http://url.jpg’,
@@ -176,6 +176,7 @@ class UsersController < ApplicationController
     'name': 'Example User',
     ‘email’: ‘example@railstutorial6.org’,
     ‘password’: ‘1234’,
+    ‘password_confirmation’: ‘1234’,
     ‘facebook_id’: ‘26’,
     ‘status’: 0,
     ‘facebook_photo’:’http://url.jpg’,
@@ -257,7 +258,6 @@ class UsersController < ApplicationController
     'user_id': 1,
     'name': 'Federico',
     ‘email’: ‘example@railstutorial6.org’,
-    ‘password’: ‘1234’,
     ‘facebook_id’: ‘26’,
     ‘status’: 0,
     ‘facebook_photo’:’http://url.jpg’,
