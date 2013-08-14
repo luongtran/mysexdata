@@ -2,7 +2,7 @@ json.(@user, :user_id)
 json.user_id @friendships.user_id
 
 json.friend do
-	json.(@friend, :user_id,:name, :sex_interest, :age, :startday, :eye_color, :hair_color, :height, :hairdressing, :preferences)
+	json.(@friend, :user_id,:name, :sex_interest,:facebook_photo, :profile_photo, :age, :birthday, :startday, :eye_color, :hair_color, :height, :hairdressing, :preferences)
      json.lovers_num @lovers_num
 
 	json.lovers do

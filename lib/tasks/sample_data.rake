@@ -36,7 +36,8 @@ def make_admin
                password_confirmation: ADMIN_PASS,
                facebook_id: "-1",
                status: 0,
-               main_photo_url: "http://url.jpg",
+               facebook_photo: "http://url.jpg",
+               profile_photo: -1,
                photo_num: 1,
                job: 0,
                age: 22,
@@ -59,7 +60,8 @@ def make_users
     email = "example-#{n+1}@railstutorial.org"
     password  = "1234"
     facebook_id = "face#{n+1}"
-    main_photo_url ="http://url.jpg"
+    facebook_photo ="http://url.jpg"
+    profile_photo = -1
     photo_num = 1
     age = 22
     startday = Date.new(1992,11,11)
@@ -77,7 +79,8 @@ def make_users
                  password_confirmation: password,
                  facebook_id: facebook_id,
                  status: 0,
-                 main_photo_url: main_photo_url,
+                 facebook_photo: facebook_photo,
+                 profile_photo: profile_photo,
                  photo_num: photo_num,
                  age: age,
                  birthday: birthday,
@@ -96,7 +99,8 @@ def make_users
     email = "example-#{100-n+1}@railstutorial.org"
     password  = "1234"
     facebook_id = Faker::Internet.user_name
-    main_photo_url ="http://url.jpg"
+    facebook_photo ="http://url.jpg"
+    profile_photo = -1
     photo_num = 2
     age = 22
     startday = Date.new(1992,11,11)
@@ -114,7 +118,8 @@ def make_users
                  password_confirmation: password,
                  facebook_id: facebook_id,
                  status: 0,
-                 main_photo_url: main_photo_url,
+                 facebook_photo: facebook_photo,
+                 profile_photo: profile_photo,
                  photo_num: photo_num,
                  age: age,
                  birthday: birthday,

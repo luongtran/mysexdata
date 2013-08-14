@@ -7,7 +7,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string :remember_token
       t.string :password_digest
       t.integer :status, default: 0
-      t.string :main_photo_url
+      t.string :facebook_photo
+      t.integer :profile_photo, default: -1
       t.integer :photo_num, default: 1
       t.integer :lovers_num, default: 0
       t.integer :job, default: 0

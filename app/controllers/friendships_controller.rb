@@ -41,12 +41,12 @@ class FriendshipsController < ApplicationController
         {
             'user_id': '4',
             'name': 'Ida Fadel',
-            'main_photo_url': 'http://url.jpg'
+            'profile_photo': 1
         },
         {
             'user_id': '5',
             'name': 'Zena Johns',
-            'main_photo_url': 'http://url.jpg'
+            'profile_photo': 2
         }
   }"
   error code:400
@@ -72,9 +72,12 @@ class FriendshipsController < ApplicationController
     'friend': {
         'user_id': 4,
         'name': 'Ida Fadel',
+        'facebook_photo': 'https://facebook.com/photo',
+        'profile_photo': -1
         'lovers_num': 0,
         'sex_interest': 0,
         'age': 30,
+        'birthday': '1111-11-11T00:00:00.000Z',
         'startday': '1111-11-11T00:00:00.000Z',
         'eye_color': 0,
         'hair_color': 0,
@@ -349,12 +352,12 @@ class FriendshipsController < ApplicationController
         {
             'user_id': '4',
             'name': 'Ida Fadel',
-            'main_photo_url': 'http://url.jpg'
+            'profile_photo': 'http://url.jpg'
         },
         {
             'user_id': '6',
             'name': 'Pedro Sanchez',
-            'main_photo_url': 'http://url.jpg'
+            'profile_photo': 'http://url.jpg'
         }
       ]
   }"

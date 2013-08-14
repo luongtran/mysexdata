@@ -10,7 +10,7 @@ FactoryGirl.define do
     facebook_id {Faker::Lorem.words(1)[0]}
     password "1234"
     status "1"
-    main_photo_url {Faker::Internet.user_name}
+    profile_photo {Faker::Internet.user_name}
     photo_num "2"
     age "23"
     birthday "11/11/1111"

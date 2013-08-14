@@ -147,7 +147,7 @@ class GeosexesController < ApplicationController
             'user_id': 7,
             'name': 'Dante Gaylord',
             'status': 0,
-            'main_photo_url': 'http://url.jpg'
+            'profile_photo': 'http://url.jpg'
         }
     ]
   }"

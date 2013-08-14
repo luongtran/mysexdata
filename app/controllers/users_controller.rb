@@ -19,7 +19,8 @@ class UsersController < ApplicationController
     param :facebook_id, String, 'Facebook id of the user facebook profile', required: true
     param :password, String, 'User password', required: true
     param :status, [0,1 ,2 ,3], 'User love status', required: true
-    param :main_photo_url, String, 'Profile user photo', required: true
+    param :facebook_photo, String, 'Facebook user photo', required: false
+    param :profile_photo, Integer, 'Photo identifier. -1 if facebook photo is set as profile photo', required: true
     param :photo_num,[1 ,2 ,3, 4], 'Number of photos to upload (Integer)', required: false
     param :job, [0 ,1 ,2 ,3], 'User job (Integer)', required: true
     param :age, Integer, 'User age', required: true
@@ -41,7 +42,8 @@ class UsersController < ApplicationController
     param :facebook_id, String, 'Facebook id of the user facebook profile', required: false
     param :password, String, 'User password', required: false
     param :status, [0 ,1 ,2 ,3], 'User love status', required: false
-    param :main_photo_url, String, 'Profile user photo', required: false
+    param :facebook_photo, String, 'Facebook user photo', required: false
+    param :profile_photo, Integer, 'Photo identifier. -1 if facebook photo is set as profile photo', required: true
     param :photo_num,[0 ,1 ,2 ,3], 'Number of photos to upload (Integer)', required: false
     param :job, [0 ,1 ,2 ,3], 'User job (Integer)', required: false
     param :age, Integer, 'User age', required: false
@@ -64,7 +66,8 @@ class UsersController < ApplicationController
     ‘email’: ‘example@railstutorial6.org’,
     ‘facebook_id’: ‘26’,
     ‘status’: 0,
-    ‘main_photo_url’:’http://url.jpg’,
+    ‘facebook_photo’:’http://url.jpg’,
+    ‘profile_photo’: 2,
     ‘photo_num’: 1,
     ‘job’: 0,
     ‘age’: 25,
@@ -83,7 +86,8 @@ class UsersController < ApplicationController
     ‘email’: ‘example@railstutorial2.org’,
     ‘facebook_id’: ‘26’,
     ‘status’: 0,
-    ‘main_photo_url’:’http://url.jpg’,
+    ‘facebook_photo’:’http://url.jpg’,
+    ‘profile_photo’: 2,
     ‘photo_num’: 1,
     ‘job’: 0,
     ‘age’: 25,
@@ -117,7 +121,8 @@ class UsersController < ApplicationController
       ‘password’: ‘1234’,
       ‘facebook_id’: ‘26’,
       ‘status’: 0,
-      ‘main_photo_url’:’http://url.jpg’,
+      ‘facebook_photo’:’http://url.jpg’,
+      ‘profile_photo’: 2,
       ‘photo_num’: 1,
       ‘job’: 0,
       ‘age’: 25,
@@ -173,7 +178,8 @@ class UsersController < ApplicationController
     ‘password’: ‘1234’,
     ‘facebook_id’: ‘26’,
     ‘status’: 0,
-    ‘main_photo_url’:’http://url.jpg’,
+    ‘facebook_photo’:’http://url.jpg’,
+    ‘profile_photo’: 2,
     ‘photo_num’: 1,
     ‘job’: 0,
     ‘age’: 25,
@@ -196,7 +202,8 @@ class UsersController < ApplicationController
     ‘password’: ‘1234’,
     ‘facebook_id’: ‘26’,
     ‘status’: 0,
-    ‘main_photo_url’:’http://url.jpg’,
+    ‘facebook_photo’:’http://url.jpg’,
+    ‘profile_photo’: 2,
     ‘photo_num’: 1,
     ‘job’: 0,
     ‘age’: 25,
@@ -223,9 +230,6 @@ class UsersController < ApplicationController
       if create_friendships(friends_users)
         clear_external_invitations;
       end
-
-      #TODO Add default photo
-
 
       return render action: 'show_with_token', status: :created
     else
@@ -256,7 +260,8 @@ class UsersController < ApplicationController
     ‘password’: ‘1234’,
     ‘facebook_id’: ‘26’,
     ‘status’: 0,
-    ‘main_photo_url’:’http://url.jpg’,
+    ‘facebook_photo’:’http://url.jpg’,
+    ‘profile_photo’: 2,
     ‘photo_num’: 1,
     ‘job’: 0,
     ‘age’: 25,
@@ -338,7 +343,7 @@ class UsersController < ApplicationController
 
       # List of parameters allowed in user requests.
       def user_params
-        params.permit(:name, :email, :facebook_id, :status, :password, :password_confirmation, :age,:birthday, :startday, :eye_color, :hair_color, :height,:main_photo_url, :photo_num, :sex_interest, :sex_gender, {preferences: []}, :hairdressing, :job)
+        params.permit(:name, :email, :facebook_id, :status, :password, :password_confirmation, :age,:birthday, :startday, :eye_color, :hair_color, :height,:facebook_photo, :profile_photo, :photo_num, :sex_interest, :sex_gender, {preferences: []}, :hairdressing, :job)
       end
 
       def admin_user
