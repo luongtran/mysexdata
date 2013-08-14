@@ -26,16 +26,18 @@ class LoversController < ApplicationController
 
   # Definition of api doc params
   def_param_group :lover_up do
-    param :name, String, required: false
-    param :email, String, required: false
-    param :facebook_id, String, required: false
-    param :photo_url, String, required: false
-    param :age, String, required: false
-    param :sex_gender, [0,1],'(Integer)', required: false
-    param :job, [0,1,2,3],'(Integer)', required: false
-    param :height, [0,1],'(Integer)', required: false
-    param :visibility, [0,1],'(Integer)', required: false
-    param :pending, [true, false], '(Boolean)',required: false
+    param :lovers, Hash  do
+      param :name, String, required: false
+      param :email, String, required: false
+      param :facebook_id, String, required: false
+      param :photo_url, String, required: false
+      param :age, String, required: false
+      param :sex_gender, [0,1],'(Integer)', required: false
+      param :job, [0,1,2,3],'(Integer)', required: false
+      param :height, [0,1],'(Integer)', required: false
+      param :visibility, [0,1],'(Integer)', required: false
+      param :pending, [true, false], '(Boolean)',required: false
+    end
   end
 
   # Verifying user before the given methods.
@@ -105,6 +107,7 @@ class LoversController < ApplicationController
     'height': -1
   }"
   def show
+    @rel_lover  = @user.user_lovers.where(lover_id: @lover.lover_id).first
     return render action: 'show'
   end
 
@@ -219,14 +222,20 @@ class LoversController < ApplicationController
     'height': 3
   }"
   def update
+    @rel_lover  = @user.user_lovers.where(lover_id: @lover.lover_id).first
     if !params[:lovers][:visibility].nil?
-
-      rel  = @user.user_lovers.where(lover_id: params[:lover_id]).first
-
-      if rel.update_attribute(:visibility, params[:lovers][:visibility])
+      if @rel_lover.update_attribute(:visibility, params[:lovers][:visibility])
         return render action: 'show'
       else
-        return render json: rel.errors.full_messages, status: :unprocessable_entity
+        return render json: @rel_lover.errors.full_messages, status: :unprocessable_entity
+      end
+    end
+
+     if !params[:lovers][:pending].nil?
+      if @rel_lover.update_attribute(:pending, params[:lovers][:pending])
+        return render action: 'show'
+      else
+        return render json: @rel_lover.errors.full_messages, status: :unprocessable_entity
       end
     end
 
