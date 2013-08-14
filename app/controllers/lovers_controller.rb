@@ -219,7 +219,9 @@ class LoversController < ApplicationController
     'age': 32,
     'sex_gender': 0,
     'job': 1,
-    'height': 3
+    'height': 3,
+    'visibility': 0,
+    'pending': false
   }"
   def update
     @rel_lover  = @user.user_lovers.where(lover_id: @lover.lover_id).first
