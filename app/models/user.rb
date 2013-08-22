@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   validates :preferences, presence: true
   validate :startday_and_birthday_must_be_before_current_time
   validate :starday_must_be_after_birthday
-  validate :age_must_correspond_with_birthday
+  #validate :age_must_correspond_with_birthday
 
   before_save { self.email = email.downcase }
   before_create :create_remember_token

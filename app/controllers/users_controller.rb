@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     param :profile_photo, Integer, 'Photo identifier. -1 if facebook photo is set as profile photo', required: true
     param :photo_num,[1 ,2 ,3, 4], 'Number of photos to upload (Integer)', required: false
     param :job, [0 ,1 ,2 ,3], 'User job (Integer)', required: true
-    param :age, Integer, 'User age', required: true
+    param :age, Integer, 'User age', required: false
     param :birthday, String, 'Date of the birthday with the next format: dd/mm/yyyy', required: true
     param :startday, String, 'Date of the first relationship with the next format: dd/mm/yyyy', required: true
     param :eye_color, [0 ,1 ,2 ,3], 'User eyes color (Integer)', required: true
@@ -221,6 +221,7 @@ class UsersController < ApplicationController
   }"
   def create
     @user = User.new(user_params)
+    @user.age = calculate_user_age
     friends_users = Array.new
     if @user.save
       # Retrieve users invitations by email and facebook_id
@@ -342,7 +343,7 @@ class UsersController < ApplicationController
 
       # List of parameters allowed in user requests.
       def user_params
-        params.permit(:name, :email, :facebook_id, :status, :password, :password_confirmation, :age,:birthday, :startday, :eye_color, :hair_color, :height,:facebook_photo, :profile_photo, :photo_num, :sex_interest, :sex_gender, {preferences: []}, :hairdressing, :job)
+        params.permit(:name, :email, :facebook_id, :status, :password, :password_confirmation,:birthday, :startday, :eye_color, :hair_color, :height,:facebook_photo, :profile_photo, :photo_num, :sex_interest, :sex_gender, {preferences: []}, :hairdressing, :job)
       end
 
       def admin_user
@@ -422,7 +423,7 @@ class UsersController < ApplicationController
           return false
         end
         friends_id.each do |friend|
-          user = User.where(id: friend).first
+          user = User.where(user_id: friend).first
           if !user.nil?
             user.invite_friend!(@user)
           end
@@ -434,5 +435,11 @@ class UsersController < ApplicationController
       def clear_external_invitations
         ExternalInvitation.where(receiver: @user.email).destroy_all
         ExternalInvitation.where(facebook_id: @user.facebook_id).destroy_all
+      end
+
+      #Method to calculate user age from birthday.
+      def calculate_user_age
+        now = Time.now.utc.to_date
+        age = now.year - @user.birthday.year - (@user.birthday.to_date.change(:year => now.year) > now ? 1 : 0)
       end
 end
