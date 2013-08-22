@@ -31,7 +31,6 @@ class User < ActiveRecord::Base
   validates :preferences, presence: true
   validate :startday_and_birthday_must_be_before_current_time
   validate :starday_must_be_after_birthday
-  #validate :age_must_correspond_with_birthday
 
   before_save { self.email = email.downcase }
   before_create :create_remember_token
@@ -156,15 +155,6 @@ class User < ActiveRecord::Base
 
     def create_remember_token
       self.remember_token = SecureRandom.urlsafe_base64
-    end
-
-    def  age_must_correspond_with_birthday
-      if !self.birthday.nil?
-        time2 = self.birthday.advance(:years => self.age)
-        if time2.strftime("%Y").to_i != DateTime.current.strftime("%Y").to_i
-          errors.add(:age, "not corresponds to birthday")
-        end
-      end
     end
 
     def starday_must_be_after_birthday

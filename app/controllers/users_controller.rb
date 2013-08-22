@@ -183,7 +183,6 @@ class UsersController < ApplicationController
     ‘profile_photo’: 2,
     ‘photo_num’: 1,
     ‘job’: 0,
-    ‘age’: 25,
     ‘birthday: ‘11/11/1111’,
     ‘startday’: ‘11/11/1111’,
     ‘eye_color’: 0,
