@@ -16,6 +16,14 @@ namespace :db do
     make_photos
     make_geosexes
   end
+   task populate_production: :environment do
+    make_admin
+    make_users
+    make_lovers
+    make_experiences
+    make_friendships
+    send_messages
+  end
   task remigrate: :environment do
       Rake::Task['db:drop'].invoke
       Rake::Task['db:create'].invoke
@@ -26,6 +34,12 @@ namespace :db do
     Rake::Task['db:create'].invoke
     Rake::Task['db:migrate'].invoke
     Rake::Task['db:populate'].invoke
+end
+ task repopulate_production: :environment do
+    Rake::Task['db:drop'].invoke
+    Rake::Task['db:create'].invoke
+    Rake::Task['db:migrate'].invoke
+    Rake::Task['db:populate_production'].invoke
 end
 end
 
@@ -54,7 +68,7 @@ def make_admin
 end
 
 def make_users
-  50.times do |n|
+  4.times do |n|
     name  = Faker::Name.name
     email = "example-#{n+1}@railstutorial.org"
     password  = "1234"
@@ -91,50 +105,14 @@ def make_users
                  sex_gender: sex_gender,
                  preferences: [1,2,3,4,5,6])
   end
-  49.times do |n|
-    name  = Faker::Name.name
-    email = "example-#{100-n+1}@railstutorial.org"
-    password  = "1234"
-    facebook_id = Faker::Internet.user_name
-    facebook_photo ="http://url.jpg"
-    profile_photo = -1
-    photo_num = 2
-    startday = "11/11/1992"
-    birthday = "11/11/1991"
-    job = 0
-    eye_color = 0
-    hair_color = 0
-    height = 2
-    hairdressing = 1
-    sex_interest = 0
-    sex_gender = 0
-    User.create!(name: name,
-                 email: email,
-                 password: password,
-                 password_confirmation: password,
-                 facebook_id: facebook_id,
-                 status: 0,
-                 facebook_photo: facebook_photo,
-                 profile_photo: profile_photo,
-                 photo_num: photo_num,
-                 birthday: birthday,
-                 startday: startday,
-                 job: job,
-                 eye_color: eye_color,
-                 hair_color: hair_color,
-                 height: height,
-                 hairdressing: hairdressing,
-                 sex_interest: sex_interest,
-                 sex_gender: sex_gender,
-                 preferences: [2,4,3,5,1,6])
-  end
 end
 
 def make_lovers
   users = User.all(limit:5)
+  users = users[1..5]
   public_lovers = Array.new
   secret_lovers = Array.new
-  5.times do |n|
+  2.times do |n|
     name = Faker::Name.name
     name2 = Faker::Name.name
     url = "http://#{name}.jpg"
@@ -149,7 +127,7 @@ def make_lovers
 end
 
 def make_experiences
-  lovers = Lover.all(limit:6)
+  lovers = Lover.all(limit:2)
   experiences = Array.new
   5.times do |n|
     experience = Experience.create!(date: "11/11/1111", location: rand(0...3), personal_score: rand(0...10), msd_score: rand(0...10), final_score: rand(0...10))
@@ -161,18 +139,22 @@ def make_experiences
 end
 
 def make_friendships
-  users = User.all
-  user  = users.first
-  followed_users = users[2..8]
-  followers      = users[3..7]
-  followed_users.each { |friend_id| user.invite_friend!(friend_id) }
-  followers.each      { |user_id| user_id.accept_friend!(user) }
+  user2 = User.find_by_user_id(2);
+  user3 = User.find_by_user_id(3);
+  user4 = User.find_by_user_id(4);
+
+  user2.invite_friend!(user3)
+  user2.invite_friend!(user4)
+
+  user3.invite_email_friend!("test@gmail.com")
+
+  user3.accept_friend!(user2)
 end
 
 def send_messages
   users = User.all
-  user = users.first
-  senders_users = users[0..19]
+  user = User.find_by_user_id(2)
+  senders_users = users[3..5]
   senders_users.each { |sender_id| user.receive_message!(sender_id,"hola")}
 end
 

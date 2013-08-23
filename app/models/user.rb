@@ -84,8 +84,8 @@ class User < ActiveRecord::Base
     other_user.friendships.create!(friend_id: self.user_id, pending: true)
   end
 
-  def invite_email_friend!(user, email)
-    if UserMailer.invitation_email(user, email).deliver
+  def invite_email_friend!(email)
+    if UserMailer.invitation_email(self, email).deliver
       external_invitations.create!(receiver: email)
       return true
     else

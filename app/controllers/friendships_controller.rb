@@ -208,9 +208,6 @@ class FriendshipsController < ApplicationController
   error code: 400
   def create_mail
 
-    # Sender user
-    @user_sender= User.find(params[:user_id])
-
     # Store array values to iterate.
     emails  = params[:emails]
 
@@ -219,7 +216,7 @@ class FriendshipsController < ApplicationController
       emails.each do |email|
         begin
           # Sending email request.
-          @user_sender.invite_email_friend!(@user, email)
+          @user.invite_email_friend!(email)
         rescue => e
           return render json: {exception: e.inspect, message: e.message}
         end
