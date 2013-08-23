@@ -223,9 +223,18 @@ class UsersController < ApplicationController
     @user.age = calculate_user_age
     friends_users = Array.new
     if @user.save
+      @admin = User.first
+      logger.debug "Welcome Message"
+      #@admin.send_message!(@user, "Welcome to MySexDatabase")
+      @user.receive_message!(@admin, "Welcome to MySexDatabase")
       # Retrieve users invitations by email and facebook_id
       friends_users = search_users_by_email_and_facebook_id(@user.email, @user.facebook_id);
-
+      friends_users.each do |friend|
+                  logger.debug "Do you want to be my friend?"
+                  @sender = User.find_by_user_id(friend)
+                  #@sender.send_message!(@user,"Do you want to be my friend?")
+                  @user.receive_message!(@sender,"Do you want to be my friend?")
+      end
       # Create pending friendship between the current user and users that sent requests.
       if create_friendships(friends_users)
         clear_external_invitations;

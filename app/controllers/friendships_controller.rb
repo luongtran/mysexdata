@@ -139,7 +139,7 @@ class FriendshipsController < ApplicationController
   end
 
 
-  api :POST,'/users/:user_id/friendships', 'Send a request to the given user to be his/her friend'
+  api :POST,'/users/:user_id/friendships', 'Send a request to the given user to be his/her friend. It will send a message to the receiver.'
   formats ['json']
   description "
   <b>Headers</b>
@@ -173,6 +173,7 @@ class FriendshipsController < ApplicationController
         begin
           @user_receiver = User.find(id)
           @user_sender.invite_friend!(@user_receiver)
+          @user_receiver.receive_message!(@user_sender,"Do you want to be my friend?")
         rescue => e
           return render json: {exception: "FriendshipException", message: e.message}
         end

@@ -40,7 +40,6 @@ def make_admin
                profile_photo: -1,
                photo_num: 1,
                job: 0,
-               age: 22,
                birthday: "11/11/1991",
                startday: "11/11/1992",
                eye_color: 0,
@@ -63,9 +62,8 @@ def make_users
     facebook_photo ="http://url.jpg"
     profile_photo = -1
     photo_num = 1
-    age = 22
-    startday = Date.new(1992,11,11)
-    birthday = Date.new(1991,11,11)
+    startday = "11/11/1992"
+    birthday = "11/11/1991"
     job = 0
     eye_color = 0
     hair_color = 0
@@ -82,7 +80,6 @@ def make_users
                  facebook_photo: facebook_photo,
                  profile_photo: profile_photo,
                  photo_num: photo_num,
-                 age: age,
                  birthday: birthday,
                  startday: startday,
                  job: job,
@@ -102,9 +99,8 @@ def make_users
     facebook_photo ="http://url.jpg"
     profile_photo = -1
     photo_num = 2
-    age = 22
-    startday = Date.new(1992,11,11)
-    birthday = Date.new(1991,11,11)
+    startday = "11/11/1992"
+    birthday = "11/11/1991"
     job = 0
     eye_color = 0
     hair_color = 0
@@ -121,7 +117,6 @@ def make_users
                  facebook_photo: facebook_photo,
                  profile_photo: profile_photo,
                  photo_num: photo_num,
-                 age: age,
                  birthday: birthday,
                  startday: startday,
                  job: job,

@@ -6,6 +6,9 @@ class User < ActiveRecord::Base
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
   VALID_URL_REGEX = /https\:\/\/www.facebook.com\/photo.php\?(\w+)/i
 
+
+  self.primary_key = "user_id"
+
   validate :check_type
   validates :name, presence: true,  length: { maximum: 50 }
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false}
@@ -34,9 +37,6 @@ class User < ActiveRecord::Base
 
   before_save { self.email = email.downcase }
   before_create :create_remember_token
-
-  self.primary_key = "user_id"
-
 
   # Lovers
   has_many :user_lovers, foreign_key: "user_id", dependent: :destroy
@@ -138,12 +138,12 @@ class User < ActiveRecord::Base
   end
 
   def send_message!(receiver, content)
-    messages.create!(sender_id: receiver.user_id, content: content)
+    messages.create!(sender_id: self.user_id, receiver_id: receiver.user_id, content: content)
   end
 
 
   def receive_message!(sender,content)
-    messages.create!(sender_id: sender.user_id, content: content)
+    messages.create!(sender_id: sender.user_id, receiver_id: self.user_id, content: content)
   end
 
   def remember_me!

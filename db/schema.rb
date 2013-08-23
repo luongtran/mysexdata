@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 20130730145125) do
     t.datetime "updated_at"
   end
 
-  create_table "messages", primary_key: "message_id", force: true do |t|
+  create_table "messages", force: true do |t|
     t.integer  "receiver_id"
     t.integer  "sender_id"
     t.string   "content"

@@ -35,7 +35,6 @@ module SessionsHelper
     authenticate_or_request_with_http_token do |token, options|
 
       @user = User.where(admin: true).first
-
       token == @user.remember_token and @user.admin == true
     end
   end
