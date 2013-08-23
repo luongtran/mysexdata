@@ -173,7 +173,6 @@ class FriendshipsController < ApplicationController
         begin
           @user_receiver = User.find(id)
           @user_sender.invite_friend!(@user_receiver)
-          @user_sender.send_message!(@user_receiver, "Do you want to be my friend?")
         rescue => e
           return render json: {exception: "FriendshipException", message: e.message}
         end
