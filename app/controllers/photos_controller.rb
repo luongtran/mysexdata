@@ -79,7 +79,7 @@ class PhotosController < ApplicationController
   end
 
 
-  api :POST, '/users/:user_id/photos', 'Add a photo'
+  api :POST, '/users/:user_id/photos', 'Add a photo. *Base64 picture string must be in one line string.'
   formats ['json']
   description "
   <b>Headers</b>
