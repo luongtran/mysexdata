@@ -49,7 +49,7 @@ class PhotosController < ApplicationController
     ]
   }"
   def index
-    @photos = Photo.all
+    @photos = @user.photos
   end
 
   api :GET, '/users/:user_id/photos/:photo_id', 'Get info of a photo'

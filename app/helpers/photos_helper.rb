@@ -142,6 +142,7 @@ def retrievePictureFromFTP(id, name)
       ftp.gettextfile("#{PATH_TO_WEB_FILE}/user_#{id}/#{name}", nil) {|data| @picture = data}
       logger.debug "[INFO] Retrieving picture from #{PATH_TO_WEB_FILE}/user_#{id}/#{name}"
     rescue
+      logger.debug "[INFO] Retrieving picture from #{PATH_TO_WEB_FILE}/user_#{id}/#{name}"
       logger.debug "[ERROR] Picture cannot be found in FTP Server"
       errors[:error] = "Picture cannot be found in FTP Server"
     ensure

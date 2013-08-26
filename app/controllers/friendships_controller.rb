@@ -41,12 +41,14 @@ class FriendshipsController < ApplicationController
         {
             'user_id': '4',
             'name': 'Ida Fadel',
-            'profile_photo': 1
+            'profile_photo': 1,
+            'facebook_photo':'http://facebook.photo1.jpg'
         },
         {
             'user_id': '5',
             'name': 'Zena Johns',
-            'profile_photo': 2
+            'profile_photo': 2,
+            'facebook_photo':'http://facebook.photo2.jpg'
         }
   }"
   error code:400
@@ -288,7 +290,7 @@ class FriendshipsController < ApplicationController
   end
 
 
-  api :PUT, '/users/:user_id/friendships/:friend_id','Accepts the given user as your friend'
+  api :PUT, '/users/:user_id/friendships/accept','Accepts the given user as your friend'
   formats ['json']
   description "
   <b>Headers</b>
@@ -391,7 +393,7 @@ class FriendshipsController < ApplicationController
     return render json: {message:"Request omitted"}
   end
 
-  api :GET, '/users/:user_id/friendships_secret_pending', 'Show friends that accepts to show his/her secret lovers.'
+  api :GET, '/users/:user_id/friendships_secret_pending', 'Show a list of pending friends that wants to see your secret lovers.'
   description "
   <b>Headers</b>
 
