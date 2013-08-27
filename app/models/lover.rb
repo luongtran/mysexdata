@@ -1,10 +1,11 @@
 class Lover < ActiveRecord::Base
 
-  has_many :users, through: :lover_users
+  has_many :user_lovers, foreign_key: "lover_id", dependent: :destroy
+  has_many :users, through: :user_lovers
 
   self.primary_key = "lover_id"
 
-  has_many :lover_experiences
+  has_many :lover_experiences, foreign_key: "lover_id", dependent: :destroy
   has_many :experiences, through: :lover_experiences, dependent: :destroy
 
   default_scope -> { order('name DESC')}

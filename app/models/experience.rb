@@ -1,5 +1,7 @@
 class Experience < ActiveRecord::Base
-  belongs_to :lover
+
+  has_one :lover_experience, foreign_key: "experience_id", dependent: :destroy
+  has_one :lover, through: :lover_experience, dependent: :destroy
 
   self.primary_key = "experience_id"
 
