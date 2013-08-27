@@ -254,9 +254,9 @@ error code:400
   error code:400
   def update
     if @experience.update(experience_params)
-      return render action: 'show', status: :updated
+      return render action: 'show', status: 200
     else
-      return render json: @experience.errors.full_messages, status: :unprocessable_entity
+      return render json: @experience.errors.full_messages, status: 400
     end
   end
 
