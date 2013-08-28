@@ -47,6 +47,7 @@ Mysexdata::Application.routes.draw do
   match '/users/:user_id/lovers/:lover_id', to: 'lovers#update', via:'put'
   match '/users/:user_id/lovers/:lover_id', to: 'lovers#destroy', via:'delete'
   match '/users/:user_id/lovers_pending', to: 'lovers#pending_lovers', via:'get'
+  match '/users/:user_id/statistics', to: 'lovers#statistics', via:'get'
 
   # Friendships
   match '/users/:user_id/friendships', to: 'friendships#index', via: 'get'

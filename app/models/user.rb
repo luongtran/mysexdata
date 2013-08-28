@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   has_many :public_lovers, -> { where "user_lovers.visibility = ?", 1 }, through: :user_lovers, source: :lover
   has_many :non_pending_lovers, -> { where "user_lovers.pending = ?", false }, through: :user_lovers, source: :lover
   has_many :pending_lovers, -> { where "user_lovers.pending = ?",true }, through: :user_lovers, source: :lover
-  has_many :lovers, through: :user_lovers
+  has_many :lovers, through: :user_lovers,  dependent: :destroy
 
   # Photos
   has_many :user_photos, foreign_key: "user_id", dependent: :destroy
@@ -56,9 +56,9 @@ class User < ActiveRecord::Base
 
   # Friendships
   has_many :friendships, foreign_key: "user_id", dependent: :destroy
-  has_many :friends,-> {where "friendships.accepted = ?", true}, through: :friendships, source: :friend
-  has_many :pending_friends, -> {where  "friendships.pending = ?", true}, through: :friendships, source: :friend
-  has_many :secret_petitions, -> {where "friendships.secret_lover_ask = ? AND friendships.accepted = ?", true, true}, through: :friendships, source: :friend
+  has_many :friends,-> {where "friendships.accepted = ?", true}, through: :friendships, source: :friend, dependent: :destroy
+  has_many :pending_friends, -> {where  "friendships.pending = ?", true}, through: :friendships, source: :friend, dependent: :destroy
+  has_many :secret_petitions, -> {where "friendships.secret_lover_ask = ? AND friendships.accepted = ?", true, true}, through: :friendships, source: :friend, dependent: :destroy
 
   # Requests
   has_many :external_invitations,foreign_key: "sender_id", dependent: :destroy

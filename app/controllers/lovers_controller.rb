@@ -290,6 +290,124 @@ class LoversController < ApplicationController
     render action: 'show_pending'
   end
 
+
+  # STATISTICS
+
+  api :GET, 'users/:user_id/statistics', 'Show lovers statistics'
+   description"
+    <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  example "
+  {
+    'user_id': 2,
+    'statistics': {
+        'days_without_sex': 75,
+        'month_lover': {
+            'lover_id': 2,
+            'name': 'Mallory Beahan',
+            'photo_url': 'http://Mallory Beahan.jpg'
+        },
+        'year_lover': {
+            'lover_id': 2,
+            'name': 'Mallory Beahan',
+            'photo_url': 'http://Mallory Beahan.jpg'
+        },
+        'month_activity': [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        'year_activity': [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            6,
+            0
+        ]
+    }
+  }"
+  def statistics
+    calculate_statistics
+    return render action: 'statistics'
+  end
+
+  def calculate_statistics
+    lovers = @user.lovers
+
+    # Creating 32 and 12 array positions corresponding to year's month and days of the month.
+    @month_activity = Array.new(31) { |value| value = 0}
+    @year_activity = Array.new(12) { |value| value = 0}
+
+    year_experiences = []
+    month_experiences = []
+    experiences = []
+    lovers.each do |lov|
+      if !lov.experiences.empty?
+        lov.experiences.each do |exp|
+          # Adding +1 if a experience is done in this year and add experience in year experiences
+          if exp.date.year == DateTime.current.year
+            year_experiences.push(exp)
+            @year_activity[exp.date.month-1] = @year_activity[exp.date.month-1] + 1
+            # Adding +1 if a experience is done in this month and add experience in month experiences
+            if exp.date.month == DateTime.current.month
+              month_experiences.push(exp)
+              @month_activity[exp.date.day-1] = @month_activity[exp.date.day-1] +1
+            end
+          end
+          experiences.push(exp)
+        end
+      end
+    end
+
+    last_experience = experiences.max_by(&:date)
+    @days = (Time.now.to_date - last_experience.date.to_date).to_i
+
+    #Getting the maximum final score
+    @m_lover = month_experiences.max_by(&:final_score).lover
+    @y_lover = year_experiences.max_by(&:final_score).lover
+
+    logger.debug "[INFO] Statistics - #{@days} wihout sex, month_lover: #{@m_lover.name}, year_lover: #{@y_lover.name}"
+
+  end
+
   private
 
     # Defines the user that correspondes to the given urser_id

@@ -129,9 +129,13 @@ end
 def make_experiences
   lovers = Lover.all(limit:2)
   experiences = Array.new
-  5.times do |n|
-    experience = Experience.create!(date: "11/11/1111", location: rand(0...3), personal_score: rand(0...10), msd_score: rand(0...10), final_score: rand(0...10))
+  3.times do |n|
+    experience = Experience.create!(date: "11/02/2013", location: rand(0...3), personal_score: rand(0...10), msd_score: rand(0...10), final_score: rand(0...10))
     experiences.push(experience)
+  end
+    2.times do |n|
+    experience_month = Experience.create!(date: "11/08/2013", location: rand(0...3), personal_score: rand(0...10), msd_score: rand(0...10), final_score: rand(0...10))
+    experiences.push(experience_month)
   end
   lovers.each {|lover| lover.experiences = experiences}
 
