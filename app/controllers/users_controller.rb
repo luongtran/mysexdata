@@ -324,6 +324,18 @@ class UsersController < ApplicationController
     render action: 'show_sex_affinity'
   end
 
+  api :POST, '/users/:user_id/report_abuse', 'Send an email to administrator with the content that user include reporting the abuse.'
+  description "
+  <b>Headers</b>
+
+  Content-type: application/json
+
+  Authorization: Token token=<remember_token>"
+  example "
+  {
+    'content': 'Hola, quería quejarme porque el usuario x no deja de insultarme.'
+  }
+  "
   def report_abuse
     content = params[:content]
     if UserMailer.report_abuse(@user, content).deliver
