@@ -5,6 +5,7 @@
 <p>This API provides information about users and his friendships between other users as well as user lovers, messages, pictures and geolocation.
 There are eight controllers that correspond to each resource: User, Friendship, Lover, Experience, Photo, Message, Geosexe and Session. Last controller
 is used to manage user sessions during app and authenticate each request.
+<p> Also, we created some models that corresponds to database table and some views for each model to show the json response content .
 
 <h4>Authentication</h4>
 <p>MSD use Basic Authentication thorugh an aphanumerical token. This token is provided by the server the first time you register in app, then,
@@ -32,3 +33,4 @@ will calculate an score to evaluate the experience.
 <h2>ADMIN Webpage</h2>
 <p>In this web you can manage all users. You can delete, create, update or list them. Another functionality that provides is the possibility to block
 users that receive a lot of abuse messages.
+<p>This webpage is created using activeadmin gem that provides a full integration with our ruby models.
