@@ -23,6 +23,7 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :sex_gender, default: 0
       t.integer :preferences, :array => true, :length => 6
       t.boolean :admin, default: false
+      t.integer :premium, default: 0
 
       t.timestamps
 

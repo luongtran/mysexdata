@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence:false
   validates :password, length: { maximum: 4 }
   validates :preferences, presence: true
+  validates :premium, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
   validate :startday_and_birthday_must_be_before_current_time
   validate :starday_must_be_after_birthday
 

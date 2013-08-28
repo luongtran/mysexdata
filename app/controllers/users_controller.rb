@@ -34,6 +34,7 @@ class UsersController < ApplicationController
     param :sex_interest, [0,1 ,2], 'Sex in which user is interested in. (0: Woman, 1: Man, 2: Both) (Integer)', required: true
     param :sex_gender, [0 ,1], 'User gender (0: Female, 1: Male) (Integer)', required: true
     param :preferences,Array, 'Array of size 6. This must contain 1 to 6 integers sorted by user preferences. Example: [2,5,3,1,6,4] or [6,4,2,4,3,1]', required: true
+    param :premium, [0 ,1], 'User has a premium account (0:No, 1:Yes) (Integer)', required: true
   end
 
   # Optional user params used to update users.
@@ -57,6 +58,8 @@ class UsersController < ApplicationController
     param :sex_interest, [0 ,1 ,2], 'Sex in which user is interested in. (0: Woman, 1: Man, 2: Both) (Integer)', required: false
     param :sex_gender, [0 ,1], 'User gender (0: Female, 1: Male) (Integer)', required: false
     param :preferences,Array, 'Array of size 6. This must contain 1 to 6 integers sorted by user preferences. Example: [2,5,3,1,6,4] or [6,4,2,4,3,1]', required: false
+    param :premium, [0 ,1], 'User has a premium account (0:No, 1:Yes) (Integer)', required: false
+
   end
 
   api :GET, '/users', 'Show all users'
@@ -80,7 +83,8 @@ class UsersController < ApplicationController
     ‘hairdressing’: 0,
     ‘sex_interest’: 0,
     ‘sex_gender’: 0,
-    ‘preferences’: [1, 2, 3, 4, 5, 6]
+    ‘preferences’: [1, 2, 3, 4, 5, 6],
+    'premium': 0
   },{
     'user_id': 2,
     'name': 'Example User2',
@@ -100,7 +104,8 @@ class UsersController < ApplicationController
     ‘hairdressing’: 0,
     ‘sex_interest’: 0,
     ‘sex_gender’: 0,
-    ‘preferences’: [1, 2, 3, 4, 5, 6]
+    ‘preferences’: [1, 2, 3, 4, 5, 6],
+    'premium': 0
   }]"
   def index
     @users = User.all
@@ -135,6 +140,7 @@ class UsersController < ApplicationController
       ‘sex_interest’: 0,
       ‘sex_gender’: 0,
       ‘preferences’: [1, 2, 3, 4, 5, 6],
+      'premium': 0,
       'lovers': {
         'public': [
           {
@@ -191,7 +197,8 @@ class UsersController < ApplicationController
     ‘hairdressing’: 0,
     ‘sex_interest’: 0,
     ‘sex_gender’: 0,
-    ‘preferences’: [1, 2, 3, 4, 5, 6]
+    ‘preferences’: [1, 2, 3, 4, 5, 6],
+    'premium': 0
   }
 
   Response:
@@ -215,6 +222,7 @@ class UsersController < ApplicationController
     ‘sex_interest’: 0,
     ‘sex_gender’: 0,
     ‘preferences’: [1, 2, 3, 4, 5, 6],
+    'premium': 0,
     'remember_token': 'adfdfasafag213asd'
     }
   }"
@@ -275,7 +283,8 @@ class UsersController < ApplicationController
     ‘hairdressing’: 0,
     ‘sex_interest’: 0,
     ‘sex_gender’: 0,
-    ‘preferences’: [1, 2, 3, 4, 5, 6]
+    ‘preferences’: [1, 2, 3, 4, 5, 6],
+    'premium': 0
   }"
   def update
     @public_lovers = @user.public_lovers
