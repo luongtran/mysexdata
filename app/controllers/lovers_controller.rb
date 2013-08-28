@@ -179,8 +179,11 @@ class LoversController < ApplicationController
         errors << "Lover with facebook_id: #{lov["facebook_id"]} and name: #{lov["name"]} already exists"
       else
         begin
-          created_lover = Lover.create!(name: lov["name"],facebook_id: lov["facebook_id"], photo_url: lov["photo_url"], age: lov["age"], sex_gender: lov["sex_gender"], job: lov["job"], height: lov["height"])
-          @lover = @user.user_lovers.create(lover: created_lover, visibility: lov["visibility"], pending: lov["pending"])
+          new_lover = Lover.where(facebook_id: lov["facebook_id"], name: lov["name"]).first
+          if new_lover == nil
+            new_lover = Lover.create(name: lov["name"],facebook_id: lov["facebook_id"], photo_url: lov["photo_url"], age: lov["age"], sex_gender: lov["sex_gender"], job: lov["job"], height: lov["height"])
+          end
+          @lover = @user.user_lovers.create(lover: new_lover, visibility: lov["visibility"], pending: lov["pending"])
         rescue
           errors << "#{$!}"
           break;
