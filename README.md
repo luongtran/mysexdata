@@ -1,7 +1,7 @@
-My Sex Data API
---------------
+<h1>My Sex Data API</h1>
+------------------------
 
-This App contains two modules: a REST API and an admin webpage. These two parts are incorporated in the same package.
+This App contains two modules: a REST API and an admin webpage(http://localhost:3000/doc). These two parts are incorporated in the same package.
 
 REST API
 --------
@@ -25,4 +25,10 @@ receives the corresponding email or notification, he/she can register in the app
 
 Lovers
 ------
-In this app you can also add lovers, people with whom you can have a sexual experience.
+In this app you can also add lovers, people with whom you can have a sexual experience. These lovers are identified by his facebook id and can be
+users or not.
+
+Experiences
+----------
+A User can have an experience with a lover, at least. In this part we will detail all information about experience. When all fields are complete, the app
+will calculate an score to evaluate the experience.
