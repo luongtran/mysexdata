@@ -300,6 +300,7 @@ class UsersController < ApplicationController
   }"
   def destroy
     id = @user.user_id
+    Friendship.where(friend_id: id).destroy_all
     @user.destroy
     return  render json: {info:"User #{@user.id} was successfully remove"}
   end

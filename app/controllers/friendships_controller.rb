@@ -153,7 +153,7 @@ class FriendshipsController < ApplicationController
   example "
   Request body:
   {
-    'emails':['info@mysexdata.com','info2@mysexdata.com'']
+    'friends_id':[1,2,3,4]
   }
 
   Response:
@@ -199,9 +199,8 @@ class FriendshipsController < ApplicationController
   example "
   Request body:
   {
-    'emails':['info@mysexdata.com']
+    'emails':['info@mysexdata.com','info2@mysexdata.com']
   }
-
   Response:
   {
     'info': 'Invitations sent'
@@ -401,6 +400,12 @@ class FriendshipsController < ApplicationController
 
   Authorization: Token token=<remember_token>"
   example "
+  Request body:
+  {
+
+
+
+  }
   Response:
   {
       'user_id': 10,
@@ -419,7 +424,7 @@ class FriendshipsController < ApplicationController
     return render action:'show_pending'
   end
 
-  api :POST,'/users/:user_id/friendships_secret', 'Send an invitation to see his/her friend secret lovers.'
+  api :POST,'/users/:user_id/friendships_secret', 'Send an invitation to see his/her friend secret lovers. It only can be done if you friend accepted your request'
   formats ['json']
   description "
   <b>Headers</b>
@@ -430,7 +435,7 @@ class FriendshipsController < ApplicationController
   param_group :accept_params
   example "
   {
-    'info': 'Invitations sent'
+    'info': 'Sending invitation to see his/her friend'
   }"
   error code:400
   def create_secret
