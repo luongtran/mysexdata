@@ -191,6 +191,7 @@ ActiveRecord::Schema.define(version: 20130730145125) do
     t.integer  "sex_gender",      default: 0
     t.integer  "preferences",                     array: true
     t.boolean  "admin",           default: false
+    t.integer  "premium",         default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
