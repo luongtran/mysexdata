@@ -330,8 +330,16 @@ class UsersController < ApplicationController
   }"
   def sex_affinity
     @user2 = User.find(params[:user2_id])
-    @affinity = calculate_sex_affinity(@user, @user2)
-    render action: 'show_sex_affinity'
+    if @user2 != nil and @user != nil
+      @affinity = calculate_sex_affinity(@user, @user2)
+      if @affinity != -1
+        return render action: 'show_sex_affinity'
+      else
+        return render json: {exception: "UserException", message:"All user preferences must be setted to get sex_affinity between two users."}
+      end
+    else
+      return render json: {exception: "UserException", message:"User cannot be found"}
+    end
   end
 
   api :POST, '/users/:user_id/report_abuse', 'Send an email to administrator with the content that user include reporting the abuse.'
@@ -377,13 +385,18 @@ class UsersController < ApplicationController
       # Algorithm that calculates sex_affinity value between two users.
       def calculate_sex_affinity(user, user2)
 
-        # Calculating each value.
-        i = calculate_interest(user,user2)
-        h = calculate_height(user,user2)
-        hd = calculate_hairdressing(user,user2)
-        p = calculate_preferences(user,user2)
+        if user.sex_interest != nil and user.sex_gender != nil and user.height and user.hairdressing != nil and user.preferences != [] and user2.sex_interest != nil and user2.sex_gender != nil and user2.height and user2.hairdressing != nil and user2.preferences != []
 
-        return sa = 100 * i *( 0.22*p[0] + 0.19*p[1] + 0.17*p[2] + 0.14*p[3] + 0.11*p[4] + 0.08*p[5] + 0.06*h + 0.03*hd )
+          # Calculating each value.
+          i = calculate_interest(user,user2)
+          h = calculate_height(user,user2)
+          hd = calculate_hairdressing(user,user2)
+          p = calculate_preferences(user,user2)
+
+          return sa = 100 * i *( 0.22*p[0] + 0.19*p[1] + 0.17*p[2] + 0.14*p[3] + 0.11*p[4] + 0.08*p[5] + 0.06*h + 0.03*hd )
+        else
+          return -1
+        end
       end
 
       def calculate_interest(user,user2)
