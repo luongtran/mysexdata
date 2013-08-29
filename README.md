@@ -188,7 +188,7 @@ To deploy all code we use Heroku, a cloud platform that allows to launch your ap
 <p>1. Install Ruby 2.0 and Rails 4.
 <p>2. Install and configure PostgresSQL (if you want to work in localhost)
 <p>3. Download code from repository: https://github.com/bengg/MSD-rails
-<p>4. Execute "bundle exec" to install Gemfile gems.
+<p>4. Execute "bundle exec install"  to install Gemfile gems.
 <p>5. Execute "rake db:repopulate_production" to populate database with admin and some users.
 <p>6. Execute "rails s" to start rails server
 <p>7. Access to http://localhost:3000/doc to see if you can visit documentation.
