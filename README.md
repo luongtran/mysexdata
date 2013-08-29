@@ -72,5 +72,114 @@ users that receive a lot of abuse messages.
     <li><b>Sex_gender:</b> User sex gender</li>
     <li><b>Preferences:</b> Array of sorting numbers that indicates your preferences</li>
     <li><b>Admin:</b> User admin permissions</li>
-    <li><b>Premium:</b> It indicates if this user has a preimum account</li>
+    <li><b>Premium:</b> It indicates if this user has a preimum account or not</li>
 </ul>
+
+<h4>Friendhips</h4>
+<h5>Parameters:</h5>
+<ul>
+    <li><b>Id:</b> Row identifier</li>
+    <li><b>User_id:</b> Id that identifies a user</li>
+    <li><b>Friend_id:</b> Id that identifies user friend</li>
+    <li><b>Accepted:</b> It shows if a user friend have accepted the invitation</li>
+    <li><b>Pending:</b> It indicates if the invitation is pending to answer. If accepted is false and pending too, then the friend doesn't want to be your friend</li>
+    <li><b>Secret_lover_ask:</b> It indicates if there is a request to show secret lovers to the given user</li>
+    <li><b>Secret_lover_Accepted:</b> It indicates that user accepts to show his secret lovers to the given user</li>
+
+</ul>
+
+<h4>Lovers</h4>
+<h5>Parameters:</h5>
+<ul>
+    <li><b>Lover_id:</b> Id that identifies a lover</li>
+    <li><b>Facebook_id:</b> Id that identifies facebook user account</li>
+    <li><b>Name:</b> Facebook user name</li>
+    <li><b>photo_url:</b> URL to facebook profile photo</li>
+    <li><b>Age:</b> Lover age</li>
+    <li><b>Sex_gender:</b> User sex gender</li>
+    <li><b>Job:</b> Lover job status: with job, unemployed,...</li>
+    <li><b>Height:</b> Lover height</li>
+</ul>
+
+<h4>Experiences</h4>
+<h5>Parameters:</h5>
+<ul>
+    <li><b>Experience_id:</b> Id that identifies an experience</li>
+    <li><b>Date:</b> Date of the experience</li>
+    <li><b>Moment:</b> Moment when the experience was done (Morning, Afternoon, Night).</li>
+    <li><b>Location:</b> Where the experience was done</li>
+    <li><b>Place:</b> Where the experience was done. These options are predefined, while the previous filed not.</li>
+    <li><b>Detail_one:</b> If we speak about men, it will be related with first pennis option, and if we speak about women, with first breasts option</li>
+    <li><b>Detail_two:</b> If we speak about men, it will be related with second pennis option, and if we speak about women, with second breasts option</li>
+    <li><b>Detail_three:</b> It only can be related with women, because men don't have three pennis option.</li>
+    <li><b>Hairdressing:</b> Hairdressing rate</li>
+    <li><b>Kiss:</b> Kiss rate</li>
+    <li><b>Oral_sex:</b> Oral sex rate</li>
+    <li><b>Intercourse:</b> Intercourse rate</li>
+    <li><b>Caresses:</b> Caresses rate</li>
+    <li><b>Anal_sex:</b> Anal sex rate</li>
+    <li><b>Post_intercourse:</b> Post-intercourse rate</li>
+    <li><b>Repeat:</b> It indicates if a user can repeat this experience with the same lover</li>
+    <li><b>Visibility:</b> It indicates if the user will allow geolocation for this user</li>
+    <li><b>Times:</b> Number of times that this experience is done</li>
+    <li><b>Personal_score:</b> Number that indicates how much the user likes this experience</li>
+    <li><b>Msd_score:</b> Mark that the own app will calculate depending on the rates</li>
+    <li><b>Final_score:</b> Final average of two scores</li>
+
+
+
+</ul>
+
+<h4>Messages</h4>
+<h5>Parameters:</h5>
+<ul>
+    <li><b>Id:</b> Row identifier</li>
+    <li><b>Receiver_id:</b> Id of the user that receives the message</li>
+    <li><b>Sender_id:</b> If of the user that sends the message</li>
+    <li><b>Content:</b> Content of the message</li>
+</ul>
+
+<h4>Photos</h4>
+<h5>Parameters:</h5>
+<ul>
+    <li><b>Photo_id:</b> Id that identifies a photo</li>
+    <li><b>Name:</b> Photo's name</li>
+</ul>
+
+<h4>Geosexes</h4>
+<h5>Parameters:</h5>
+<ul>
+    <li><b>User_id:</b> Id that identifies a user</li>
+    <li><b>Acces:</b> User allows or not to be geolocated</li>
+    <li><b>Lat:</b> Latitude location</li>
+    <li><b>Long:</b> Longitude location</li>
+    <li><b>Address:</b> Reverge geocoding adrres</li>
+</ul>
+
+<h4>External_Invitations</h4>
+<p>If Receiver is setted, then the rest of the parameters could not appear. This is because invitations are done separated. You can invite a friend through
+email or facebook.
+<h5>Parameters:</h5>
+<ul>
+    <li><b>Id:</b> Row identifier</li>
+    <li><b>Sender_id:</b> User that sends invitation</li>
+    <li><b>Receiver:</b> Email of the receiver</li>
+    <li><b>Facebook_id:</b> Facebook id of the receiver</li>
+    <li><b>Name:</b> Receiver's name</li>
+    <li><b>Photo_url:</b> Receiver's photo url from facebook.</li>
+</ul>
+
+<h4>Admin_users, active_admin_comments and blocked users</h4>
+<p>These are tables that are used to managed Admin Webpage.
+<h5>Blocked_users:</h5>
+<h6>Parameters:</h6>
+<ul>
+      <li><b>Id:</b> Row identifier</li>
+      <li><b>User_Id:</b> Id that identifies a user</li>
+      <li><b>Blocked_user_id:</b> Id of the user that are blocked</li>
+      <li><b>Blocked:</b> It indicates if the user is blocked or not</li>
+      <li><b>Desription:</b> It shows why this user is blocked or some additional information</li>
+</ul>
+
+
+
