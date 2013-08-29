@@ -47,10 +47,30 @@ users that receive a lot of abuse messages.
 <h2>DATABASE</h2>
 
 <h4>Users</h4>
-<h2>Parameters:</h2>
+<h5>Parameters:</h5>
 <ul>
     <li><b>User_id:</b> Id that identifies a user</li>
     <li><b>Name:</b> Facebook user name</li>
     <li><b>Email:</b> Email that user uses to log in in Facebook</li>
-    <li><b></b></li>
+    <li><b>Facebook_id:</b> Id that identifies facebook user account</li>
+    <li><b>Remember_token:</b> Personal alphanumerical string that allows user to send his requests</li>
+    <li><b>Password_digest</b> Encoded user password</li>
+    <li><b>Status:</b> Relationship status (Allow, Not allow with couple, Desperate,...)</li>
+    <li><b>Facebook_photo:</b> URL to facebook profile photo</li>
+    <li><b>Profile_photo:</b> Id of the photo that user have set </li>
+    <li><b>Photo_num:</b> Number of photos that this user has.</li>
+    <li><b>Lovers_num</b> Number of lovers that this user has.</li>
+    <li><b>Job:</b> User job status: with job, unemployed,...</li>
+    <li><b>Age:</b> User age</li>
+    <li><b>Birthday:</b> User birthday</li>
+    <li><b>Startday:</b> Date of the first relationship</li>
+    <li><b>Eye_color:</b> User eye color</li>
+    <li><b>Hair_color:</b> User hair color</li>
+    <li><b>Height:</b> User height</li>
+    <li><b>Hairdressing:</b> User hairdressing</li>
+    <li><b>Sex_interest:</b> User interest</li>
+    <li><b>Sex_gender:</b> User sex gender</li>
+    <li><b>Preferences:</b> Array of sorting numbers that indicates your preferences</li>
+    <li><b>Admin:</b> User admin permissions</li>
+    <li><b>Premium:</b> It indicates if this user has a preimum account</li>
 </ul>
