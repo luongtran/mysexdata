@@ -1,5 +1,6 @@
 <h1>My Sex Database</h1>
 <p>This App contains two modules: a REST API and an admin webpage(http://localhost:3000/doc). These two parts are incorporated in the same package.
+  All is implementend using Rails 4 and Ruby 2.0 and a group of gems that are listed in Gemfile.
 
 <h2>REST API</h2>
 <p>This API provides information about users and his friendships between other users as well as user lovers, messages, pictures and geolocation.
@@ -181,5 +182,20 @@ email or facebook.
       <li><b>Desription:</b> It shows why this user is blocked or some additional information</li>
 </ul>
 
+<h2> How to run </h2>
+To deploy all code we use Heroku, a cloud platform that allows to launch your application through your git repository. To run the code we will do the next:
+1. Install Ruby 2.0 and Rails 4.
+2. Install and configure PostgresSQL (if you want to work in localhost)
+3. Download code from repository: https://github.com/bengg/MSD-rails
+4. Execute "bundle exec" to install Gemfile gems.
+5. Execute "rake db:repopulate_production" to populate database with admin and some users.
+6. Execute "rails s" to start rails server
+7. Access to http://localhost:3000/doc to see if you can visit documentation.
+8. Access to http://localhost:3000/admin to see if you can access to admin webpage.
+9. Start sending requests to each REST resource, like http://localhost:3000/users.json to get the list of users.
+10. If all is ok, git push to the repository.
+11. Finally execute git push heroku master to deploy git code into heroku cloud server.
+
+*If you do a change in Database, you must drop it and create or create new migration files if you want to keep all data.
 
 
