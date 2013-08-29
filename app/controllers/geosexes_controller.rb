@@ -129,7 +129,7 @@ class GeosexesController < ApplicationController
     end
   end
 
-  api :GET, '/users/:user_id/closer_users', 'Search closer users from the current user in a distance of 20 miles'
+  api :GET, '/users/:user_id/closest_users', 'Search closest users from the current user in a distance of 20 miles'
   description "
   <b>Headers</b>
 
