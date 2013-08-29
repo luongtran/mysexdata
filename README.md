@@ -30,7 +30,27 @@ will calculate an score to evaluate the experience.
 <p>Users can upload a limited number of photos in our FTP server. To access it go to 1and1.es and there will be showed a list of all user profile
   photos in profile_picture folder.
 
+<h4>Messages</h4>
+<p>Users can communicate between them sending messages. Theses messages are 140 characters length. Every X number, theses messages have to
+  be cleaned from database in order not to increase database data.
+
+<h4>Geosex</h4>
+<p> Yo get nearest users of you, we use geolocation gem that provides nearest users giving a distance. To use geosex, first user have to send his first
+  location when enables geolocation and then update it.
+
+
 <h2>ADMIN Webpage</h2>
 <p>In this web you can manage all users. You can delete, create, update or list them. Another functionality that provides is the possibility to block
 users that receive a lot of abuse messages.
 <p>This webpage is created using activeadmin gem that provides a full integration with our ruby models.
+
+<h2>DATABASE</h2>
+
+<h4>Users</h4>
+<h2>Parameters:</h2>
+<ul>
+    <li><b>User_id:</b> Id that identifies a user</li>
+    <li><b>Name:</b> Facebook user name</li>
+    <li><b>Email:</b> Email that user uses to log in in Facebook</li>
+    <li><b></b></li>
+</ul>
