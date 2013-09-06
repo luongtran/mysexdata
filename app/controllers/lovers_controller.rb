@@ -65,7 +65,8 @@ class LoversController < ApplicationController
                 'age': -1,
                 'sex_gender': -1,
                 'job': -1,
-                'height': -1
+                'height': -1,
+                'pending':0
             }
         ],
         'secret': [
@@ -76,7 +77,8 @@ class LoversController < ApplicationController
                 'age': -1,
                 'sex_gender': -1,
                 'job': -1,
-                'height': -1
+                'height': -1,
+                'pending':0
             }
         ]
     }

@@ -19,22 +19,22 @@ class UsersController < ApplicationController
     param :facebook_id, String, 'Facebook id of the user facebook profile', required: true
     param :password, String, 'User password', required: true
     param :password_confirmation, String, 'User password', required: true
-    param :status, [0,1 ,2 ,3], 'User love status', required: true
+    param :status, [-1,0,1 ,2 ,3], 'User love status', required: true
     param :facebook_photo, String, 'Facebook user photo', required: false
     param :profile_photo, Integer, 'Photo identifier. -1 if facebook photo is set as profile photo', required: true
-    param :photo_num,[1 ,2 ,3, 4], 'Number of photos to upload (Integer)', required: false
-    param :job, [0 ,1 ,2 ,3], 'User job (Integer)', required: true
+    param :photo_num,[-1,1 ,2 ,3, 4], 'Number of photos to upload (Integer)', required: false
+    param :job, [-1,0 ,1 ,2 ,3], 'User job (Integer)', required: true
     param :age, Integer, 'User age', required: false
     param :birthday, String, 'Date of the birthday with the next format: dd/mm/yyyy', required: true
     param :startday, String, 'Date of the first relationship with the next format: dd/mm/yyyy', required: true
-    param :eye_color, [0 ,1 ,2 ,3], 'User eyes color (Integer)', required: true
-    param :hair_color, [0 ,1 ,2 ,3], 'User hair color (Integer) ', required: true
-    param :height, [0 ,1], 'User hair color (Integer)', required: true
-    param :hairdressing, [0 ,1], 'User hairdressing (Integer)', required: true
-    param :sex_interest, [0,1 ,2], 'Sex in which user is interested in. (0: Woman, 1: Man, 2: Both) (Integer)', required: true
-    param :sex_gender, [0 ,1], 'User gender (0: Female, 1: Male) (Integer)', required: true
+    param :eye_color, [-1,0 ,1 ,2 ,3], 'User eyes color (Integer)', required: true
+    param :hair_color, [-1,0 ,1 ,2 ,3], 'User hair color (Integer) ', required: true
+    param :height, [-1,0 ,1,2], 'User hair color (Integer)', required: true
+    param :hairdressing, [-1,0 ,1], 'User hairdressing (Integer)', required: true
+    param :sex_interest, [-1,0,1 ,2], 'Sex in which user is interested in. (0: Woman, 1: Man, 2: Both) (Integer)', required: true
+    param :sex_gender, [-1,0 ,1], 'User gender (0: Female, 1: Male) (Integer)', required: true
     param :preferences,Array, 'Array of size 6. This must contain 1 to 6 integers sorted by user preferences. Example: [2,5,3,1,6,4] or [6,4,2,4,3,1]', required: true
-    param :premium, [0 ,1], 'User has a premium account (0:No, 1:Yes) (Integer)', required: true
+    param :premium, [-1,0 ,1], 'User has a premium account (0:No, 1:Yes) (Integer)', required: true
   end
 
   # Optional user params used to update users.
@@ -43,22 +43,22 @@ class UsersController < ApplicationController
     param :email, String, 'Email of the user', required: false
     param :facebook_id, String, 'Facebook id of the user facebook profile', required: false
     param :password, String, 'User password', required: false
-    param :status, [0 ,1 ,2 ,3], 'User love status', required: false
+    param :status, [-1,0 ,1 ,2 ,3], 'User love status', required: false
     param :facebook_photo, String, 'Facebook user photo', required: false
     param :profile_photo, Integer, 'Photo identifier. -1 if facebook photo is set as profile photo', required: true
-    param :photo_num,[0 ,1 ,2 ,3], 'Number of photos to upload (Integer)', required: false
-    param :job, [0 ,1 ,2 ,3], 'User job (Integer)', required: false
+    param :photo_num,[-1, 0 ,1 ,2 ,3], 'Number of photos to upload (Integer)', required: false
+    param :job, [-1, 0 ,1 ,2 ,3], 'User job (Integer)', required: false
     param :age, Integer, 'User age', required: false
     param :birthday, String, 'Date of the birthday with the next format: dd/mm/yyyy', required: false
     param :startday, String, 'Date of the first relationship with the next format: dd/mm/yyyy ', required: false
-    param :eye_color, [0 ,1 ,2 ,3], 'User eyes color (Integer)', required: false
-    param :hair_color, [0 ,1 ,2 ,3], 'User hair color (Integer)', required: false
-    param :height, [0 ,1], 'User hair color (Integer)', required: false
-    param :hairdressing, [0 ,1], 'User hairdressing (Integer)', required: false
-    param :sex_interest, [0 ,1 ,2], 'Sex in which user is interested in. (0: Woman, 1: Man, 2: Both) (Integer)', required: false
-    param :sex_gender, [0 ,1], 'User gender (0: Female, 1: Male) (Integer)', required: false
+    param :eye_color, [-1,0 ,1 ,2 ,3], 'User eyes color (Integer)', required: false
+    param :hair_color, [-1,0 ,1 ,2 ,3], 'User hair color (Integer)', required: false
+    param :height, [-1,0 ,1,2], 'User hair color (Integer)', required: false
+    param :hairdressing, [-1,0 ,1], 'User hairdressing (Integer)', required: false
+    param :sex_interest, [-1,0 ,1 ,2], 'Sex in which user is interested in. (0: Woman, 1: Man, 2: Both) (Integer)', required: false
+    param :sex_gender, [-1,0 ,1], 'User gender (0: Female, 1: Male) (Integer)', required: false
     param :preferences,Array, 'Array of size 6. This must contain 1 to 6 integers sorted by user preferences. Example: [2,5,3,1,6,4] or [6,4,2,4,3,1]', required: false
-    param :premium, [0 ,1], 'User has a premium account (0:No, 1:Yes) (Integer)', required: false
+    param :premium, [-1,0 ,1], 'User has a premium account (0:No, 1:Yes) (Integer)', required: false
 
   end
 

@@ -13,26 +13,25 @@ class User < ActiveRecord::Base
   validates :name, presence: true,  length: { maximum: 50 }
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false}
   validates :facebook_id, presence: true, uniqueness: { case_sensitive: false}
-  validates :status, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
+  validates :status, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: -1, less_than_or_equal_to: 3 }
   validates :facebook_photo, presence: true#, format: { with: VALID_URL_REGEX }
   validates :profile_photo, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: -1 }
   validates :photo_num, presence: false,  numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 4 }
   validates :lovers_num, presence: false
-  validates :job, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }
-  validates :age, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :age, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: -1 }
   validates :birthday, presence: true
   validates :startday, presence: true
-  validates :eye_color, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 4 }
-  validates :hair_color, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
-  validates :job, presence:true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
-  validates :height, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 2 }
-  validates :sex_interest, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 2 }
-  validates :sex_gender, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
-  validates :hairdressing, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
+  validates :eye_color, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: -1, less_than_or_equal_to: 4 }
+  validates :hair_color, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: -1, less_than_or_equal_to: 3 }
+  validates :job, presence:true, numericality: { only_integer: true, greater_than_or_equal_to: -1, less_than_or_equal_to: 3 }
+  validates :height, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: -1, less_than_or_equal_to: 2 }
+  validates :sex_interest, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: -1, less_than_or_equal_to: 2 }
+  validates :sex_gender, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: -1, less_than_or_equal_to: 1 }
+  validates :hairdressing, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: -1, less_than_or_equal_to: 1 }
   validates :password_confirmation, presence:false
   validates :password, length: { maximum: 4 }
   validates :preferences, presence: true
-  validates :premium, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
+  validates :premium, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: -1, less_than_or_equal_to: 1 }
   validate :startday_and_birthday_must_be_before_current_time
   validate :starday_must_be_after_birthday
 
