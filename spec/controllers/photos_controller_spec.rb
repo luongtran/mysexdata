@@ -39,6 +39,7 @@ describe PhotosController do
       photo = Photo.create! valid_attributes
       get :index, {}, valid_session
       assigns(:photos).should eq([photo])
+      
     end
   end
 

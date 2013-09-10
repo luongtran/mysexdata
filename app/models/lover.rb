@@ -1,5 +1,7 @@
 class Lover < ActiveRecord::Base
 
+  #attr: facebook_id, name, photo_url, age, sex_gender, job, height, account_user 
+
   has_many :user_lovers, foreign_key: "lover_id", dependent: :destroy
   has_many :users, through: :user_lovers
 
@@ -7,6 +9,8 @@ class Lover < ActiveRecord::Base
 
   has_many :lover_experiences, foreign_key: "lover_id", dependent: :destroy
   has_many :experiences, through: :lover_experiences, dependent: :destroy
+  
+  belongs_to :user_account, :class_name => "User"
 
   default_scope -> { order('name DESC')}
 

@@ -1,5 +1,4 @@
 class PhotosController < ApplicationController
-
   include PhotosHelper
 
   before_action :set_user, :authenticate

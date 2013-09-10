@@ -61,6 +61,7 @@ class LoversController < ApplicationController
             {
                 'lover_id': 3,
                 'name': 'Kaci Adams DDS',
+                'account_user': 1,
                 'photo_url': 'http://Kaci Adams DDS.jpg',
                 'age': -1,
                 'sex_gender': -1,
@@ -73,6 +74,7 @@ class LoversController < ApplicationController
             {
                 'lover_id': 4,
                 'name': 'Wilhelmine Gislason Sr.',
+                'account_user': 2,
                 'photo_url': 'http://Wilhelmine Gislason Sr..jpg',
                 'age': -1,
                 'sex_gender': -1,
@@ -177,13 +179,23 @@ class LoversController < ApplicationController
     errors = []
     info = []
     lovers.each do |lov|
-      if @user.lovers.exists?(facebook_id: lov["facebook_id"], name: lov["name"])
-        errors << "Lover with facebook_id: #{lov["facebook_id"]} and name: #{lov["name"]} already exists"
+      #if @user.lovers.exists?(facebook_id: lov["facebook_id"], name: lov["name"])
+      if @user.lovers.exists?(facebook_id: lov["facebook_id"])
+        #errors << "Lover with facebook_id: #{lov["facebook_id"]} and name: #{lov["name"]} already exists"
+        errors << "Lover with facebook_id: #{lov["facebook_id"]} already exists"
       else
         begin
-          new_lover = Lover.where(facebook_id: lov["facebook_id"], name: lov["name"]).first
+          #new_lover = Lover.where(facebook_id: lov["facebook_id"], name: lov["name"]).first
+          new_lover = Lover.where(facebook_id: lov["facebook_id"]).first
           if new_lover == nil
-            new_lover = Lover.create(name: lov["name"],facebook_id: lov["facebook_id"], photo_url: lov["photo_url"], age: lov["age"], sex_gender: lov["sex_gender"], job: lov["job"], height: lov["height"])
+            user = User.find(:first, :conditions => ["facebook_id = ?", lov["facebook_id"]])
+            if user
+              account_user = user.id
+            else 
+              account_user = nil
+            end
+            new_lover = Lover.create(name: lov["name"],facebook_id: lov["facebook_id"], photo_url: lov["photo_url"], 
+                                      age: lov["age"], sex_gender: lov["sex_gender"], job: lov["job"], height: lov["height"], account_user: account_user)
           end
           @lover = @user.user_lovers.create(lover: new_lover, visibility: lov["visibility"], pending: lov["pending"])
         rescue

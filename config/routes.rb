@@ -20,7 +20,7 @@ Mysexdata::Application.routes.draw do
   # Users
   match '/users', to: 'users#create', via: 'post'                # Create a user
   match '/users', to: 'users#index', via: 'get'                  # Show all users
-  match '/users/:user_id', to: 'users#show', via: 'get'               # Show unique user
+  match '/users/:user_id', to: 'users#show', via: 'get', :as => :profile               # Show unique user
   match '/users/:user_id', to: 'users#update', via: 'put'             # Update a user (Default method)
   match '/users/:user_id', to: 'users#destroy', via: 'delete'         # Delete a user (Must be post method).
 

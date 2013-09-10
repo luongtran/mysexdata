@@ -6,6 +6,8 @@ class Message < ActiveRecord::Base
   validates :sender_id, presence: true
   validates :content, presence: true, length: { maximum: 160 }
   validate :limit_messages, on: :create
+  
+  scope :unreads, -> { where(uread:  true) }
 
   private
 

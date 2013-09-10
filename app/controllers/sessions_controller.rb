@@ -3,6 +3,9 @@ class SessionsController < ApplicationController
   respond_to :json
 
   def new
+    if current_user
+      redirect_to profile_path(current_user), flash[:info] => "You've ready logged in"
+    end
     @title = "Sign in"
   end
 
@@ -26,6 +29,7 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by(email: params[:session][:email].downcase)
     if user
+      sign_in_(user)
       return render json: {user_id:user.user_id, email: user.email, remember_token: user.remember_token }
     else
       return render json: {error:'Invalid email/password combination'} , status: 400

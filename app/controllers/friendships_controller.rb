@@ -162,7 +162,6 @@ class FriendshipsController < ApplicationController
   }"
   error code:400
   def create
-
     # Sender user
     @user_sender= User.find(params[:user_id])
 
@@ -266,7 +265,7 @@ class FriendshipsController < ApplicationController
   def create_facebook
 
     # Sender user
-    @user_sender= User.find(params[:user_id])
+    @user_sender= @user #User.find(params[:user_id])
 
     # Store array values to iterate.
     facebooks  = params[:friendships]
@@ -274,10 +273,15 @@ class FriendshipsController < ApplicationController
     # Sending a request for each email.
     if !facebooks.nil?
       facebooks.each do |fc|
-        begin
-          @user_sender.invite_facebook_friend!(@user, fc)
-        rescue => e
-          return render json: {exception: e.inspect, message: e.message}
+        existed_user = User.find(:first, :conditions => ["facebook_id = ?", fc[:facebook_id]])
+        if existed_user
+          @user_sender.invite_friend!(existed_user)
+        else
+          begin
+            @user_sender.invite_facebook_friend!(@user, fc)
+          rescue => e
+            return render json: {exception: e.inspect, message: e.message}
+          end
         end
       end
     end

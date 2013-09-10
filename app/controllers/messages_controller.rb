@@ -28,21 +28,25 @@ include UsersHelper
         {
             'sender_id': 1,
             'content': 'hola',
+            'unread' : true,
             'date': '2013-07-23T14:03:21.578Z'
         },
         {
             'sender_id': 2,
             'content': 'como estas?',
+            'unread' : false,
             'date': '2013-07-23T14:03:21.584Z'
         },
         {
             'sender_id': 3,
             'content': 'Yo estube en casa de mi hermana',
+            'unread' : false,
             'date': '2013-07-23T14:03:21.588Z'
         },
         {
             'sender_id': 4,
             'content': 'como fue la cena?',
+            'unread' : true,
             'date': '2013-07-23T14:03:21.593Z'
         },
 
@@ -110,6 +114,23 @@ include UsersHelper
     # @messages = @user.messages.where("created_at <= :date", date: params[:message][:date_at]).destroy_all
     return render json: {info: "Messages removed successfully"}
   end
+  
+  
+  api :GET, 'users/:user_id/total-new-messges', 'Get number of new messages'
+  description "
+   <b>Headers</b>
+   Content-type: application/json
+   Authorization: Token token=<remember_token>"
+   example "
+   Response:
+   {
+     'total_new_messages' : 4
+   }"
+   
+   def total_new_messages
+     @unread_messages = @user.messages.unreads
+     return render json: {total_new_messages: @unread_messages.length} 
+   end
 
   private
 

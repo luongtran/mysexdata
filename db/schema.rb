@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130730145125) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20130910040030) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -132,12 +129,13 @@ ActiveRecord::Schema.define(version: 20130730145125) do
     t.string   "facebook_id"
     t.string   "name"
     t.string   "photo_url"
-    t.integer  "age",         default: 0
-    t.integer  "sex_gender",  default: 0
-    t.integer  "job",         default: 0
-    t.integer  "height",      default: 0
+    t.integer  "age",          default: 0
+    t.integer  "sex_gender",   default: 0
+    t.integer  "job",          default: 0
+    t.integer  "height",       default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "account_user"
   end
 
   create_table "messages", force: true do |t|
@@ -146,6 +144,7 @@ ActiveRecord::Schema.define(version: 20130730145125) do
     t.string   "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "unread",      default: true, null: false
   end
 
   create_table "photos", primary_key: "photo_id", force: true do |t|
@@ -174,26 +173,27 @@ ActiveRecord::Schema.define(version: 20130730145125) do
     t.string   "facebook_id"
     t.string   "remember_token"
     t.string   "password_digest"
-    t.integer  "status",          default: 0
+    t.integer  "status",          default: -1
     t.string   "facebook_photo"
     t.integer  "profile_photo",   default: -1
     t.integer  "photo_num",       default: 1
     t.integer  "lovers_num",      default: 0
-    t.integer  "job",             default: 0
-    t.integer  "age",             default: 0
+    t.integer  "job",             default: -1
+    t.integer  "age",             default: -1
     t.datetime "birthday"
     t.datetime "startday"
-    t.integer  "eye_color",       default: 0
-    t.integer  "hair_color",      default: 0
-    t.integer  "height",          default: 0
-    t.integer  "hairdressing",    default: 0
-    t.integer  "sex_interest",    default: 0
-    t.integer  "sex_gender",      default: 0
-    t.integer  "preferences",                     array: true
+    t.integer  "eye_color",       default: -1
+    t.integer  "hair_color",      default: -1
+    t.integer  "height",          default: -1
+    t.integer  "hairdressing",    default: -1
+    t.integer  "sex_interest",    default: -1
+    t.integer  "sex_gender",      default: -1
+    t.integer  "preferences"
     t.boolean  "admin",           default: false
-    t.integer  "premium",         default: 0
+    t.integer  "premium",         default: -1
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "disable",         default: false, null: false
   end
 
 end

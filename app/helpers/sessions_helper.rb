@@ -26,8 +26,12 @@ module SessionsHelper
    end
 
    def authenticate
+     logger = Logger.new('log/debug.log')
+     logger.info('----------------Log for authenticate------------------')
      authenticate_or_request_with_http_token do |token, options|
-       token == @user.remember_token and @user.admin == false
+       logger.info(token);
+       #token == @user.remember_token and @user.admin == false
+       token == current_user.remember_token and current_user.admin == false
      end
    end
 

@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
   has_many :secret_lovers, -> { where "user_lovers.visibility = ?", 0 }, through: :user_lovers, source: :lover
   has_many :public_lovers, -> { where "user_lovers.visibility = ?", 1 }, through: :user_lovers, source: :lover
   has_many :non_pending_lovers, -> { where "user_lovers.pending = ?", false }, through: :user_lovers, source: :lover
-  has_many :pending_lovers, -> { where "user_lovers.pending = ?",true }, through: :user_lovers, source: :lover
+  has_many :pending_lovers, -> { where "user_lovers.pending = ?",trSSue }, through: :user_lovers, source: :lover
   has_many :lovers, through: :user_lovers,  dependent: :destroy
 
   # Photos
@@ -67,7 +67,9 @@ class User < ActiveRecord::Base
   has_one :geosex, dependent: :destroy
 
   # Blocked Users
-  has_many :blocked_users,foreign_key: "user_id", dependent: :destroy
+  has_many :blocked_users, foreign_key: "user_id", dependent: :destroy
+  
+  has_one :account_lover, :class_name => 'Lover', :foreign_key => :account_user
 
 
 
