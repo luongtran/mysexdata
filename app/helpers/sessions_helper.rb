@@ -36,11 +36,15 @@ module SessionsHelper
    end
 
    def authenticate_guest
-    authenticate_or_request_with_http_token do |token, options|
-
-      @user = User.where(admin: true).first
-      token == @user.remember_token and @user.admin == true
-    end
+     logger = Logger.new('log/authenticate.log')
+     logger.info('--------Log for guest authenticate---------')
+     authenticate_or_request_with_http_token do |token, options|
+       logger.info(token)
+       @user = User.where(admin: true).first
+       logger.info(@user)
+       logger.info(@user.remember_token)
+       token == @user.remember_token and @user.admin == true
+     end
   end
 
    def redirect_back_or(default)
