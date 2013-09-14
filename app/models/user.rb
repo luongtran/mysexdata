@@ -37,6 +37,8 @@ class User < ActiveRecord::Base
 
   before_save { self.email = email.downcase }
   before_create :create_remember_token
+  
+  after_create :update_lovers
 
   # Lovers
   has_many :user_lovers, foreign_key: "user_id", dependent: :destroy
@@ -190,6 +192,14 @@ class User < ActiveRecord::Base
       end
       if !birthday_before_type_cast.is_a?(String)
         errors.add(:birthday, "must be String")
+      end
+    end
+    
+    
+    def update_lovers
+      Lover.find(:all, :conditions => ['facebook_id = ?', self.facebook_id]).each do |lover|
+        lover.account_user = self.user_id
+        lover.save
       end
     end
 

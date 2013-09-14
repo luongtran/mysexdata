@@ -31,7 +31,11 @@ module SessionsHelper
      authenticate_or_request_with_http_token do |token, options|
        logger.info(token);
        #token == @user.remember_token and @user.admin == false
-       token == current_user.remember_token and current_user.admin == false
+       if current_user
+         token == current_user.remember_token and current_user.admin == false
+       else
+         false
+       end
      end
    end
 

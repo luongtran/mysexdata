@@ -241,7 +241,7 @@ class UsersController < ApplicationController
       if create_friendships(friends_users)
         clear_external_invitations;
       end
-
+      
       return render action: 'show_with_token', status: :created
     else
       return render json: @user.errors.full_messages, status: :unprocessable_entity
