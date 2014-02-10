@@ -273,16 +273,16 @@ class FriendshipsController < ApplicationController
     # Sending a request for each email.
     if !facebooks.nil?
       facebooks.each do |fc|
-        existed_user = User.find(:first, :conditions => ["facebook_id = ?", fc[:facebook_id]])
-        if existed_user
-          @user_sender.invite_friend!(existed_user)
-        else
+        #existed_user = User.find(:first, :conditions => ["facebook_id = ?", fc[:facebook_id]])
+        #if existed_user
+          #@user_sender.invite_friend!(existed_user)
+        #else
           begin
             @user_sender.invite_facebook_friend!(@user, fc)
           rescue => e
             return render json: {exception: e.inspect, message: e.message}
           end
-        end
+        #end
       end
     end
 

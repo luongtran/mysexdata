@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
   before_save { self.email = email.downcase }
   before_create :create_remember_token
   
-  after_create :update_lovers
+  #after_create :update_lovers
 
   # Lovers
   has_many :user_lovers, foreign_key: "user_id", dependent: :destroy
@@ -196,12 +196,12 @@ class User < ActiveRecord::Base
     end
     
     
-    def update_lovers
-      Lover.find(:all, :conditions => ['facebook_id = ?', self.facebook_id]).each do |lover|
-        lover.account_user = self.user_id
-        lover.save
-      end
-    end
+    # def update_lovers
+      # Lover.find(:all, :conditions => ['facebook_id = ?', self.facebook_id]).each do |lover|
+        # lover.account_user = self.user_id
+        # lover.save
+      # end
+    # end
 
 
 end
